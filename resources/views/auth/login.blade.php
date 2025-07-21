@@ -58,7 +58,7 @@
             </a>
 
             <!-- Register -->
-            <div class="mt-4 text-center">
+            <div class="mt-4 text-left pl-2">
                 <a href="{{ route('register') }}" class="text-blue-500 hover:underline text-sm">Register Now</a>
             </div>
         </form>
