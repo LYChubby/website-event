@@ -18,7 +18,7 @@
     <!-- Wrapper -->
     <div class="min-h-screen flex">
         <!-- Left: Content injected by Blade -->
-        <div class="w-full flex justify-center items-center p-6">
+        <div class="w-full flex bg-white justify-center items-center p-6">
             <div class="w-full max-w-md">
                 {{ $slot }}
             </div>
