@@ -9,7 +9,19 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+                    @php
+                        $role = Auth::user()->role;
+                    @endphp
+
+                    @if ($role === 'admin')
+                        <p>Hi, Admin 👋</p>
+                    @elseif ($role === 'organizer')
+                        <p>Hi, Organizer 👋</p>
+                    @elseif ($role === 'user')
+                        <p>Hi, User 👋</p>
+                    @else
+                        <p>Hi, Guest 👋</p>
+                    @endif
                 </div>
             </div>
         </div>
