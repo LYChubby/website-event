@@ -44,4 +44,5 @@
             </x-primary-button>
         </div>
     </form>
+    <a href="/auth/google">Login with Google</a>
 </x-guest-layout>
