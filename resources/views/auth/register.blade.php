@@ -1,4 +1,4 @@
-<x-register-layout>
+<x-login-layout>
     <div class="flex flex-col justify-center items-center">
         <!-- Profile Image Placeholder -->
         <div class="w-32 h-32 rounded-full bg-gray-300 mb-4"></div>
@@ -96,7 +96,7 @@
             </div>
         </form>
     </div>
-</x-register-layout>
+</x-login-layout>
 
 <!--  Script toggle panah -->
 <script>
