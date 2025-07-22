@@ -17,7 +17,7 @@
 
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
         }
 
         .glass-effect {
@@ -38,7 +38,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
             transition: all 0.3s ease;
         }
 
@@ -48,7 +48,7 @@
         }
 
         .profile-image {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
             animation: float 3s ease-in-out infinite;
         }
 
@@ -81,7 +81,7 @@
         }
 
         .carousel-overlay {
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            background: linear-gradient(45deg, rgba(127, 193, 253, 0.8), rgba(77, 158, 248, 0.8));
         }
     </style>
 </head>
