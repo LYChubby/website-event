@@ -15,7 +15,7 @@
     <style>
         body {
             font-family: 'Figtree', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
             min-height: 100vh;
             margin: 0;
             display: flex;
@@ -49,13 +49,13 @@
         }
 
         .role-option:hover {
-            border-color: #667eea;
+            border-color: #7fc1fd;
             transform: translateY(-2px);
         }
 
         .role-option.selected {
-            border-color: #667eea;
-            background-color: rgba(102, 126, 234, 0.05);
+            border-color: #7fc1fd;
+            background-color: rgba(59, 130, 246, 0.05);
         }
 
         .role-radio {
@@ -71,8 +71,8 @@
         }
 
         .role-radio:checked {
-            border-color: #667eea;
-            background-color: #667eea;
+            border-color: #7fc1fd;
+            background-color: #7fc1fd;
         }
 
         .role-radio:checked::after {
@@ -94,13 +94,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
             color: white;
             border-radius: 0.75rem;
         }
 
         .btn-continue {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
             color: white;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
@@ -114,7 +114,7 @@
 
         .btn-continue:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
         }
 
         @keyframes slideIn {
