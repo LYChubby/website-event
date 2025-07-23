@@ -7,14 +7,85 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::with(['category', 'user'])->latest()->get();
-        return response()->json($events);
+        $query = Event::query()->with('category', 'organizer');
+
+        // Filter by kategori
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Filter by tanggal (antara start & end)
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereDate('start_date', '>=', $request->start_date)
+                ->whereDate('end_date', '<=', $request->end_date);
+        }
+
+        // Opsional: Pencarian by nama event
+        if ($request->has('search')) {
+            $query->where('nama_event', 'like', '%' . $request->search . '%');
+        }
+
+        // Hanya tampilkan event yang sudah disetujui
+        $query->where('status', 'approved');
+
+        return response()->json([
+            'success' => true,
+            'data' => $query->latest()->paginate(10)
+        ]);
     }
+
+    public function myEvents()
+    {
+        $userId = Auth::id();
+        $events = Event::where('user_id', $userId)
+            ->with('category')
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $events
+        ]);
+    }
+
+    public function adminEvents()
+    {
+        $events = Event::with(['category', 'user'])
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $events
+        ]);
+    }
+
+    public function approveEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->update(['status_approval' => 'approved']);
+
+        return response()->json([
+            'message' => 'Event disetujui'
+        ]);
+    }
+
+    public function rejectEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->update(['status_approval' => 'rejected']);
+
+        return response()->json([
+            'message' => 'Event ditolak'
+        ]);
+    }
+
 
     public function store(StoreEventRequest $request)
     {
@@ -34,7 +105,7 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::with(['category', 'user'])->findOrFail($id);
+        $event = Event::with(['category', 'organizer'])->findOrFail($id);
         return response()->json($event);
     }
 

@@ -62,6 +62,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
 
     Route::resource('events', EventController::class);
+
+    // Organizer
+    Route::get('/events/my', [EventController::class, 'myEvents']);
+
+    // Admin
+    Route::get('/admin/events', [EventController::class, 'adminEvents']);
+    Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
+    Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
 });
 
 
