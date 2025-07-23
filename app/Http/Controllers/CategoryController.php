@@ -10,31 +10,31 @@ use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
         return response()->json(Category::all());
     }
 
-    public function store(StoreCategoryRequest $request): JsonResponse
+    public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->validated());
         return response()->json($category, 201);
     }
 
-    public function show($id): JsonResponse
+    public function show($id)
     {
         $category = Category::findOrFail($id);
         return response()->json($category);
     }
 
-    public function update(UpdateCategoryRequest $request, $id): JsonResponse
+    public function update(UpdateCategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->update($request->validated());
         return response()->json($category);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
