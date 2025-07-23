@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id('event_id');
-            $table->foreignId('user_id')->constrained('users'); // Organizer
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('user_id')->constrained('users', 'user_id');
+            $table->foreignId('category_id')->constrained('categories', 'category_id');
 
             $table->string('name_event');
             $table->text('description');
