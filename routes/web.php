@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\CategoryController;
+
 
 Route::get('/auth/google', fn() => Socialite::driver('google')->redirect());
 
@@ -56,5 +58,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')->resource('categories', CategoryController::class);
+
+
+
+// Route::middleware('auth')->prefix('categories')->group(function () {
+//     Route::get('/index', [CategoryController::class, 'index'])->name('categories.index');
+//     Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
+//     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+//     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('categories.show');
+//     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+// });
+
 
 require __DIR__ . '/auth.php';
