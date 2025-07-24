@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,29 +13,26 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles & Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin-dashboard.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 min-h-screen">
-    <div class="min-h-screen">
 
-        {{-- Optional Navbar --}}
-        @hasSection('navbar')
-            @yield('navbar')
-        @endif
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
 
-        {{-- Optional Header --}}
-        @hasSection('header')
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    @yield('header')
-                </div>
-            </header>
-        @endif
+        <!-- Page Heading -->
+        @isset($header)
+        <header class="bg-white dark:bg-[#252525] shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+        @endisset
 
-        {{-- Page Content --}}
-        <main>
+        <!-- Page Content -->
+        <main class="bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
             {{ $slot }}
         </main>
     </div>
 </body>
+
 </html>
