@@ -15,7 +15,7 @@ class UpdateEventRequest extends FormRequest
     {
         return [
             'category_id' => 'sometimes|exists:categories,category_id',
-            'nama_event' => 'sometimes|string|max:255',
+            'name_event' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
             'event_image' => 'nullable|image',
             'venue_name' => 'sometimes|string|max:255',
