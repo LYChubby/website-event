@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class EventController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $query = Event::query()->with('category', 'organizer');
@@ -56,6 +60,9 @@ class EventController extends Controller
 
     public function adminEvents()
     {
+
+        $this->authorize('viewAdmin', User::class);
+
         $events = Event::with(['category', 'user'])
             ->latest()
             ->get();
@@ -68,7 +75,9 @@ class EventController extends Controller
 
     public function approveEvent($id)
     {
+
         $event = Event::findOrFail($id);
+        $this->authorize('approve', $event);
         $event->update(['status_approval' => 'approved']);
 
         return response()->json([
@@ -78,7 +87,9 @@ class EventController extends Controller
 
     public function rejectEvent($id)
     {
+
         $event = Event::findOrFail($id);
+        $this->authorize('approve', $event);
         $event->update(['status_approval' => 'rejected']);
 
         return response()->json([
@@ -112,6 +123,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, $id)
     {
         $event = Event::findOrFail($id);
+        $this->authorize('update', $event);
         $data = $request->validated();
 
         if ($request->hasFile('event_image')) {
@@ -132,6 +144,7 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
+        $this->authorize('delete', $event);
         if ($event->event_image) {
             Storage::disk('public')->delete($event->event_image);
         }

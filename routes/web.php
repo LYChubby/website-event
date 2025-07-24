@@ -12,8 +12,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 
 
-Route::get('/auth/google', fn() => Socialite::driver('google')->redirect());
-
 // Callback setelah login Google
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -66,13 +64,20 @@ Route::middleware('auth')->group(function () {
     Route::resource('tickets', TicketController::class);
 
 
+    // Route::get('events', [EventController::class, 'index']);
+    // Route::get('events/{event}', [EventController::class, 'show']);
+
     // Organizer
-    Route::get('/events/my', [EventController::class, 'myEvents']);
+    Route::middleware(['organizer'])->group(function () {
+        Route::get('/events/my', [EventController::class, 'myEvents']);
+    });
 
     // Admin
-    Route::get('/admin/events', [EventController::class, 'adminEvents']);
-    Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
-    Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/admin/events', [EventController::class, 'adminEvents']);
+        Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
+        Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
+    });
 });
 
 
