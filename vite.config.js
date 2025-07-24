@@ -8,6 +8,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/js/admin-dashboard.js",
+                "resources/js/organizer-dashboard.js",
             ],
             refresh: true,
         }),
