@@ -17,7 +17,7 @@ class EventPolicy
         return $user->id === $event->user_id;
     }
 
-    public function approve(User $user): bool
+    public function approve(User $user, Event $event): bool
     {
         return $user->role === 'admin';
     }
