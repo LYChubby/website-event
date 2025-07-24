@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     // Organizer
     Route::middleware(['organizer'])->group(function () {
         Route::get('/events/my', [EventController::class, 'myEvents']);
+        Route::resource('events', EventController::class);
     });
 
     // Admin
