@@ -54,6 +54,16 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+// Dashboard untuk Organizer
+Route::get('/dashboard/organizer', function () {
+    return view('organizer.organizerdashboard');
+})->middleware(['auth', 'verified'])->name('organizer.dashboard');
+
+// Dashboard untuk Admin
+Route::get('/dashboard/admin', function () {
+    return view('admin.admindashboard');
+})->middleware(['auth', 'verified'])->name('admin.dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
