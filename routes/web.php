@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
 
     Route::resource('events', EventController::class);
+    Route::resource('tickets', TicketController::class);
+
 
     // Organizer
     Route::get('/events/my', [EventController::class, 'myEvents']);
@@ -75,13 +78,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-// Route::middleware('auth')->prefix('categories')->group(function () {
-//     Route::get('/index', [CategoryController::class, 'index'])->name('categories.index');
-//     Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-//     Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-//     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('categories.show');
-//     Route::put('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
-// });
+
 
 
 require __DIR__ . '/auth.php';
