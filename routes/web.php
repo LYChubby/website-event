@@ -98,10 +98,10 @@ Route::middleware('auth')->group(function () {
 
     // Organizer
     Route::middleware(['organizer'])->group(function () {
-        Route::get('/events/my', [EventController::class, 'myEvents']);
-        Route::post('/events', [EventController::class, 'store']);
-        Route::put('/events/{id}', [EventController::class, 'update']);
-        Route::delete('/events/{id}', [EventController::class, 'destroy']);
+        Route::get('/organizer/events/my', [EventController::class, 'myEvents']);
+        Route::post('/organizer/events', [EventController::class, 'store']);
+        Route::put('/organizer/events/{id}', [EventController::class, 'update']);
+        Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
     });
 
     // Admin
