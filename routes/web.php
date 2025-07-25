@@ -99,13 +99,9 @@ Route::middleware('auth')->group(function () {
     // Organizer
     Route::middleware(['organizer'])->group(function () {
         Route::get('/events/my', [EventController::class, 'myEvents']);
-<<<<<<< HEAD
-        Route::resource('events', EventController::class);
-=======
         Route::post('/events', [EventController::class, 'store']);
         Route::put('/events/{id}', [EventController::class, 'update']);
         Route::delete('/events/{id}', [EventController::class, 'destroy']);
->>>>>>> 109d1471c13d5720592f6e4259ea5f96eb774c2e
     });
 
     // Admin
