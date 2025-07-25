@@ -98,7 +98,7 @@ Route::middleware('auth')->group(function () {
 
     // Organizer
     Route::middleware(['organizer'])->group(function () {
-        Route::get('/organizer/events/my', [EventController::class, 'myEvents']);
+        Route::get('/organizer/events', [EventController::class, 'myEvents']);
         Route::post('/organizer/events', [EventController::class, 'store']);
         Route::put('/organizer/events/{id}', [EventController::class, 'update']);
         Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
