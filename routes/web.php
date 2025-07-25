@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NotificationController;
+
 
 
 // Callback setelah login Google
@@ -81,6 +83,17 @@ Route::middleware('auth')->group(function () {
         'destroy'
     ]);
 
+    Route::resource('notifications', NotificationController::class)->only([
+        'index',
+        'show',
+        'store',
+        'update',
+        'destroy'
+    ]);
+
+    // Mark as read (opsional)
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.markAsRead');
 
 
     // //purchase endpoint

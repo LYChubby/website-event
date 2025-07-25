@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-   public function run(): void
+    public function run(): void
     {
         // Buat 1 admin
         User::create([
@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'), // Ganti password sesuai kebutuhan
         ]);
 
-        // Kalau mau user dummy tambahan:
-        // User::factory(10)->create();
+        
+
+        $this->call(NotificationSeeder::class);
     }
 }

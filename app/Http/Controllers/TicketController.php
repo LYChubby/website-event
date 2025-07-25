@@ -36,4 +36,6 @@ class TicketController extends Controller
         $ticket->delete();
         return response()->json(null, 204);
     }
+
+
 }
