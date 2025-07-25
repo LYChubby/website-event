@@ -76,8 +76,8 @@ class EventController extends Controller
     public function approveEvent($id)
     {
 
+        $this->authorize('approve', Auth::user());
         $event = Event::findOrFail($id);
-        $this->authorize('approve', $event);
         $event->update(['status_approval' => 'approved']);
 
         return response()->json([
@@ -88,8 +88,8 @@ class EventController extends Controller
     public function rejectEvent($id)
     {
 
+        $this->authorize('approve', Auth::user());
         $event = Event::findOrFail($id);
-        $this->authorize('approve', $event);
         $event->update(['status_approval' => 'rejected']);
 
         return response()->json([

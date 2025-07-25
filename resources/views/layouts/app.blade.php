@@ -13,8 +13,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles & Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin-dashboard.js', 'resources/js/organizer-dashboard.js'])
 </head>
+<<<<<<< HEAD
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 min-h-screen">
     <div class="min-h-screen">
@@ -32,9 +33,23 @@
             </div>
         </header>
         @endif
+=======
 
-        {{-- Page Content --}}
-        <main>
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
+
+        <!-- Page Heading -->
+        @isset($header)
+        <header class="bg-white dark:bg-[#252525] shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+        @endisset
+>>>>>>> 4e7b37b4ce24eef96789ee0d6cb0b1128b1690e5
+
+        <!-- Page Content -->
+        <main class="bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
             {{ $slot }}
         </main>
     </div>
