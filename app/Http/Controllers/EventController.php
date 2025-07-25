@@ -62,9 +62,9 @@ class EventController extends Controller
     public function adminEvents()
     {
 
-        $this->authorize('viewAdmin', User::class);
+        // $this->authorize('viewAdmin', User::class);
 
-        $events = Event::with(['category', 'user'])
+        $events = Event::with(['category', 'organizer'])
             ->latest()
             ->get();
 

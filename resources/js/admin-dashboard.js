@@ -50,10 +50,10 @@ function loadEvents() {
                         <td class="p-3">${ev.status_approval}</td>
                         <td class="p-3 space-x-2">
                             <button onclick="approveEvent(${
-                                ev.id
+                                ev.event_id
                             })" class="text-green-600 hover:underline">Setujui</button>
                             <button onclick="rejectEvent(${
-                                ev.id
+                                ev.event_id
                             })" class="text-red-600 hover:underline">Tolak</button>
                         </td>
                     </tr>
