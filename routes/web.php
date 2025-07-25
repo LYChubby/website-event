@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,8 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 
 Route::get('/choose-role', function () {
     $googleUser = session('google_user');
-    if (!$googleUser) return redirect('/');
+    if (!$googleUser)
+        return redirect('/');
     return view('auth.choose-role', compact('googleUser'));
 })->name('choose-role');
 
@@ -72,6 +74,23 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('events', EventController::class);
     Route::resource('tickets', TicketController::class);
+    Route::resource('feedbacks', FeedbackController::class)->only([
+        'index',
+        'store',
+        'show',
+        'destroy'
+    ]);
+
+
+
+    // //purchase endpoint
+    // Route::middleware(['auth', 'role:user'])->group(function () {
+    //     Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])
+    //         ->name('tickets.purchase');
+    // });
+
+
+
 
 
     // Route::get('events', [EventController::class, 'index']);
@@ -80,7 +99,13 @@ Route::middleware('auth')->group(function () {
     // Organizer
     Route::middleware(['organizer'])->group(function () {
         Route::get('/events/my', [EventController::class, 'myEvents']);
+<<<<<<< HEAD
         Route::resource('events', EventController::class);
+=======
+        Route::post('/events', [EventController::class, 'store']);
+        Route::put('/events/{id}', [EventController::class, 'update']);
+        Route::delete('/events/{id}', [EventController::class, 'destroy']);
+>>>>>>> 109d1471c13d5720592f6e4259ea5f96eb774c2e
     });
 
     // Admin

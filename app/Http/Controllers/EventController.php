@@ -32,7 +32,7 @@ class EventController extends Controller
 
         // Opsional: Pencarian by nama event
         if ($request->has('search')) {
-            $query->where('nama_event', 'like', '%' . $request->search . '%');
+            $query->where('name_event', 'like', '%' . $request->search . '%');
         }
 
         // Hanya tampilkan event yang sudah disetujui

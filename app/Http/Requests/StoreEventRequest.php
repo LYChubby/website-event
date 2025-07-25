@@ -15,7 +15,7 @@ class StoreEventRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,category_id',
-            'nama_event' => 'required|string|max:255',
+            'name_event' => 'required|string|max:255',
             'description' => 'required|string',
             'event_image' => 'nullable|image',
             'venue_name' => 'required|string|max:255',
