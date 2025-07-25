@@ -8,39 +8,68 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ========== Load Event ==========
-function loadEvents() {
+function loadEvents(categoryId = "all") {
     fetch("/organizer/events")
         .then((res) => res.json())
         .then((response) => {
-            const tbody = document.getElementById("eventTableBody");
-            tbody.innerHTML = "";
+            const container = document.getElementById("eventGrid");
+            container.innerHTML = "";
 
-            response.data.forEach((ev, index) => {
-                tbody.innerHTML += `
-                    <tr class="border-t">
-                        <td class="p-3">${index + 1}</td>
-                        <td class="p-3">${ev.name_event}</td>
-                        <td class="p-3">${ev.category.name}</td>
-                        <td class="p-3">${ev.start_date} - ${ev.end_date}</td>
-                        <td class="p-3">
-                            ${
-                                ev.event_image
-                                    ? `<img src="/storage/${ev.event_image}" class="w-16 h-16 object-cover rounded" />`
-                                    : "-"
-                            }
-                        </td>
-                        <td class="p-3 space-x-2">
+            const events =
+                categoryId === "all"
+                    ? response.data
+                    : response.data.filter(
+                          (ev) => ev.category_id == categoryId
+                      );
+
+            events.forEach((ev) => {
+                const card = document.createElement("div");
+                card.className = "bg-white shadow rounded-xl overflow-hidden";
+                card.innerHTML = `
+                    <div class="h-40 bg-gray-200">
+                        ${
+                            ev.event_image
+                                ? `<img src="/storage/${ev.event_image}" class="w-full h-full object-cover" />`
+                                : ``
+                        }
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">${ev.name_event}</h3>
+                        <p class="text-sm text-gray-600 mb-2">${
+                            ev.start_date
+                        } - ${ev.end_date}</p>
+                        <hr class="my-2" />
+                        <div class="flex items-center space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+                            <span class="text-sm font-semibold">${
+                                ev.organizer_name || "Nama"
+                            }</span>
+                        </div>
+                        <div class="mt-4 flex justify-end space-x-2">
                             <button onclick="editEvent(${
                                 ev.event_id
-                            })" class="text-blue-600 hover:underline">Edit</button>
+                            })" class="text-blue-600 text-sm hover:underline">Edit</button>
                             <button onclick="deleteEvent(${
                                 ev.event_id
-                            })" class="text-red-600 hover:underline">Hapus</button>
-                        </td>
-                    </tr>
+                            })" class="text-red-600 text-sm hover:underline">Hapus</button>
+                        </div>
+                    </div>
                 `;
+                container.appendChild(card);
             });
         });
+}
+
+// Untuk filter kategori
+function filterEvents(categoryId) {
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach((btn) => btn.classList.remove("bg-[#78B5FF]", "text-white"));
+    const activeBtn = document.querySelector(`[data-category="${categoryId}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add("bg-[#78B5FF]", "text-white");
+    }
+    loadEvents(categoryId);
 }
 
 // ========== Load Kategori ==========
@@ -49,13 +78,26 @@ function loadCategories() {
         .then((res) => res.json())
         .then((categories) => {
             const select = document.getElementById("category_id");
-            select.innerHTML = "";
+            const filter = document.getElementById("categoryFilter");
 
+            // Isi dropdown
+            select.innerHTML = "";
             categories.forEach((cat) => {
                 const option = document.createElement("option");
                 option.value = cat.category_id;
                 option.textContent = cat.name;
                 select.appendChild(option);
+            });
+
+            // Isi tombol filter kategori
+            categories.forEach((cat) => {
+                const btn = document.createElement("button");
+                btn.textContent = cat.name;
+                btn.className =
+                    "filter-btn bg-blue-200 text-blue-700 px-3 py-1 rounded";
+                btn.setAttribute("data-category", cat.category_id);
+                btn.onclick = () => filterEvents(cat.category_id);
+                filter.appendChild(btn);
             });
         });
 }

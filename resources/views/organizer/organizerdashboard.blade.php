@@ -5,31 +5,32 @@
         </h2>
     </x-slot>
 
-    <div class="py-8 px-4 sm:px-8 bg-white dark:bg-[#1e1e1e] min-h-screen space-y-10">
-        {{-- SECTION: Event Management --}}
-        <div class="bg-[#78B5FF] text-white p-6 rounded-xl shadow-lg">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold">Manajemen Event</h3>
-                <button onclick="openEventModal()" class="bg-white text-[#78B5FF] font-semibold px-4 py-2 rounded hover:bg-gray-200">
-                    + Tambah Event
+    <div class="py-8 px-4 sm:px-8 bg-white dark:bg-[#1e1e1e] min-h-screen">
+        {{-- Header Atas --}}
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-2xl"><i class="fas fa-arrow-left"></i></a>
+                <h1 class="text-2xl font-bold text-[#78B5FF]">Kelola Event</h1>
+            </div>
+            <div class="flex space-x-2">
+                <input type="text" placeholder="Search" class="rounded-full px-4 py-2 w-80 border focus:outline-none focus:ring" />
+                <button onclick="openEventModal()" class="bg-[#78B5FF] hover:bg-blue-500 text-white px-4 py-2 rounded shadow flex items-center">
+                    Tambah Event <span class="text-xl ml-1">+</span>
                 </button>
             </div>
+        </div>
 
-            <table class="w-full text-left bg-white text-gray-800 rounded overflow-hidden">
-                <thead class="bg-[#78B5FF] text-white">
-                    <tr>
-                        <th class="p-3">#</th>
-                        <th class="p-3">Nama Event</th>
-                        <th class="p-3">Kategori</th>
-                        <th class="p-3">Tanggal</th>
-                        <th class="p-3">Gambar</th>
-                        <th class="p-3">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="eventTableBody">
-                    {{-- Event akan dimuat lewat JS --}}
-                </tbody>
-            </table>
+        {{-- Filter Kategori --}}
+        <div class="mb-6">
+            <div id="categoryFilter" class="flex space-x-2">
+                <button data-category="all" class="filter-btn bg-[#78B5FF] text-white px-3 py-1 rounded">All</button>
+                {{-- Tombol kategori lain akan dimuat lewat JS --}}
+            </div>
+        </div>
+
+        {{-- Grid Event --}}
+        <div id="eventGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{-- Kartu event akan dimuat lewat JS --}}
         </div>
     </div>
 

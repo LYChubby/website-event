@@ -38,26 +38,46 @@ function loadEvents() {
     fetch("/admin/events")
         .then((res) => res.json())
         .then((response) => {
-            const tbody = document.getElementById("eventTableBodyAdmin");
-            tbody.innerHTML = "";
-            response.data.forEach((ev, index) => {
-                tbody.innerHTML += `
-                    <tr class="border-t">
-                        <td class="p-3">${index + 1}</td>
-                        <td class="p-3">${ev.name_event}</td>
-                        <td class="p-3">${ev.category?.name ?? "-"}</td>
-                        <td class="p-3">${ev.start_date} - ${ev.end_date}</td>
-                        <td class="p-3">${ev.status_approval}</td>
-                        <td class="p-3 space-x-2">
+            const container = document.getElementById("eventApprovalGrid");
+            container.innerHTML = "";
+
+            response.data.forEach((ev) => {
+                const card = document.createElement("div");
+                card.className = "bg-white shadow rounded-xl overflow-hidden";
+
+                card.innerHTML = `
+                    <div class="h-40 bg-gray-200">
+                        ${
+                            ev.event_image
+                                ? `<img src="/storage/${ev.event_image}" class="w-full h-full object-cover" />`
+                                : ``
+                        }
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-600">${
+                            ev.name_event
+                        }</h3>
+                        <p class="text-sm text-gray-600 mb-2">${
+                            ev.category?.name ?? "-"
+                        }</p>
+                        <p class="text-sm text-gray-600 mb-2">${
+                            ev.start_date
+                        } - ${ev.end_date}</p>
+                        <p class="text-sm font-semibold mb-2">Status: <span class="capitalize">${
+                            ev.status_approval
+                        }</span></p>
+                        <div class="mt-4 flex justify-end space-x-2">
                             <button onclick="approveEvent(${
                                 ev.event_id
-                            })" class="text-green-600 hover:underline">Setujui</button>
+                            })" class="text-green-600 text-sm hover:underline">Setujui</button>
                             <button onclick="rejectEvent(${
                                 ev.event_id
-                            })" class="text-red-600 hover:underline">Tolak</button>
-                        </td>
-                    </tr>
+                            })" class="text-red-600 text-sm hover:underline">Tolak</button>
+                        </div>
+                    </div>
                 `;
+
+                container.appendChild(card);
             });
         });
 }
