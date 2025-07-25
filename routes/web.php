@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     // Admin
 
     Route::get('/admin/events', [EventController::class, 'adminEvents']);
+    Route::get('/admin/events/{id}', [EventController::class, 'show']);
     Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
     Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
 });
