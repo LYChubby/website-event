@@ -40,6 +40,7 @@
             <form id="eventForm" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="eventId" name="event_id" />
+                <input type="hidden" id="status_approval" name="status_approval" />
                 <div class="mb-4">
                     <label for="name_event" class="block font-medium mb-1">Nama Event</label>
                     <input type="text" id="name_event" name="name_event" class="w-full p-2 border rounded" required />

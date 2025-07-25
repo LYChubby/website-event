@@ -97,19 +97,19 @@ Route::middleware('auth')->group(function () {
     // Route::get('events/{event}', [EventController::class, 'show']);
 
     // Organizer
-    Route::middleware(['organizer'])->group(function () {
-        Route::get('/organizer/events', [EventController::class, 'myEvents']);
-        Route::post('/organizer/events', [EventController::class, 'store']);
-        Route::put('/organizer/events/{id}', [EventController::class, 'update']);
-        Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
-    });
+
+    Route::get('/organizer/events', [EventController::class, 'myEvents']);
+    Route::post('/organizer/events', [EventController::class, 'store']);
+    Route::get('/organizer/events/{id}', [EventController::class, 'show']);
+    Route::put('/organizer/events/{id}', [EventController::class, 'update']);
+    Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
+
 
     // Admin
-    Route::middleware(['admin'])->group(function () {
-        Route::get('/admin/events', [EventController::class, 'adminEvents']);
-        Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
-        Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
-    });
+
+    Route::get('/admin/events', [EventController::class, 'adminEvents']);
+    Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
+    Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
 });
 
 

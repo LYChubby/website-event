@@ -46,6 +46,7 @@ class EventController extends Controller
 
     public function myEvents()
     {
+        //dd('myEvents');
         $userId = Auth::id();
         $events = Event::where('user_id', $userId)
             ->with('category')
