@@ -38,14 +38,14 @@ function loadEvents() {
     fetch("/admin/events")
         .then((res) => res.json())
         .then((response) => {
-            const tbody = document.getElementById("eventTableBody");
+            const tbody = document.getElementById("eventTableBodyAdmin");
             tbody.innerHTML = "";
             response.data.forEach((ev, index) => {
                 tbody.innerHTML += `
                     <tr class="border-t">
                         <td class="p-3">${index + 1}</td>
                         <td class="p-3">${ev.name_event}</td>
-                        <td class="p-3">${ev.category.name}</td>
+                        <td class="p-3">${ev.category?.name ?? "-"}</td>
                         <td class="p-3">${ev.start_date} - ${ev.end_date}</td>
                         <td class="p-3">${ev.status_approval}</td>
                         <td class="p-3 space-x-2">
@@ -62,17 +62,43 @@ function loadEvents() {
         });
 }
 
-function approveEvent(id) {
-    fetch(`/admin/events/${id}/approve`, { method: "POST" }).then(() =>
-        loadEvents()
-    );
-}
+window.approveEvent = function (id) {
+    if (confirm("Yakin ingin menyetujui event ini?")) {
+        fetch(`/admin/events/${id}/approve`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((res) => res.json())
+            .then(() => {
+                alert("Event berhasil disetujui.");
+                loadEvents(); // Refresh tabel
+            });
+    }
+};
 
-function rejectEvent(id) {
-    fetch(`/admin/events/${id}/reject`, { method: "POST" }).then(() =>
-        loadEvents()
-    );
-}
+window.rejectEvent = function (id) {
+    if (confirm("Yakin ingin menolak event ini?")) {
+        fetch(`/admin/events/${id}/reject`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((res) => res.json())
+            .then(() => {
+                alert("Event berhasil ditolak.");
+                loadEvents(); // Refresh tabel
+            });
+    }
+};
 
 window.openCategoryModal = function (mode = "create") {
     if (mode === "create") {

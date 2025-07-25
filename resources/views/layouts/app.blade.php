@@ -13,8 +13,17 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles & Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/admin-dashboard.js', 'resources/js/organizer-dashboard.js'])
-</head>
+    @vite([
+    'resources/css/app.css',
+    'resources/js/app.js',
+    ])
+
+    @if(request()->is('admin/*'))
+    @vite(['resources/js/admin-dashboard.js'])
+    @elseif(request()->is('organizer/*'))
+    @vite(['resources/js/organizer-dashboard.js'])
+    @endif
+
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">

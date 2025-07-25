@@ -43,7 +43,7 @@
                         <th class="p-3">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="eventTableBody">
+                <tbody id="eventTableBodyAdmin">
                     {{-- Event akan dimuat lewat JS --}}
                 </tbody>
             </table>
