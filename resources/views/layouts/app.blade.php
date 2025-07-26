@@ -38,7 +38,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main class="bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
+        <main class="w-full min-h-screen bg-white overflow-hidden">
             {{ $slot }}
         </main>
     </div>

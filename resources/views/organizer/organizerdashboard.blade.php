@@ -16,16 +16,19 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
-            min-height: 100vh;
+            overflow-x: hidden; /* biar nggak scroll kanan */
         }
 
         .dashboard-container {
+            width: 100%;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             min-height: calc(100vh - 64px);
             border-radius: 0;
+            padding: 0;
+            margin: 0;
         }
+
 
         .main-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
