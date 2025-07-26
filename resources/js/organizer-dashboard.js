@@ -153,28 +153,41 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("eventModal").classList.remove("show");
         };
 
+        function formatDateForInput(dateStr) {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+        if (isNaN(date)) return '';
+        const year = date.getFullYear();
+        const month = (`0${date.getMonth() + 1}`).slice(-2);
+        const day = (`0${date.getDate()}`).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
         // ========== Edit Event ==========
         window.editEvent = function (id) {
-            fetch(`/organizer/events/${id}`)
-                .then((res) => res.json())
-                .then((ev) => {
-                    document.getElementById("eventId").value = ev.event_id;
-                    document.getElementById("name_event").value = ev.name_event;
-                    document.getElementById("category_id").value = ev.category_id;
-                    document.getElementById("description").value = ev.description || "";
-                    document.getElementById("venue_name").value = ev.venue_name || "";
-                    document.getElementById("venue_address").value = ev.venue_address || "";
-                    document.getElementById("status_approval").value = ev.status_approval || "pending";
-                    document.getElementById("start_date").value = ev.start_date;
-                    document.getElementById("end_date").value = ev.end_date;
-                    document.getElementById("eventModalTitle").textContent = "Edit Event";
-                    document.getElementById("eventModal").classList.add("show");
-                })
-                .catch(error => {
-                    console.error("Error loading event:", error);
-                    alert("Gagal memuat data event");
-                });
-        };
+        fetch(`/organizer/events/${id}`)
+            .then((res) => res.json())
+            .then((ev) => {
+                document.getElementById("eventId").value = ev.event_id;
+                document.getElementById("name_event").value = ev.name_event;
+                document.getElementById("category_id").value = ev.category_id;
+                document.getElementById("description").value = ev.description || "";
+                document.getElementById("venue_name").value = ev.venue_name || "";
+                document.getElementById("venue_address").value = ev.venue_address || "";
+                document.getElementById("status_approval").value = ev.status_approval || "pending";
+
+                // ✅ Format tanggal supaya gak reset
+                document.getElementById("start_date").value = formatDateForInput(ev.start_date);
+                document.getElementById("end_date").value = formatDateForInput(ev.end_date);
+
+                document.getElementById("eventModalTitle").textContent = "Edit Event";
+                document.getElementById("eventModal").classList.add("show");
+            })
+            .catch(error => {
+                console.error("Error loading event:", error);
+                alert("Gagal memuat data event");
+            });
+    };
 
         // ========== Submit Form ==========
         function submitEventForm(e) {
