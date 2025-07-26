@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 
 
@@ -53,9 +54,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
 // Dashboard untuk Organizer
 Route::get('/dashboard/organizer', function () {
     return view('organizer.organizerdashboard');
