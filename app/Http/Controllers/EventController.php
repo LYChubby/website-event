@@ -73,12 +73,12 @@ class EventController extends Controller
             'data' => $events
         ]);
     }
-
     public function approveEvent($id)
     {
-
-
         $event = Event::findOrFail($id);
+
+        $this->authorize('approve', $event); // Tambahkan ini
+
         $event->update(['status_approval' => 'approved']);
 
         return response()->json([
@@ -88,15 +88,41 @@ class EventController extends Controller
 
     public function rejectEvent($id)
     {
-
-
         $event = Event::findOrFail($id);
+
+        $this->authorize('approve', $event); // Gunakan policy yang sama
+
         $event->update(['status_approval' => 'rejected']);
 
         return response()->json([
             'message' => 'Event ditolak'
         ]);
     }
+
+
+    // public function approveEvent($id)
+    // {
+
+
+    //     $event = Event::findOrFail($id);
+    //     $event->update(['status_approval' => 'approved']);
+
+    //     return response()->json([
+    //         'message' => 'Event disetujui'
+    //     ]);
+    // }
+
+    // public function rejectEvent($id)
+    // {
+
+
+    //     $event = Event::findOrFail($id);
+    //     $event->update(['status_approval' => 'rejected']);
+
+    //     return response()->json([
+    //         'message' => 'Event ditolak'
+    //     ]);
+    // }
 
 
     public function store(StoreEventRequest $request)
