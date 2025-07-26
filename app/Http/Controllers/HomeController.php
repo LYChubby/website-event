@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $query = Event::query()->with('category', 'organizer');
         $today = Carbon::today();
         $oneMonthLater = $today->copy()->addMonth();
 
@@ -22,17 +23,16 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        // Ambil kategori jika ada
+        $kategoriId = $request->kategori;
+
         // Filtered Events - Base query
         $filterQuery = Event::with(['category', 'organizer'])
             ->where('status_approval', 'approved')
             ->where('start_date', '>=', $today);
 
-        $currentCategory = 'all';
-
-        // Filter by category jika ada
-        if ($request->has('category')) {
-            $filterQuery->where('category_id', $request->category);
-            $currentCategory = $request->category;
+        if (!empty($kategoriId) && $kategoriId !== 'all') {
+            $filterQuery->where('category_id', $kategoriId);
         }
 
         $filteredEvents = $filterQuery->latest()->paginate(12);
@@ -43,7 +43,27 @@ class HomeController extends Controller
             'featuredEvents' => $featuredEvents,
             'filteredEvents' => $filteredEvents,
             'categories' => $categories,
-            'currentCategory' => $currentCategory
+            'currentCategory' => $kategoriId ?? 'all'
+        ]);
+    }
+
+    public function categoryEvents(Request $request)
+    {
+        $categoryId = $request->query('category');
+
+        $events = Event::with('category', 'organizer')
+            ->where('status_approval', 'approved')
+            ->whereDate('start_date', '>=', now());
+
+
+        // Tambahkan pengecekan jika bukan 'all'
+        if ($categoryId !== 'all') {
+            $events->where('category_id', $categoryId);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $events->get()
         ]);
     }
 }

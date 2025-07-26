@@ -210,37 +210,70 @@
             </div>
         </section>
 
+        <!-- Enhanced Category Filter -->
         <section class="px-4 sm:px-6 lg:px-8 mt-16">
             <div class="max-w-7xl mx-auto">
+                <!-- Judul -->
                 <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                     <div class="w-1 h-6 bg-[#63A7F4] rounded-full mr-4"></div>
-                    Event Berdasarkan Kategori
+                    Kategori Event
                 </h3>
 
-                <!-- Filter Button -->
-                <div class="flex flex-wrap gap-3 mb-6" id="categoryFilter">
-                    <button class="px-4 py-2 bg-blue-500 text-white rounded filter-btn active" data-category="all" onclick="filterEvents('all')">
-                        Semua
+                <!-- Tombol Filter -->
+                <div class="flex gap-3 mb-8 flex-wrap" id="categoryFilter">
+                    <button class="filter-btn active px-6 py-3 rounded-full text-sm font-medium bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] text-white shadow-lg transition-all duration-300 hover:shadow-lg hover:scale-105"
+                        data-category="all">
+                        <i class="fas fa-th-large mr-2"></i>Semua
                     </button>
                     @foreach ($categories as $category)
-                    <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded filter-btn" data-category="{{ $category->id }}" onclick="filterEvents('{{ $category->id }}')">
+                    <button class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-105"
+                        data-category="{{ $category->id }}">
                         {{ $category->name }}
                     </button>
                     @endforeach
                 </div>
 
-                <!-- Event Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="eventGrid">
-                    @foreach ($events as $event)
-                    <div class="event-item" data-category="{{ $event->category_id }}">
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="text-lg font-semibold">{{ $event->title }}</h4>
-                            <p class="text-gray-600">{{ $event->category->name }}</p>
-                            <p class="mt-2 text-sm text-gray-500">{{ \Illuminate\Support\Str::limit($event->description, 100) }}</p>
-                            <a href="{{ route('events.show', $event->id) }}" class="text-blue-500 mt-2 inline-block">Lihat Detail</a>
+                <!-- Daftar Event -->
+                <div id="eventGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @forelse ($filteredEvents as $event)
+                    <div class="event-card group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                        data-category="{{ $event->category_id }}">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $event->event_image) }}"
+                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-[#63A7F4] text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="flex items-center text-sm text-gray-500 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-[#63A7F4]"></i>
+                                {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
+                            </div>
+
+                            <h3 class="font-bold text-gray-800 mb-3 group-hover:text-[#63A7F4] transition-colors line-clamp-2">
+                                {{ $event->name_event }}
+                            </h3>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] rounded-full flex items-center justify-center mr-2">
+                                        <i class="fas fa-user text-white text-xs"></i>
+                                    </div>
+                                    <span class="truncate">{{ $event->organizer->name ?? 'Unknown' }}</span>
+                                </div>
+                                <button class="text-[#63A7F4] hover:text-[#4A90E2] transition-colors">
+                                    <i class="fas fa-heart text-lg"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    @endforeach
+                    @empty
+                    <div class="col-span-full text-center py-12 text-gray-500">Tidak ada event.</div>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -316,52 +349,38 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Inisialisasi
-            loadCategories();
-            loadEvents();
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedCategory = "all";
 
-            // Fungsi filter
-            window.filterEvents = function(categoryId) {
-                // Update parameter URL tanpa reload halaman
-                const url = new URL(window.location.href);
-                if (categoryId === 'all') {
-                    url.searchParams.delete('category');
-                } else {
-                    url.searchParams.set('category', categoryId);
-                }
-                window.history.pushState({}, '', url);
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const eventCards = document.querySelectorAll('.event-card');
 
-                // Load events
-                loadEvents(categoryId);
-            };
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Ambil kategori dari tombol
+                    selectedCategory = this.getAttribute('data-category');
 
-            // Load events
-            function loadEvents(categoryId = 'all') {
-                let url = '/dashboard';
-                if (categoryId !== 'all') {
-                    url += `?category=${categoryId}`;
-                }
+                    // Update tombol active
+                    filterButtons.forEach(btn => btn.classList.remove('active', 'bg-gradient-to-r', 'from-[#63A7F4]', 'to-[#4A90E2]', 'text-white'));
+                    this.classList.add('active', 'bg-gradient-to-r', 'from-[#63A7F4]', 'to-[#4A90E2]', 'text-white');
 
-                fetch(url, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json'
+                    // Tampilkan / sembunyikan card
+                    eventCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+
+                        if (selectedCategory === 'all' || selectedCategory === cardCategory) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
                         }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        updateEventsGrid(data.filteredEvents.data);
-                        updatePagination(data.filteredEvents);
                     });
-            }
-
-            // Fungsi untuk update tampilan events
-            function updateEventsGrid(events) {
-                const eventGrid = document.getElementById('eventGrid');
-                // Implementasi update grid sesuai kebutuhan Anda
-            }
+                });
+            });
         });
     </script>
+
+
+
+
 
 </x-app-layout>

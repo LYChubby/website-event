@@ -55,6 +55,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/events', [HomeController::class, 'categoryEvents']);
+
 
 // Dashboard untuk Organizer
 Route::get('/dashboard/organizer', function () {
