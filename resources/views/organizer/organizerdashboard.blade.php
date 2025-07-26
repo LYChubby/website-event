@@ -15,7 +15,8 @@
         }
 
         body {
-            overflow-x: hidden; /* biar nggak scroll kanan */
+            overflow-x: hidden;
+            /* biar nggak scroll kanan */
         }
 
         .dashboard-container {

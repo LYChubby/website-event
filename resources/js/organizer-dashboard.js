@@ -71,17 +71,23 @@ function loadEvents(categoryId = "all") {
                 card.style.animationDelay = `${index * 0.1}s`;
 
                 card.innerHTML = `
-                            <div class="event-image">
-                                ${
-                                    ev.event_image
-                                        ? `<img src="/storage/${ev.event_image}" alt="${ev.name_event}" />`
-                                        : `<div class="event-image-placeholder">
-                                        <i class="fas fa-calendar-alt"></i>
-                                       </div>`
-                                }
-                            </div>
+                            <a href="/events/${ev.event_id}" class="block">
+                                <div class="event-image">
+                                    ${
+                                        ev.event_image
+                                            ? `<img src="/storage/${ev.event_image}" alt="${ev.name_event}" />`
+                                            : `<div class="event-image-placeholder">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>`
+                                    }
+                                </div>
+                            </a>
                             <div class="event-content">
-                                <h3 class="event-title">${ev.name_event}</h3>
+                                <a href="/events/${ev.event_id}" class="block">
+                                    <h3 class="event-title">${
+                                        ev.name_event
+                                    }</h3>
+                                </a>
                                 <div class="event-date">
                                     <i class="fas fa-clock"></i>
                                     ${formatDate(ev.start_date)} - ${formatDate(
