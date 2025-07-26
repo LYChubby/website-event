@@ -11,40 +11,39 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Event::query()->with('category');
         $today = Carbon::today();
         $oneMonthLater = $today->copy()->addMonth();
 
-        // Featured Events (tanpa filter)
-        $featuredEvents = Event::with(['category'])
+        // Featured Events
+        $featuredEvents = Event::with(['category', 'organizer'])
             ->where('status_approval', 'approved')
             ->whereBetween('start_date', [$today, $oneMonthLater])
             ->latest()
-            ->take(12)
+            ->take(8)
             ->get();
 
-        // Filtered Events - Query dasar
-        $filterQuery = Event::with(['category'])
+        // Filtered Events - Base query
+        $filterQuery = Event::with(['category', 'organizer'])
             ->where('status_approval', 'approved')
             ->where('start_date', '>=', $today);
 
-        // Filter kategori
-        if ($request->has('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
+        $currentCategory = 'all';
 
-        // Filter pencarian
-        if ($request->has('search')) {
-            $filterQuery->where('name_event', 'like', '%' . $request->search . '%');
+        // Filter by category jika ada
+        if ($request->has('category')) {
+            $filterQuery->where('category_id', $request->category);
+            $currentCategory = $request->category;
         }
 
         $filteredEvents = $filterQuery->latest()->paginate(12);
 
-        // Tambahkan appends
-        $filteredEvents->appends($request->except('page'));
-
         $categories = Category::all();
 
-        return view('dashboard', compact('featuredEvents', 'filteredEvents', 'categories', 'request'));
+        return view('dashboard', [
+            'featuredEvents' => $featuredEvents,
+            'filteredEvents' => $filteredEvents,
+            'categories' => $categories,
+            'currentCategory' => $currentCategory
+        ]);
     }
 }

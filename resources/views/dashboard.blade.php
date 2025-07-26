@@ -210,7 +210,6 @@
             </div>
         </section>
 
-        <!-- Enhanced Category Filter -->
         <section class="px-4 sm:px-6 lg:px-8 mt-16">
             <div class="max-w-7xl mx-auto">
                 <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -218,37 +217,30 @@
                     Event Berdasarkan Kategori
                 </h3>
 
-                <div class="flex gap-3 mb-8 flex-wrap">
-                    <a href="{{ route('dashboard') }}"
-                        class="px-6 py-3 {{ request('kategori') ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] text-white shadow-lg' }} rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
-                        <i class="fas fa-th-large mr-2"></i>Semua
-                    </a>
+                <!-- Filter Button -->
+                <div class="flex flex-wrap gap-3 mb-6" id="categoryFilter">
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded filter-btn active" data-category="all" onclick="filterEvents('all')">
+                        Semua
+                    </button>
                     @foreach ($categories as $category)
-                    <a href="{{ route('dashboard', ['kategori' => $category->id]) }}"
-                        class="px-6 py-3 {{ request('kategori') == $category->id ? 'bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded filter-btn" data-category="{{ $category->id }}" onclick="filterEvents('{{ $category->id }}')">
                         {{ $category->name }}
-                    </a>
+                    </button>
                     @endforeach
                 </div>
-            </div>
-        </section>
 
-        <section class="px-4 sm:px-6 lg:px-8 mt-6">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @forelse ($filteredEvents as $event)
-                    <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-all">
-                        <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}"
-                            class="w-full h-48 object-cover" />
-                        <div class="p-4">
-                            <p class="text-sm text-gray-500 mb-1">{{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}</p>
-                            <h4 class="text-lg font-semibold text-gray-800 mb-2">{{ $event->name_event }}</h4>
-                            <p class="text-sm text-gray-600">By {{ $event->organizer->name ?? 'Unknown' }}</p>
+                <!-- Event Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="eventGrid">
+                    @foreach ($events as $event)
+                    <div class="event-item" data-category="{{ $event->category_id }}">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="text-lg font-semibold">{{ $event->title }}</h4>
+                            <p class="text-gray-600">{{ $event->category->name }}</p>
+                            <p class="mt-2 text-sm text-gray-500">{{ \Illuminate\Support\Str::limit($event->description, 100) }}</p>
+                            <a href="{{ route('events.show', $event->id) }}" class="text-blue-500 mt-2 inline-block">Lihat Detail</a>
                         </div>
                     </div>
-                    @empty
-                    <p class="text-gray-600 col-span-full text-center">Tidak ada event untuk kategori ini.</p>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -322,4 +314,54 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Inisialisasi
+            loadCategories();
+            loadEvents();
+
+            // Fungsi filter
+            window.filterEvents = function(categoryId) {
+                // Update parameter URL tanpa reload halaman
+                const url = new URL(window.location.href);
+                if (categoryId === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', categoryId);
+                }
+                window.history.pushState({}, '', url);
+
+                // Load events
+                loadEvents(categoryId);
+            };
+
+            // Load events
+            function loadEvents(categoryId = 'all') {
+                let url = '/dashboard';
+                if (categoryId !== 'all') {
+                    url += `?category=${categoryId}`;
+                }
+
+                fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        updateEventsGrid(data.filteredEvents.data);
+                        updatePagination(data.filteredEvents);
+                    });
+            }
+
+            // Fungsi untuk update tampilan events
+            function updateEventsGrid(events) {
+                const eventGrid = document.getElementById('eventGrid');
+                // Implementasi update grid sesuai kebutuhan Anda
+            }
+        });
+    </script>
+
 </x-app-layout>
