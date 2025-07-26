@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -374,7 +373,9 @@
             color: #374151;
         }
 
-        .form-input, .form-select, .form-textarea {
+        .form-input,
+        .form-select,
+        .form-textarea {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #E5E7EB;
@@ -384,7 +385,9 @@
             background: white;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(99, 167, 244, 0.1);
@@ -443,6 +446,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -453,16 +457,38 @@
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .event-card:nth-child(1) { animation-delay: 0.1s; }
-        .event-card:nth-child(2) { animation-delay: 0.2s; }
-        .event-card:nth-child(3) { animation-delay: 0.3s; }
-        .event-card:nth-child(4) { animation-delay: 0.4s; }
-        .event-card:nth-child(5) { animation-delay: 0.5s; }
-        .event-card:nth-child(6) { animation-delay: 0.6s; }
+        .event-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .event-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .event-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .event-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .event-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .event-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive */
@@ -552,7 +578,7 @@
                 @csrf
                 <input type="hidden" id="eventId" name="event_id" />
                 <input type="hidden" id="status_approval" name="status_approval" />
-                
+
                 <div class="form-group">
                     <label for="name_event" class="form-label">Nama Event</label>
                     <input type="text" id="name_event" name="name_event" class="form-input" required />
@@ -596,6 +622,8 @@
                     <label for="event_image" class="form-label">Gambar Event</label>
                     <input type="file" id="event_image" name="event_image" accept="image/*" class="form-input" />
                 </div>
+                <div id="fileInfo" style="display: none; color: #666; font-size: 0.8rem; margin-top: 4px;"></div>
+                <input type="hidden" name="existing_image" value="">
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" onclick="closeEventModal()">Batal</button>
@@ -604,8 +632,8 @@
             </form>
         </div>
     </div>
-    
-     {{-- Load Font Awesome --}}
+
+    {{-- Load Font Awesome --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
     @vite(['resources/js/organizer-dashboard.js']) {{-- file JS khusus organizer --}}

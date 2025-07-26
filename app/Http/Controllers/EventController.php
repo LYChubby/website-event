@@ -128,10 +128,18 @@ class EventController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('event_image')) {
+            // Hapus gambar lama jika ada
             if ($event->event_image) {
                 Storage::disk('public')->delete($event->event_image);
             }
+            // Simpan gambar baru
             $data['event_image'] = $request->file('event_image')->store('events', 'public');
+        } elseif ($request->has('existing_image')) {
+            // Gunakan gambar yang sudah ada jika tidak ada upload baru
+            $data['event_image'] = $request->input('existing_image');
+        } else {
+            // Jika tidak ada gambar baru dan tidak ada existing_image, set ke null
+            $data['event_image'] = null;
         }
 
         $event->update($data);

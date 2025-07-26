@@ -1,190 +1,356 @@
 <x-app-layout>
-    <div class="bg-[#E6F0FF] min-h-screen">
-        <!-- Navbar -->
-        <div class="flex justify-between items-center px-6 py-4 bg-[#78B5FF]">
-            <div class="flex items-center space-x-4">
-                <img src="/assets/logo.png" alt="Logo" class="h-6" />
-                <input type="text" placeholder="Search" class="px-4 py-2 rounded-full w-64 text-sm outline-none" />
-            </div>
-            <div class="flex items-center space-x-3">
-                <div class="flex gap-4">
-                    <!-- Riwayat -->
-                    <a href="{{ route('login') }}" class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-2 rounded-md text-sm font-semibold shadow">
-                        <i class="fas fa-history mr-2"></i> Riwayat
-                    </a>
+    <!-- Background Gradient -->
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
 
-                    <!-- Dashboard: hanya muncul kalau role bukan user -->
-                    @if (Auth::check())
-                    @php
-                    $role = Auth::user()->role;
-                    $dashboardRoute = '#';
+        <!-- Enhanced Navbar -->
+        <nav class="bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <!-- Logo & Search Section -->
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-3">
+                            <img src="/assets/logo.png" alt="Logo" class="h-8 w-auto transition-transform hover:scale-105" />
+                            <span class="text-white font-bold text-xl hidden sm:block">EventHub</span>
+                        </div>
 
-                    if ($role === 'admin') {
-                    $dashboardRoute = route('admin.dashboard');
-                    } elseif ($role === 'organizer') {
-                    $dashboardRoute = route('organizer.dashboard');
-                    } elseif ($role === 'user') {
-                    $dashboardRoute = route('dashboard'); // atau bisa dihilangkan kalau emang nggak boleh akses
-                    }
-                    @endphp
-
-                    @if ($role !== 'user')
-                    <a href="{{ $dashboardRoute }}" class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-2 rounded-md text-sm font-semibold shadow">
-                        <i class="fas fa-home mr-2"></i> Dashboard
-                    </a>
-                    @endif
-                    @endif
-
-                    <!-- Logout -->
-                    <div class="hidden sm:flex sm:items-center sm:ms-6">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 hover:text-[#FF4B2B] dark:hover:text-[#FF8A65] focus:outline-none transition">
-                                    <div>{{ Auth::user()->name }}</div>
-                                    <div class="ms-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
+                        <form method="GET" action="{{ route('dashboard') }}" class="relative">
+                            <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 transition-all hover:bg-white/30 focus-within:bg-white/30 border-none">
+                                <input type="text"
+                                    name="search"
+                                    placeholder="Cari event yang menarik..."
+                                    value="{{ request('search') }}"
+                                    class="bg-transparent text-white placeholder-white/80 w-64 outline-none text-sm border-0 focus:border-0 focus:ring-0" />
+                                <button type="submit" class="text-white/90 hover:text-white ml-2">
+                                    <i class="fas fa-search text-sm"></i>
                                 </button>
-                            </x-slot>
+                            </div>
+                        </form>
+                    </div>
 
-                            <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')" class="hover:text-[#FF4B2B] dark:hover:text-[#FF8A65]">
-                                    {{ __('Profile') }}
-                                </x-dropdown-link>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                this.closest('form').submit();"
-                                        class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600">
-                                        {{ __('Log Out') }}
-                                    </x-dropdown-link>
-                                </form>
-                            </x-slot>
-                        </x-dropdown>
+                    <!-- Navigation Menu -->
+                    <div class="flex items-center space-x-4">
+                        <!-- History Button -->
+                        <a href="{{ route('login') }}"
+                            class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-white/40">
+                            <i class="fas fa-history mr-2"></i>Riwayat
+                        </a>
+
+                        @if (Auth::check())
+                        @php
+                        $role = Auth::user()->role;
+                        $dashboardRoute = match($role) {
+                        'admin' => route('admin.dashboard'),
+                        'organizer' => route('organizer.dashboard'),
+                        'user' => route('dashboard'),
+                        default => '#'
+                        };
+                        @endphp
+
+                        @if ($role !== 'user')
+                        <a href="{{ $dashboardRoute }}"
+                            class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-white/40">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </a>
+                        @endif
+
+                        <!-- User Dropdown -->
+                        <div class="hidden sm:flex sm:items-center">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-user text-xs text-white"></i>
+                                            </div>
+                                            <span>{{ Auth::user()->name }}</span>
+                                        </div>
+                                        <div class="ml-2">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+
+                                <x-slot name="content">
+                                    <div class="bg-white rounded-lg shadow-lg border border-gray-200">
+                                        <x-dropdown-link :href="route('profile.edit')" class="hover:bg-[#63A7F4] hover:text-white transition-colors">
+                                            <i class="fas fa-user-edit mr-2"></i>{{ __('Profile') }}
+                                        </x-dropdown-link>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                                class="text-red-600 hover:bg-red-50 hover:text-red-700">
+                                                <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </div>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <!-- Banner -->
-        <div class="relative px-6 mt-4">
-            <div class="bg-white rounded-lg overflow-hidden w-full">
-                <img src="/assets/banner.png" class="w-full object-cover" />
+        <!-- Enhanced Banner Section -->
+        @php
+        $banners = [
+        ['image' => 'storage/banner1.jpg', 'title' => 'Temukan Event Terbaik', 'subtitle' => 'Jelajahi berbagai acara menarik di sekitar Anda'],
+        ['image' => 'storage/banner2.jpg', 'title' => 'Bergabung dalam Komunitas', 'subtitle' => 'Ikuti event favorit Anda sekarang juga'],
+        ['image' => 'storage/banner3.jpg', 'title' => 'Eksplorasi Acara Lokal', 'subtitle' => 'Dari seminar, konser hingga workshop'],
+        ];
+        @endphp
+
+        <section class="relative px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="max-w-7xl mx-auto">
+                <div x-data="{ activeSlide: 0, total: {{ count($banners) }} }" class="relative rounded-2xl overflow-hidden shadow-xl">
+
+                    <!-- Slides -->
+                    <template x-for="(banner, index) in {{ json_encode($banners) }}" :key="index">
+                        <div x-show="activeSlide === index" class="relative w-full h-64 sm:h-80 transition-all duration-700 ease-in-out">
+                            <img :src="banner.image" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay bg-gradient-to-r from-[#63A7F4] to-[#4A90E2]" alt="" />
+                            <div class="absolute inset-0 bg-black/30"></div>
+
+                            <!-- Banner Content Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center text-center px-6">
+                                <div class="text-white">
+                                    <h1 class="text-3xl sm:text-5xl font-bold mb-4" x-text="banner.title"></h1>
+                                    <p class="text-lg sm:text-xl opacity-90" x-text="banner.subtitle"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Navigation Arrows -->
+                    <button @click="activeSlide = (activeSlide === 0) ? total - 1 : activeSlide - 1"
+                        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button @click="activeSlide = (activeSlide === total - 1) ? 0 : activeSlide + 1"
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Carousel Indicator -->
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                        <template x-for="index in total" :key="index">
+                            <div :class="{
+                            'w-3 h-3 rounded-full bg-white': activeSlide === index - 1,
+                            'w-3 h-3 rounded-full bg-white/40': activeSlide !== index - 1
+                        }"></div>
+                        </template>
+                    </div>
+                </div>
             </div>
-            <button class="absolute left-2 top-1/2 transform -translate-y-1/2 text-2xl font-bold">❮</button>
-            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-2xl font-bold">❯</button>
-        </div>
+        </section>
 
-        <!-- Featured Event -->
-        <section class="px-6 mt-8">
-            <h2 class="text-xl font-bold mb-4">Featured Event</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Card 1 -->
-                <div class="bg-white rounded-xl p-4 shadow">
-                    <img src="/assets/event1.png" class="rounded-lg mb-2" />
-                    <p class="text-sm text-gray-500">26 Juli 2025</p>
-                    <p class="text-lg font-bold">Rp. 250.000</p>
-                    <p class="text-sm mt-1 text-gray-700">Cikal Pop Up Class</p>
-                    <div class="flex items-center mt-2 text-sm">
-                        <img src="/assets/logo-cikal.png" class="w-4 h-4 mr-1" />
-                        <span>Sekolah Cikal</span>
+
+        <!-- Enhanced Featured Events Section -->
+        <section class="px-4 sm:px-6 lg:px-8 mt-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 flex items-center">
+                        <div class="w-1 h-8 bg-[#63A7F4] rounded-full mr-4"></div>
+                        Featured Events
+                    </h2>
+                    <a href="#" class="text-[#63A7F4] hover:text-[#4A90E2] font-medium flex items-center transition-colors">
+                        Lihat Semua <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @forelse ($featuredEvents as $event)
+                    <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $event->event_image) }}"
+                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-[#63A7F4] text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
+                                </span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="flex items-center text-sm text-gray-500 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-[#63A7F4]"></i>
+                                {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
+                            </div>
+
+                            <h3 class="font-bold text-gray-800 mb-3 group-hover:text-[#63A7F4] transition-colors line-clamp-2">
+                                {{ $event->name_event }}
+                            </h3>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] rounded-full flex items-center justify-center mr-2">
+                                        <i class="fas fa-user text-white text-xs"></i>
+                                    </div>
+                                    <span class="truncate">{{ $event->organizer->name ?? 'Unknown' }}</span>
+                                </div>
+                                <button class="text-[#63A7F4] hover:text-[#4A90E2] transition-colors">
+                                    <i class="fas fa-heart text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-span-full text-center py-12">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-times text-3xl text-gray-400"></i>
+                        </div>
+                        <p class="text-gray-600 text-lg">Tidak ada event yang akan berlangsung dalam waktu dekat.</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced Category Filter -->
+        <section class="px-4 sm:px-6 lg:px-8 mt-16">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <div class="w-1 h-6 bg-[#63A7F4] rounded-full mr-4"></div>
+                    Event Berdasarkan Kategori
+                </h3>
+
+                <div class="flex gap-3 mb-8 flex-wrap">
+                    <a href="{{ route('dashboard') }}"
+                        class="px-6 py-3 {{ request('kategori') ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] text-white shadow-lg' }} rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
+                        <i class="fas fa-th-large mr-2"></i>Semua
+                    </a>
+                    @foreach ($categories as $category)
+                    <a href="{{ route('dashboard', ['kategori' => $category->id]) }}"
+                        class="px-6 py-3 {{ request('kategori') == $category->id ? 'bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} rounded-full text-sm font-medium transition-all duration-300 hover:shadow-lg hover:scale-105">
+                        {{ $category->name }}
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section class="px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @forelse ($featuredEvents as $event)
+                    <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $event->event_image) }}"
+                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-[#63A7F4] text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
+                                </span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="flex items-center text-sm text-gray-500 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-[#63A7F4]"></i>
+                                {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
+                            </div>
+
+                            <h3 class="font-bold text-gray-800 mb-3 group-hover:text-[#63A7F4] transition-colors line-clamp-2">
+                                {{ $event->name_event }}
+                            </h3>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <div class="w-6 h-6 bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] rounded-full flex items-center justify-center mr-2">
+                                        <i class="fas fa-user text-white text-xs"></i>
+                                    </div>
+                                    <span class="truncate">{{ $event->organizer->name ?? 'Unknown' }}</span>
+                                </div>
+                                <button class="text-[#63A7F4] hover:text-[#4A90E2] transition-colors">
+                                    <i class="fas fa-heart text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-span-full text-center py-12">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-times text-3xl text-gray-400"></i>
+                        </div>
+                        <p class="text-gray-600 text-lg">Tidak ada event untuk kategori ini.</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Enhanced Footer -->
+        <footer class="bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                    <!-- Company Info -->
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="/assets/logo.png" alt="Logo" class="h-8 w-auto" />
+                            <span class="text-xl font-bold">EventHub</span>
+                        </div>
+                        <p class="text-white/80 text-sm leading-relaxed">
+                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
+                        </p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Link Cepat</h4>
+                        <div class="space-y-2">
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-fire mr-2"></i>Event Populer
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-question-circle mr-2"></i>FAQ
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-white/60 text-xs">
+                                <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Dummy Cards -->
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="bg-white rounded-xl p-4 shadow">
-                    <div class="w-full h-32 bg-gray-200 rounded mb-2"></div>
-                    <p class="text-sm text-gray-500">Tanggal Event</p>
-                    <p class="text-lg font-bold">Rp. 111111</p>
-                    <p class="text-sm mt-1 text-gray-700">Nama Event</p>
-                    <div class="flex items-center mt-2 text-sm">
-                        <div class="w-4 h-4 bg-gray-300 rounded-full mr-1"></div>
-                        <span>Nama</span>
-                    </div>
-            </div>
-            @endfor
-    </div>
-    </section>
-
-    <!-- Loket Screen -->
-    <section class="px-6 mt-10">
-        <h2 class="text-xl font-bold mb-4">Loket Screen</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <img src="/assets/superman.jpg" class="rounded-lg" />
-            <img src="/assets/selap.jpg" class="rounded-lg" />
-            <img src="/assets/sore.jpg" class="rounded-lg" />
-            <img src="/assets/jurassic.jpg" class="rounded-lg" />
-        </div>
-    </section>
-
-    <!-- Rekomendasi Terkini -->
-    <section class="px-6 mt-10">
-        <h2 class="text-xl font-bold mb-4">Rekomendasi Terkini</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @for ($i = 0; $i < 4; $i++)
-                <div class="bg-white rounded-xl p-4 shadow">
-                <div class="w-full h-32 bg-gray-200 rounded mb-2"></div>
-                <p class="text-sm text-gray-500">Tanggal Event</p>
-                <p class="text-lg font-bold">Rp. 111111</p>
-                <p class="text-sm mt-1 text-gray-700">Nama Event</p>
-                <div class="flex items-center mt-2 text-sm">
-                    <div class="w-4 h-4 bg-gray-300 rounded-full mr-1"></div>
-                    <span>Nama</span>
+                <!-- Copyright -->
+                <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                    <p class="text-white/60 text-sm">
+                        © {{ date('Y') }} EventHub. Semua hak dilindungi undang-undang.
+                    </p>
                 </div>
-        </div>
-        @endfor
-        </div>
-    </section>
-
-    <!-- Kategori Event -->
-    <section class="px-6 mt-10">
-        <h2 class="text-xl font-bold mb-4">Kategori Event</h2>
-        <div class="grid grid-cols-4 gap-3 mb-4">
-            @for ($i = 0; $i < 8; $i++)
-                <div class="h-16 bg-gray-200 rounded-lg">
-        </div>
-        @endfor
-        </div>
-        <div class="grid grid-cols-4 gap-3">
-            @for ($i = 0; $i < 6; $i++)
-                <div class="h-12 bg-gray-100 rounded-md">
-        </div>
-        @endfor
-        </div>
-    </section>
-
-    <!-- Kreator Favorit -->
-    <section class="px-6 mt-10 mb-16">
-        <h2 class="text-xl font-bold mb-4">Kreator Favorit</h2>
-        <div class="flex flex-wrap gap-6">
-            @for ($i = 0; $i < 8; $i++)
-                <div class="flex flex-col items-center">
-                <div class="w-20 h-20 bg-gray-300 rounded-full mb-2"></div>
-                <p class="text-sm text-center">Nama Creator</p>
-        </div>
-        @endfor
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#5BB5FF] text-center py-6 text-sm text-black">
-        <div class="flex justify-center gap-8 mb-2 flex-wrap">
-            <a href="#">Tentang Loket</a>
-            <a href="#">Event Populer</a>
-            <a href="#">Kontak Kami</a>
-            <a href="#">FAQ</a>
-        </div>
-        <p class="mb-2">Keamanan dan privasi</p>
-        <div class="flex justify-center gap-4 text-xl">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-        </div>
-    </footer>
+            </div>
+        </footer>
     </div>
 </x-app-layout>
