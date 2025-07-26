@@ -22,13 +22,23 @@ class FeedbackController extends Controller
 
     public function store(StoreFeedbackRequest $request)
     {
-        $role = auth()->user()->role;
-
-        // Hanya user biasa yang boleh store
-        if ($role !== 'user') {
-            abort(403, 'Only users can submit feedback.');
+        // 🔍 Cek dulu apakah user login
+        if (!auth()->check()) {
+            return response()->json([
+                'message' => 'User not authenticated.'
+            ], 401);
         }
 
+        $role = auth()->user()->role;
+
+        // ✅ Hanya user biasa boleh store
+        if ($role !== 'user') {
+            return response()->json([
+                'message' => 'Only users can submit feedback.'
+            ], 403);
+        }
+
+        // ✅ auth()->id() sekarang aman dipakai
         $feedback = Feedback::create([
             'user_id' => auth()->id(),
             'event_id' => $request->event_id,
@@ -41,6 +51,28 @@ class FeedbackController extends Controller
             'data' => $feedback
         ], 201);
     }
+
+    // public function store(StoreFeedbackRequest $request)
+    // {
+    //     $role = auth()->user()->role;
+
+    //     // Hanya user biasa yang boleh store
+    //     if ($role !== 'user') {
+    //         abort(403, 'Only users can submit feedback.');
+    //     }
+
+    //     $feedback = Feedback::create([
+    //         'user_id' => auth()->id(),
+    //         'event_id' => $request->event_id,
+    //         'rating' => $request->rating,
+    //         'comment' => $request->comment,
+    //     ]);
+
+    //     return response()->json([
+    //         'message' => 'Feedback submitted successfully!',
+    //         'data' => $feedback
+    //     ], 201);
+    // }
 
     public function show(Feedback $feedback)
     {

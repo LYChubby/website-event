@@ -12,44 +12,53 @@ class FeedbackControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function user_can_store_feedback()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function user_can_store_feedback(): void
     {
-        $user = User::factory()->create(['role' => 'user']);
+        // 🔥 PENTING: user harus punya role 'user'
+        $user = User::factory()->create([
+            'role' => 'user',
+        ]);
+
         $event = Event::factory()->create();
 
         $this->actingAs($user);
 
-        $response = $this->postJson('/feedbacks', [
-            'event_id' => $event->id,
+        $feedbackData = [
+            'event_id' => $event->event_id,
             'rating' => 4,
-            'comment' => 'Bagus sekali!',
-        ]);
+            'comment' => 'Acara sangat bagus!',
+        ];
 
-        $response->assertStatus(201);
+        $response = $this->post('/feedbacks', $feedbackData);
+
+        $response->assertStatus(201); // Created
         $this->assertDatabaseHas('feedbacks', [
-            'user_id' => $user->id,
-            'event_id' => $event->id,
+            'user_id' => $user->user_id,
+            'event_id' => $event->event_id,
             'rating' => 4,
-            'comment' => 'Bagus sekali!',
+            'comment' => 'Acara sangat bagus!',
         ]);
     }
+
+
 
     /** @test */
     public function organizer_cannot_store_feedback()
     {
+        // Organizer tidak boleh kirim feedback
         $organizer = User::factory()->create(['role' => 'organizer']);
         $event = Event::factory()->create();
 
         $this->actingAs($organizer);
 
         $response = $this->postJson('/feedbacks', [
-            'event_id' => $event->id,
+            'event_id' => $event->event_id,
             'rating' => 5,
             'comment' => 'Should not be allowed',
         ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(403); // forbidden
     }
 
     /** @test */
@@ -61,8 +70,9 @@ class FeedbackControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->getJson('/feedbacks');
+
         $response->assertStatus(200)
-                 ->assertJsonCount(3);
+            ->assertJsonCount(3); // pastikan 3 feedback tampil
     }
 
     /** @test */
@@ -73,11 +83,11 @@ class FeedbackControllerTest extends TestCase
 
         $this->actingAs($admin);
 
-        $response = $this->deleteJson('/feedbacks/' . $feedback->id);
+        $response = $this->deleteJson('/feedbacks/' . $feedback->feedback_id);
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('feedbacks', [
-            'id' => $feedback->id,
+            'feedback_id' => $feedback->feedback_id, // gunakan PK dari migration
         ]);
     }
 
@@ -89,8 +99,8 @@ class FeedbackControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->deleteJson('/feedbacks/' . $feedback->id);
+        $response = $this->deleteJson('/feedbacks/' . $feedback->feedback_id);
 
-        $response->assertStatus(403);
+        $response->assertStatus(403); // akses ditolak
     }
 }
