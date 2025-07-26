@@ -103,36 +103,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ========== Load Kategori ==========
         function loadCategories() {
-            fetch("/categories")
-                .then((res) => res.json())
-                .then((categories) => {
-                    const select = document.getElementById("category_id");
-                    const filter = document.getElementById("categoryFilter");
+        fetch("/categories")
+            .then((res) => res.json())
+            .then((categories) => {
+                const select = document.getElementById("category_id");
+                const filter = document.getElementById("categoryFilter");
 
-                    // Clear existing options except the first one
-                    select.innerHTML = '<option value="">Pilih Kategori</option>';
+                // Clear existing options
+                select.innerHTML = '<option value="">Pilih Kategori</option>';
+                filter.innerHTML = ''; // ← clear filter button
 
-                    // Add categories to dropdown and filter
-                    categories.forEach((cat) => {
-                        // Add to dropdown
-                        const option = document.createElement("option");
-                        option.value = cat.category_id;
-                        option.textContent = cat.name;
-                        select.appendChild(option);
+                // ✅ Tambahkan kembali tombol SEMUA
+                const allBtn = document.createElement("button");
+                allBtn.className = "filter-btn active"; // bisa diubah tergantung kondisi aktif
+                allBtn.setAttribute("data-category", "all");
+                allBtn.innerHTML = '<i class="fas fa-th-large"></i> Semua';
+                allBtn.onclick = () => filterEvents("all");
+                filter.appendChild(allBtn);
 
-                        // Add to filter buttons
-                        const btn = document.createElement("button");
-                        btn.textContent = cat.name;
-                        btn.className = "filter-btn";
-                        btn.setAttribute("data-category", cat.category_id);
-                        btn.onclick = () => filterEvents(cat.category_id);
-                        filter.appendChild(btn);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error loading categories:", error);
+                // Tambahkan kategori lain dari response
+                categories.forEach((cat) => {
+                    const option = document.createElement("option");
+                    option.value = cat.category_id;
+                    option.textContent = cat.name;
+                    select.appendChild(option);
+
+                    const btn = document.createElement("button");
+                    btn.className = "filter-btn";
+                    btn.setAttribute("data-category", cat.category_id);
+                    btn.textContent = cat.name;
+                    btn.onclick = () => filterEvents(cat.category_id);
+                    filter.appendChild(btn);
                 });
-        }
+            })
+            .catch(error => {
+                console.error("Error loading categories:", error);
+            });
+    }
 
         // ========== Modal Handler ==========
         window.openEventModal = function () {
