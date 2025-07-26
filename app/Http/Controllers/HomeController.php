@@ -11,28 +11,40 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $query = Event::query()->with('category');
         $today = Carbon::today();
         $oneMonthLater = $today->copy()->addMonth();
 
-        // Query dasar: hanya event yang sudah disetujui
-        $query = Event::with(['category', 'organizer'])
+        // Featured Events (tanpa filter)
+        $featuredEvents = Event::with(['category'])
             ->where('status_approval', 'approved')
-            ->whereBetween('start_date', [$today, $oneMonthLater]);
+            ->whereBetween('start_date', [$today, $oneMonthLater])
+            ->latest()
+            ->take(12)
+            ->get();
 
-        // Filter kategori jika dipilih
-        if ($request->has('kategori')) {
-            $query->where('category_id', $request->kategori);
+        // Filtered Events - Query dasar
+        $filterQuery = Event::with(['category'])
+            ->where('status_approval', 'approved')
+            ->where('start_date', '>=', $today);
+
+        // Filter kategori
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
         }
 
-        // Filter pencarian jika ada
+        // Filter pencarian
         if ($request->has('search')) {
-            $query->where('name_event', 'like', '%' . $request->search . '%');
+            $filterQuery->where('name_event', 'like', '%' . $request->search . '%');
         }
 
-        $featuredEvents = $query->latest()->take(4)->get();
-        $filteredEvents = $query->latest()->get(); // max 4 untuk ditampilkan
+        $filteredEvents = $filterQuery->latest()->paginate(12);
+
+        // Tambahkan appends
+        $filteredEvents->appends($request->except('page'));
+
         $categories = Category::all();
 
-        return view('dashboard', compact('featuredEvents', 'filteredEvents', 'categories'));
+        return view('dashboard', compact('featuredEvents', 'filteredEvents', 'categories', 'request'));
     }
 }

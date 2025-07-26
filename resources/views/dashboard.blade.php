@@ -236,49 +236,18 @@
         <section class="px-4 sm:px-6 lg:px-8 mt-6">
             <div class="max-w-7xl mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @forelse ($featuredEvents as $event)
-                    <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="relative overflow-hidden">
-                            <img src="{{ asset('storage/' . $event->event_image) }}"
-                                class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-[#63A7F4] text-white px-3 py-1 rounded-full text-xs font-medium">
-                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
-                                </span>
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </div>
-
-                        <div class="p-5">
-                            <div class="flex items-center text-sm text-gray-500 mb-2">
-                                <i class="fas fa-calendar-alt mr-2 text-[#63A7F4]"></i>
-                                {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
-                            </div>
-
-                            <h3 class="font-bold text-gray-800 mb-3 group-hover:text-[#63A7F4] transition-colors line-clamp-2">
-                                {{ $event->name_event }}
-                            </h3>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <div class="w-6 h-6 bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] rounded-full flex items-center justify-center mr-2">
-                                        <i class="fas fa-user text-white text-xs"></i>
-                                    </div>
-                                    <span class="truncate">{{ $event->organizer->name ?? 'Unknown' }}</span>
-                                </div>
-                                <button class="text-[#63A7F4] hover:text-[#4A90E2] transition-colors">
-                                    <i class="fas fa-heart text-lg"></i>
-                                </button>
-                            </div>
+                    @forelse ($filteredEvents as $event)
+                    <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition-all">
+                        <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}"
+                            class="w-full h-48 object-cover" />
+                        <div class="p-4">
+                            <p class="text-sm text-gray-500 mb-1">{{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}</p>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">{{ $event->name_event }}</h4>
+                            <p class="text-sm text-gray-600">By {{ $event->organizer->name ?? 'Unknown' }}</p>
                         </div>
                     </div>
                     @empty
-                    <div class="col-span-full text-center py-12">
-                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-calendar-times text-3xl text-gray-400"></i>
-                        </div>
-                        <p class="text-gray-600 text-lg">Tidak ada event untuk kategori ini.</p>
-                    </div>
+                    <p class="text-gray-600 col-span-full text-center">Tidak ada event untuk kategori ini.</p>
                     @endforelse
                 </div>
             </div>

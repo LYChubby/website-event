@@ -2,6 +2,22 @@ document.addEventListener("DOMContentLoaded", () => {
     loadEvents();
     loadCategories();
 
+    // Tambahkan ini di DOMContentLoaded
+    document.getElementById("eventForm").addEventListener("reset", function () {
+        // Clear file info
+        document.getElementById("fileInfo").style.display = "none";
+        document.getElementById("fileInfo").innerHTML = "";
+        document.querySelector('input[name="existing_image"]').value = "";
+
+        // Reset label file upload
+        const fileLabel = document.querySelector('label[for="event_image"]');
+        const originalText = "Gambar Event";
+        fileLabel.textContent = originalText;
+
+        // Clear draft
+        clearDraft();
+    });
+
     document
         .getElementById("eventForm")
         .addEventListener("submit", submitEventForm);
@@ -165,10 +181,30 @@ function loadCategories() {
 
 // ========== Modal Handler ==========
 window.openEventModal = function () {
+    // Reset form terlebih dahulu
+    const form = document.getElementById("eventForm");
+    form.reset();
     document.getElementById("eventId").value = "";
-    document.getElementById("eventForm").reset();
+    document.getElementById("status_approval").value = "pending";
+
+    // Clear file info
+    document.getElementById("fileInfo").style.display = "none";
+    document.getElementById("fileInfo").innerHTML = "";
+    document.querySelector('input[name="existing_image"]').value = "";
+
+    // Reset label file upload
+    const fileLabel = document.querySelector('label[for="event_image"]');
+    const originalText = "Gambar Event";
+    fileLabel.innerHTML = originalText;
+
+    // Set judul modal
     document.getElementById("eventModalTitle").textContent = "Tambah Event";
+
+    // Buka modal
     document.getElementById("eventModal").classList.add("show");
+
+    // Hapus draft setelah reset (jika ada)
+    clearDraft();
 };
 
 window.closeEventModal = function () {
@@ -470,38 +506,32 @@ document.getElementById("end_date").addEventListener("change", function () {
 // ========== File Upload Preview ==========
 document.getElementById("event_image").addEventListener("change", function (e) {
     const file = e.target.files[0];
+    const label = document.querySelector('label[for="event_image"]');
+    const originalText = label.textContent || "Gambar Event";
+
     if (file) {
-        // Validate file size (max 5MB)
+        // Validasi file
         if (file.size > 5 * 1024 * 1024) {
             showNotification(
                 "Ukuran file terlalu besar. Maksimal 5MB.",
                 "error"
             );
             this.value = "";
+            label.textContent = originalText;
             return;
         }
 
-        // Validate file type
         if (!file.type.startsWith("image/")) {
             showNotification("File harus berupa gambar.", "error");
             this.value = "";
+            label.textContent = originalText;
             return;
         }
 
-        // Show file name
-        const fileName = file.name;
-        const label = document.querySelector('label[for="event_image"]');
-        const originalText = label.textContent;
-        label.innerHTML = `${originalText} <span style="color: var(--primary-color); font-weight: normal;">(${fileName})</span>`;
-
-        // Reset label when form is reset
-        document.getElementById("eventForm").addEventListener(
-            "reset",
-            function () {
-                label.textContent = originalText;
-            },
-            { once: true }
-        );
+        // Tampilkan nama file
+        label.innerHTML = `${originalText} <span style="color: var(--primary-color); font-weight: normal;">(${file.name})</span>`;
+    } else {
+        label.textContent = originalText;
     }
 });
 
@@ -532,16 +562,18 @@ function saveDraft() {
 }
 
 function loadDraft() {
-    const draft = localStorage.getItem("eventDraft");
-    if (draft && !document.getElementById("eventId").value) {
-        // Only load for new events
-        const draftData = JSON.parse(draft);
-        Object.keys(draftData).forEach((key) => {
-            const input = document.getElementById(key);
-            if (input && draftData[key]) {
-                input.value = draftData[key];
-            }
-        });
+    // Hanya load draft jika benar-benar form baru (bukan edit)
+    if (!document.getElementById("eventId").value) {
+        const draft = localStorage.getItem("eventDraft");
+        if (draft) {
+            const draftData = JSON.parse(draft);
+            Object.keys(draftData).forEach((key) => {
+                const input = document.getElementById(key);
+                if (input && draftData[key] && input.type !== "file") {
+                    input.value = draftData[key];
+                }
+            });
+        }
     }
 }
 
