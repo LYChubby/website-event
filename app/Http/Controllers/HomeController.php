@@ -47,24 +47,4 @@ class HomeController extends Controller
             'currentCategory' => $kategoriId ?? 'all'
         ]);
     }
-
-    public function categoryEvents(Request $request)
-    {
-        $categoryId = $request->query('category');
-
-        $events = Event::with('category', 'organizer')
-            ->where('status_approval', 'approved')
-            ->whereDate('start_date', '>=', now());
-
-
-        // Tambahkan pengecekan jika bukan 'all'
-        if ($categoryId !== 'all') {
-            $events->where('category_id', $categoryId);
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $events->get()
-        ]);
-    }
 }

@@ -227,7 +227,7 @@
                     </button>
                     @foreach ($categories as $category)
                     <button class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-105"
-                        data-category="{{ $category->id }}">
+                        data-category="{{ $category->category_id }}">
                         {{ $category->name }}
                     </button>
                     @endforeach
