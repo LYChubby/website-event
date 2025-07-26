@@ -14,10 +14,10 @@ class FeedbackFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'event_id' => Event::factory(),
-            'rating' => $this->faker->numberBetween(1, 5),
-            'comment' => $this->faker->paragraph,
+            'user_id' => User::factory(), // akan membuat user dan ambil ID-nya
+            'event_id' => Event::factory(), // akan membuat event dan ambil ID-nya
+            'rating' => $this->faker->numberBetween(0, 5),
+            'comment' => $this->faker->sentence,
         ];
     }
 }
