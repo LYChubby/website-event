@@ -75,7 +75,7 @@ class EventTest extends TestCase
         Event::factory()->count(3)->for($organizer, 'organizer')->create();
 
         $response = $this->actingAs($organizer)
-            ->getJson('/events/my');
+            ->getJson('/organizer/events');
 
         $response->assertStatus(200);
     }
