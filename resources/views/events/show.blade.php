@@ -1,49 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <a href="" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Search</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                        Log out
-                    </a>
-                </form>
+                <!-- Tombol kembali -->
+                <button onclick="history.back()" class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+                    <i class="fas fa-arrow-left text-white"></i>
+                </button>
+
+                <!-- Icon gear -->
+                <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-cog text-2xl text-white"></i>
+                </div>
+
+                <div>
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
+                        Detail Event
+                    </h2>
+                    <p class="text-sm text-blue-100">Lihat Informasi Yang Kamu Inginkan</p>
+                </div>
             </div>
         </div>
     </x-slot>
 
-    <!-- Breadcrumb -->
-    <div class="container mx-auto px-4 py-4">
-        <nav class="flex" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-2">
-                <li class="inline-flex items-center">
-                    <a href="" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <div class="flex items-center">
-                        <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                        </svg>
-                        <a href="" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">Lainnya</a>
-                    </div>
-                </li>
-                <li aria-current="page">
-                    <div class="flex items-center">
-                        <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                        </svg>
-                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Anak, Keluarga</span>
-                    </div>
-                </li>
-            </ol>
-        </nav>
-    </div>
 
     <div class="w-full h-64 bg-gray-200 overflow-hidden">
         <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}" class="w-full h-full object-cover">
@@ -115,9 +93,70 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t mt-8">
-        <div class="container mx-auto px-4 py-6 text-center text-gray-500 text-sm">
-            Keamanan dan privasi
+    <footer class="bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="/assets/logo.png" alt="Logo" class="h-8 w-auto" />
+                        <span class="text-xl font-bold">EventHub</span>
+                    </div>
+                    <p class="text-white/80 text-sm leading-relaxed">
+                        Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Link Cepat</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-fire mr-2"></i>Event Populer
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-question-circle mr-2"></i>FAQ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-white/60 text-xs">
+                            <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                <p class="text-white/60 text-sm">
+                    © {{ date('Y') }} EventHub. Semua hak dilindungi undang-undang.
+                </p>
+            </div>
         </div>
     </footer>
 </x-app-layout>

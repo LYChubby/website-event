@@ -1,5 +1,5 @@
 <x-app-layout>
-        <x-slot name="header">
+    <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <!-- Tombol kembali -->
