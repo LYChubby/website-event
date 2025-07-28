@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <button class="back-btn" onclick="history.back()">
-                    <i class="fas fa-arrow-left"></i>
+                <button onclick="history.back()" class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+                    <i class="fas fa-arrow-left text-white"></i>
                 </button>
                 <div class="w-12 h-12 bg-white bg-opacity-20  rounded-xl flex items-center justify-center">
                     <i class="fas fa-cog text-2xl text-white"></i>
