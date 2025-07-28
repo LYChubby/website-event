@@ -338,6 +338,16 @@
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
 
+        .detail-btn {
+            background: linear-gradient(135deg, #4CAF50, #45A049);
+            color: white;
+        }
+
+        .detail-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(72, 201, 176, 0.3);
+        }
+
         /* Modal Styles */
         .modal {
             position: fixed;

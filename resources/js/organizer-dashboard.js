@@ -104,6 +104,11 @@ function loadEvents(categoryId = "all") {
                                     }</span>
                                 </div>
                                 <div class="card-actions">
+                                    <button class="action-btn detail-btn" onclick="/events/${
+                                        ev.event_id
+                                    }">
+                                        <i class="fas fa-detail"></i> Detail
+                                    </button>
                                     <button class="action-btn edit-btn" onclick="editEvent(${
                                         ev.event_id
                                     })">

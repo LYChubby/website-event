@@ -36,7 +36,7 @@ class EventController extends Controller
         }
 
         // Hanya tampilkan event yang sudah disetujui
-        $query->where('status', 'approved');
+        $query->where('status_approval', 'approved');
 
         return response()->json([
             'success' => true,
