@@ -22,7 +22,6 @@
         </div>
     </x-slot>
 
-
     <div class="w-full h-64 bg-gray-200 overflow-hidden">
         <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}" class="w-full h-full object-cover">
     </div>
@@ -63,13 +62,85 @@
                     </div>
 
                     <div class="mb-8">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Tiket</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Deskripsi Event</h2>
                         <div class="bg-gray-50 p-4 rounded-lg">
-                            <p class="text-gray-700 mb-4">Halo Mama Papa!</p>
-                            <p class="text-gray-700 mb-4">{{ $event->description }}</p>
-                            <p class="text-lg font-semibold text-gray-800">Harga Tiket: Rp 250.000,- <span class="text-sm text-gray-600">(*Berlaku untuk 1 anak + termasuk activity kit)</span></p>
-                            <p class="text-gray-700 mt-2">Yuk pilih jadwal dan daftar sekarang!</p>
+                            <p class="text-gray-700">{{ $event->description }}</p>
                         </div>
+                    </div>
+
+                    <!-- Section Daftar Tiket -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Daftar Tiket</h2>
+
+                        @if($event->tickets->count() > 0)
+                        <div class="space-y-4">
+                            @foreach($event->tickets as $ticket)
+                            <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">{{ $ticket->jenis_ticket }}</h3>
+                                            <p class="text-gray-600 text-sm mt-1">
+                                                <i class="fas fa-tag mr-1"></i> {{ $ticket->ticket_code_prefix }}
+                                            </p>
+                                        </div>
+                                        <span class="px-3 py-1 rounded-full text-sm font-medium 
+                                            @if($ticket->jenis_ticket === 'VVIP')
+                                                bg-purple-100 text-purple-800
+                                            @elseif($ticket->jenis_ticket === 'VIP')
+                                                bg-blue-100 text-blue-800
+                                            @elseif($ticket->jenis_ticket === 'Reguler')
+                                                bg-green-100 text-green-800
+                                            @else
+                                                bg-gray-100 text-gray-800
+                                            @endif">
+                                            {{ $ticket->jenis_ticket }}
+                                        </span>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <p class="text-2xl font-bold text-gray-800">
+                                            Rp {{ number_format($ticket->price, 0, ',', '.') }}
+                                        </p>
+
+                                        <div class="mt-3 grid grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p class="text-gray-500">Tersedia</p>
+                                                <p class="font-medium">{{ $ticket->quantity_available }} tiket</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-500">Terjual</p>
+                                                <p class="font-medium">{{ $ticket->quantity_sold }} tiket</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3 text-sm">
+                                            <p class="text-gray-500">Periode Pemesanan</p>
+                                            <p class="font-medium">
+                                                {{ \Carbon\Carbon::parse($ticket->start_pesan)->format('d M Y H:i') }} -
+                                                {{ \Carbon\Carbon::parse($ticket->end_pesan)->format('d M Y H:i') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-5 py-3 flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        {{ $ticket->description ?? 'Tidak ada deskripsi tambahan' }}
+                                    </span>
+                                    <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300">
+                                        Beli Tiket
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @else
+                        <div class="bg-gray-50 p-8 rounded-lg text-center">
+                            <i class="fas fa-ticket-alt text-4xl text-gray-300 mb-3"></i>
+                            <p class="text-gray-500">Belum ada tiket tersedia untuk event ini</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
 

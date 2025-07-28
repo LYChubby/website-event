@@ -99,32 +99,6 @@ class EventController extends Controller
         ]);
     }
 
-
-    // public function approveEvent($id)
-    // {
-
-
-    //     $event = Event::findOrFail($id);
-    //     $event->update(['status_approval' => 'approved']);
-
-    //     return response()->json([
-    //         'message' => 'Event disetujui'
-    //     ]);
-    // }
-
-    // public function rejectEvent($id)
-    // {
-
-
-    //     $event = Event::findOrFail($id);
-    //     $event->update(['status_approval' => 'rejected']);
-
-    //     return response()->json([
-    //         'message' => 'Event ditolak'
-    //     ]);
-    // }
-
-
     public function store(StoreEventRequest $request)
     {
         $data = $request->validated();
@@ -149,7 +123,7 @@ class EventController extends Controller
 
     public function detail($id)
     {
-        $event = Event::with(['category', 'organizer'])->findOrFail($id);
+        $event = Event::with(['category', 'organizer', 'tickets'])->findOrFail($id);
 
         return view('events.show', compact('event'));
     }

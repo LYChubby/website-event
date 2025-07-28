@@ -13,6 +13,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\EventDashboardController;
 
 
 
@@ -118,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/organizer/events/{id}', [EventController::class, 'show']);
     Route::put('/organizer/events/{id}', [EventController::class, 'update']);
     Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
+    Route::get('/organizer/events/{id}/dashboard', [EventDashboardController::class, 'show'])->name('events.dashboard');
 
 
     // Admin
