@@ -144,8 +144,14 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::with(['category', 'organizer'])->findOrFail($id);
-        return view('events.show', compact('event'));
         return response()->json($event);
+    }
+
+    public function detail($id)
+    {
+        $event = Event::with(['category', 'organizer'])->findOrFail($id);
+
+        return view('events.show', compact('event'));
     }
 
     public function update(UpdateEventRequest $request, $id)

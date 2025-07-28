@@ -285,7 +285,7 @@ function submitEventForm(e) {
 
     const id = document.getElementById("eventId").value;
     const isEdit = Boolean(id);
-    const url = isEdit ? `/organizer/events/${id}` : "/events";
+    const url = isEdit ? `/organizer/events/${id}` : "/organizer/events";
 
     const form = document.getElementById("eventForm");
     const formData = new FormData(form);

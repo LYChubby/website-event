@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
 
     // Route::resource('events', EventController::class);
-    Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+    Route::get('/events/{id}', [EventController::class, 'detail'])->name('events.show');
     Route::resource('tickets', TicketController::class);
     Route::resource('feedbacks', FeedbackController::class)->only([
         'index',
