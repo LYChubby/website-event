@@ -1,10 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
+        <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white bg-opacity-20  rounded-xl flex items-center justify-center">
+                <!-- Tombol kembali -->
+                <button onclick="history.back()" class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+                    <i class="fas fa-arrow-left text-white"></i>
+                </button>
+
+                <!-- Icon gear -->
+                <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
                     <i class="fas fa-cog text-2xl text-white"></i>
                 </div>
+
                 <div>
                     <h2 class="font-semibold text-2xl text-white leading-tight">
                         Dashboard Admin
@@ -12,6 +19,7 @@
                     <p class="text-sm text-blue-100">Kelola kategori dan persetujuan event</p>
                 </div>
             </div>
+
             <div class="hidden sm:flex items-center space-x-4">
                 <div class="bg-white bg-opacity-10 px-4 py-2 rounded-full">
                     <i class="fas fa-user-circle text-xl mr-2 text-white"></i>
