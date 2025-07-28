@@ -2,20 +2,20 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-[#63A7F4] bg-opacity-20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-cog text-2xl text-[#63A7F4]"></i>
+                <div class="w-12 h-12 bg-white bg-opacity-20  rounded-xl flex items-center justify-center">
+                    <i class="fas fa-cog text-2xl text-white"></i>
                 </div>
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight">
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
                         Dashboard Admin
                     </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Kelola kategori dan persetujuan event</p>
+                    <p class="text-sm text-blue-100">Kelola kategori dan persetujuan event</p>
                 </div>
             </div>
             <div class="hidden sm:flex items-center space-x-4">
-                <div class="bg-[#63A7F4] bg-opacity-10 px-4 py-2 rounded-full">
-                    <i class="fas fa-user-circle text-xl mr-2 text-[#63A7F4]"></i>
-                    <span class="text-[#63A7F4] font-medium">Admin</span>
+                <div class="bg-white bg-opacity-10 px-4 py-2 rounded-full">
+                    <i class="fas fa-user-circle text-xl mr-2 text-white"></i>
+                    <span class="text-white font-medium">Admin</span>
                 </div>
             </div>
         </div>
@@ -25,33 +25,48 @@
         .gradient-bg {
             background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
         }
+
         .card-hover {
             transition: all 0.3s ease;
         }
+
         .card-hover:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(99, 167, 244, 0.2);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(99, 167, 244, 0.3);
         }
+
         .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .animate-fade-in {
             animation: fadeIn 0.6s ease-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .status-badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -59,18 +74,22 @@
             font-weight: 600;
             text-transform: uppercase;
         }
+
         .status-pending {
             background: #FEF3C7;
             color: #92400E;
         }
+
         .status-approved {
             background: #D1FAE5;
             color: #065F46;
         }
+
         .status-rejected {
             background: #FEE2E2;
             color: #991B1B;
         }
+
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -79,48 +98,48 @@
         }
     </style>
 
-    <div class="py-8 px-4 sm:px-8 bg-gray-50 dark:bg-gray-900 min-h-screen space-y-8">
+    <div class="py-8 px-4 sm:px-8 bg-gray-50 min-h-screen space-y-8">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover border border-gray-100 dark:border-gray-700">
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-[#63A7F4] bg-opacity-10 rounded-xl flex items-center justify-center">
                         <i class="fas fa-tags text-xl text-[#63A7F4]"></i>
                     </div>
                     <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Total Kategori</h3>
+                        <h3 class="text-lg font-semibold text-gray-800">Total Kategori</h3>
                         <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">0</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover border border-gray-100 dark:border-gray-700">
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-calendar-check text-xl text-green-600 dark:text-green-400"></i>
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-xl text-green-600"></i>
                     </div>
                     <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Event Disetujui</h3>
-                        <p class="text-3xl font-bold text-green-600 dark:text-green-400" id="approvedEvents">0</p>
+                        <h3 class="text-lg font-semibold text-gray-800">Event Disetujui</h3>
+                        <p class="text-3xl font-bold text-green-600" id="approvedEvents">0</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 card-hover border border-gray-100 dark:border-gray-700">
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-clock text-xl text-yellow-600 dark:text-yellow-400"></i>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-clock text-xl text-yellow-600"></i>
                     </div>
                     <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Menunggu Persetujuan</h3>
-                        <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400" id="pendingEvents">0</p>
+                        <h3 class="text-lg font-semibold text-gray-800">Menunggu Persetujuan</h3>
+                        <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">0</p>
                     </div>
                 </div>
             </div>
         </div>
 
         {{-- SECTION: Manajemen Kategori --}}
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden animate-fade-in border border-gray-100 dark:border-gray-700">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in border border-gray-100">
             <div class="gradient-bg px-8 py-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center space-x-4">
@@ -143,13 +162,13 @@
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
-                            <tr class="border-b-2 border-gray-100 dark:border-gray-700">
-                                <th class="text-left py-4 px-2 font-semibold text-gray-600 dark:text-gray-400">#</th>
-                                <th class="text-left py-4 px-2 font-semibold text-gray-600 dark:text-gray-400">Nama Kategori</th>
-                                <th class="text-left py-4 px-2 font-semibold text-gray-600 dark:text-gray-400">Aksi</th>
+                            <tr class="border-b-2 border-gray-100">
+                                <th class="text-left py-4 px-2 font-semibold text-gray-600">#</th>
+                                <th class="text-left py-4 px-2 font-semibold text-gray-600">Nama Kategori</th>
+                                <th class="text-left py-4 px-2 font-semibold text-gray-600">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="categoryTableBody" class="divide-y divide-gray-100 dark:divide-gray-700">
+                        <tbody id="categoryTableBody" class="divide-y divide-gray-100">
                             {{-- Kategori dimuat lewat JS --}}
                         </tbody>
                     </table>
@@ -158,7 +177,7 @@
         </div>
 
         {{-- SECTION: Persetujuan Event --}}
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden animate-fade-in border border-gray-100 dark:border-gray-700">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in border border-gray-100">
             <div class="gradient-bg px-8 py-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center space-x-4">
@@ -182,13 +201,13 @@
                 <div id="eventApprovalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {{-- Event dimuat lewat JS --}}
                 </div>
-                
+
                 <div id="noEventsMessage" class="text-center py-12 hidden">
-                    <div class="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-calendar-times text-3xl text-gray-400"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">Belum Ada Event</h3>
-                    <p class="text-gray-500 dark:text-gray-500">Tidak ada event yang menunggu persetujuan saat ini.</p>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum Ada Event</h3>
+                    <p class="text-gray-500">Tidak ada event yang menunggu persetujuan saat ini.</p>
                 </div>
             </div>
         </div>
@@ -196,36 +215,36 @@
 
     {{-- Modal Tambah/Edit Kategori --}}
     <div id="categoryModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center px-4">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-md rounded-2xl shadow-2xl transform transition-all duration-300 scale-95 opacity-0 border border-gray-200 dark:border-gray-700" id="modalContent">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl transform transition-all duration-300 scale-95 opacity-0 border border-gray-200" id="modalContent">
             <div class="gradient-bg px-6 py-4 rounded-t-2xl">
                 <h2 class="text-xl font-bold text-white flex items-center" id="categoryModalTitle">
                     <i class="fas fa-tag mr-3"></i>
                     Tambah Kategori
                 </h2>
             </div>
-            
+
             <form id="categoryForm" class="p-6">
                 @csrf
                 <input type="hidden" id="categoryId" name="category_id" />
-                
+
                 <div class="mb-6">
-                    <label for="categoryName" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="categoryName" class="block text-sm font-semibold text-gray-700 mb-2">
                         <i class="fas fa-tags mr-2 text-[#63A7F4]"></i>
                         Nama Kategori
                     </label>
-                    <input type="text" id="categoryName" name="name" 
-                           class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200" 
-                           placeholder="Masukkan nama kategori..." required />
+                    <input type="text" id="categoryName" name="name"
+                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
+                        placeholder="Masukkan nama kategori..." required />
                 </div>
-                
+
                 <div class="flex space-x-3">
-                    <button type="button" onclick="closeCategoryModal()" 
-                            class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500 transition-all duration-300 font-semibold">
+                    <button type="button" onclick="closeCategoryModal()"
+                        class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300 font-semibold">
                         <i class="fas fa-times mr-2"></i>
                         Batal
                     </button>
-                    <button type="submit" 
-                            class="flex-1 btn-primary text-white rounded-xl font-semibold px-4 py-3">
+                    <button type="submit"
+                        class="flex-1 btn-primary text-white rounded-xl font-semibold px-4 py-3">
                         <i class="fas fa-save mr-2"></i>
                         Simpan
                     </button>
@@ -234,7 +253,5 @@
         </div>
     </div>
 
-    {{-- Include Font Awesome --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     @vite(['resources/js/admin-dashboard.js'])
 </x-app-layout>

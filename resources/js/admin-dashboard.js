@@ -17,7 +17,7 @@ function loadCategories() {
             categories.forEach((cat, index) => {
                 const row = document.createElement("tr");
                 row.className =
-                    "hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200";
+                    "hover:bg-blue-50 dark:hover:bg-blue-700 transition-colors duration-200";
                 row.innerHTML = `
                             <td class="py-4 px-2 text-gray-600 dark:text-gray-400 font-medium">${
                                 index + 1
@@ -27,7 +27,7 @@ function loadCategories() {
                                     <div class="w-8 h-8 bg-[#63A7F4] bg-opacity-10 rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-tag text-[#63A7F4] text-sm"></i>
                                     </div>
-                                    <span class="font-semibold text-gray-800 dark:text-gray-200">${
+                                    <span class="text-gray-700">${
                                         cat.name
                                     }</span>
                                 </div>
