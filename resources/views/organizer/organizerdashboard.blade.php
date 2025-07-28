@@ -1,8 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Dashboard Organizer
-        </h2>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button class="back-btn" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="w-12 h-12 bg-white bg-opacity-20  rounded-xl flex items-center justify-center">
+                    <i class="fas fa-cog text-2xl text-white"></i>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-2xl text-white leading-tight">
+                        Dashboard Organizer
+                    </h2>
+                    <p class="text-sm text-blue-100">Kelola Event Dan Tiket Dengan Mudah</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center space-x-4">
+                <div class="bg-white bg-opacity-10 px-4 py-2 rounded-full">
+                    <i class="fas fa-user-circle text-xl mr-2 text-white"></i>
+                    <span class="text-white font-medium">Organizer</span>
+                </div>
+            </div>
+        </div>
     </x-slot>
 
     {{-- Custom Styles --}}
@@ -29,6 +48,9 @@
             margin: 0;
         }
 
+        .gradient-bg {
+            background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
+        }
 
         .main-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
@@ -526,48 +548,99 @@
             }
         }
     </style>
+    <div class="py-8 px-4 sm:px-8 bg-gray-50 min-h-screen space-y-8">
 
-    <div class="dashboard-container">
-        {{-- Main Header --}}
-        <div class="main-header">
-            <div class="header-content">
-                <div class="header-left">
-                    <button class="back-btn" onclick="history.back()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h1 class="header-title">Kelola Event</h1>
-                </div>
-                <div class="header-controls">
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" placeholder="Cari event..." />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-[#63A7F4] bg-opacity-10 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-tags text-xl text-[#63A7F4]"></i>
                     </div>
-                    <button class="add-btn" onclick="openEventModal()">
-                        <i class="fas fa-plus"></i>
-                        Tambah Event
-                    </button>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Event</h3>
+                        <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-xl text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Tiket</h3>
+                        <p class="text-3xl font-bold text-green-600" id="approvedEvents">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-clock text-xl text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Pendapatan</h3>
+                        <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">0</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        {{-- Main Content --}}
-        <div class="main-content">
-            {{-- Filter Section --}}
-            <div class="filter-section">
-                <div class="filter-container" id="categoryFilter">
-                    <button class="filter-btn active" data-category="all" onclick="filterEvents('all')">
-                        <i class="fas fa-th-large"></i> Semua
-                    </button>
-                    {{-- Filter buttons will be loaded by JS --}}
+        <div class="dashboard-container">
+            {{-- Main Header --}}
+            <div class="gradient-bg px-8 py-6 rounded-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <!-- Title Section -->
+                    <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-tags text-lg text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Manajemen Event</h3>
+                            <p class="text-blue-100">Kelola Event Dengan Mudah</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <!-- Search Box -->
+                        <div class="relative hidden sm:block">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white"></i>
+                            <input type="text" placeholder="Cari kategori..."
+                                class="pl-10 pr-4 py-2 rounded-xl border-0 bg-white bg-opacity-20 text-white placeholder-blue-100 focus:bg-white focus:text-gray-800 focus:placeholder-gray-400 transition-all duration-300 w-64" />
+                        </div>
+
+                        <!-- Add Category Button -->
+                        <button onclick="openCategoryModal('create')"
+                            class="bg-white text-[#63A7F4] font-semibold px-4 py-2 rounded-xl hover:bg-gray-100 transition-all duration-300 flex items-center space-x-2 shadow-lg">
+                            <i class="fas fa-plus"></i>
+                            <span class="hidden sm:inline">Tambah Kategori</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            {{-- Events Grid --}}
-            <div class="events-grid" id="eventGrid">
-                {{-- Event cards will be loaded by JS --}}
+            {{-- Main Content --}}
+            <div class="main-content">
+                {{-- Filter Section --}}
+                <div class="filter-section">
+                    <div class="filter-container" id="categoryFilter">
+                        <button class="filter-btn active" data-category="all" onclick="filterEvents('all')">
+                            <i class="fas fa-th-large"></i> Semua
+                        </button>
+                        {{-- Filter buttons will be loaded by JS --}}
+                    </div>
+                </div>
+
+                {{-- Events Grid --}}
+                <div class="events-grid" id="eventGrid">
+                    {{-- Event cards will be loaded by JS --}}
+                </div>
             </div>
         </div>
     </div>
+
+    {{-- Load Categories --}}
 
     {{-- Modal Tambah/Edit Event --}}
     <div id="eventModal" class="modal">
