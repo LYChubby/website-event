@@ -128,7 +128,10 @@
                                         <i class="fas fa-info-circle mr-1"></i>
                                         {{ $ticket->description ?? 'Tidak ada deskripsi tambahan' }}
                                     </span>
-                                    <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300">
+                                    <button
+                                        onclick="openBuyTicketModal('{{ $ticket->id }}', '{{ $ticket->name }}', '{{ $ticket->price }}')"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                                    >
                                         Beli Tiket
                                     </button>
                                 </div>
@@ -143,6 +146,8 @@
                         @endif
                     </div>
                 </div>
+
+                
 
                 <div class="md:w-1/3 bg-gray-50 p-6">
                     <div class="sticky top-6">
@@ -230,4 +235,71 @@
             </div>
         </div>
     </footer>
+
+    <div id="buyTicketModal" class="fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50 hidden">
+                <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 relative">
+                    <!-- Close -->
+                    <button class="absolute top-3 right-3 text-gray-500 hover:text-black" onclick="closeBuyTicketModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <!-- Isi Modal -->
+                    <h2 class="text-2xl font-bold mb-2 text-center">Beli Tiket</h2>
+                    <p class="text-gray-700 text-center mb-4">Event: <span id="buyTicketName" class="font-semibold"></span></p>
+                    <p class="text-gray-700 text-center mb-4">Harga: <span id="buyTicketPrice" class="font-semibold"></span></p>
+
+                    <form method="POST" action="/">
+                        @csrf
+                        <input type="hidden" name="ticket_id" id="buyTicketId">
+
+                        <div class="mb-4">
+                            <label class="block mb-1 font-semibold">Nama Peserta</label>
+                            <input type="text" name="participant_name" id="participantName" class="w-full border rounded px-3 py-2" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block mb-1 font-semibold">Jumlah Tiket</label>
+                            <input type="number" name="quantity" id="ticketQuantity" min="1" class="w-full border rounded px-3 py-2" required>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block mb-1 font-semibold">Metode Pembayaran</label>
+                            <select name="payment_method" id="paymentMethod" class="w-full border rounded px-3 py-2" required>
+                                <option value="qris">QRIS</option>
+                                <option value="bank_transfer">Transfer Bank</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                                Konfirmasi Pembelian
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+    <script>
+    function openBuyTicketModal(ticketId, ticketName, price) {
+        // Isi input di dalam modal
+        document.getElementById('buyTicketId').value = ticketId;
+        document.getElementById('buyTicketName').textContent = ticketName;
+        document.getElementById('buyTicketPrice').textContent = 'Rp ' + price.toLocaleString('id-ID');
+
+        // Reset input jumlah & nama peserta
+        document.getElementById('participantName').value = '';
+        document.getElementById('ticketQuantity').value = 1;
+        document.getElementById('paymentMethod').value = 'qris';
+        
+        // Tampilkan modal
+        document.getElementById('buyTicketModal').classList.remove('hidden');
+        document.getElementById('buyTicketModal').classList.add('flex');
+    }
+
+    function closeBuyTicketModal() {
+        document.getElementById('buyTicketModal').classList.add('hidden');
+        document.getElementById('buyTicketModal').classList.remove('flex');
+    }
+</script>
+
 </x-app-layout>
