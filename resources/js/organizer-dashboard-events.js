@@ -6,21 +6,25 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadTickets() {
-    fetch(`/tickets`)
+    const eventId = document.getElementById("eventId").value;
+
+    fetch(`/events/${eventId}/tickets`)
         .then((res) => res.json())
-        .then((tickets) => {
+        .then((response) => {
+            const tickets = response.data; // karena response-nya pakai 'data'
+
             const tbody = document.getElementById("ticketTableBody");
             tbody.innerHTML = "";
 
             if (tickets.length === 0) {
                 tbody.innerHTML = `
-                            <tr>
-                                <td colspan="8" class="text-center py-8 text-gray-500">
-                                    <i class="fas fa-ticket-alt text-3xl mb-2 text-gray-300"></i>
-                                    <p>Belum ada tiket dibuat</p>
-                                </td>
-                            </tr>
-                        `;
+                    <tr>
+                        <td colspan="8" class="text-center py-8 text-gray-500">
+                            <i class="fas fa-ticket-alt text-3xl mb-2 text-gray-300"></i>
+                            <p>Belum ada tiket dibuat</p>
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
@@ -29,62 +33,52 @@ function loadTickets() {
                 row.className =
                     "hover:bg-blue-50 transition-colors duration-200";
                 row.innerHTML = `
-                            <td class="py-4 px-2 text-gray-600 font-medium">${
-                                index + 1
-                            }</td>
-                            <td class="py-4 px-2 font-medium">${
-                                ticket.ticket_code_prefix
-                            }</td>
-                            <td class="py-4 px-2">
-                                <span class="px-2 py-1 rounded-full text-xs 
-                                    ${
-                                        ticket.jenis_ticket === "VVIP"
-                                            ? "bg-purple-100 text-purple-800"
-                                            : ticket.jenis_ticket === "VIP"
-                                            ? "bg-blue-100 text-blue-800"
-                                            : ticket.jenis_ticket === "Reguler"
-                                            ? "bg-green-100 text-green-800"
-                                            : "bg-gray-100 text-gray-800"
-                                    }">
-                                    ${ticket.jenis_ticket}
-                                </span>
-                            </td>
-                            <td class="py-4 px-2">Rp ${new Intl.NumberFormat(
-                                "id-ID"
-                            ).format(ticket.price)}</td>
-                            <td class="py-4 px-2">${
-                                ticket.quantity_available
-                            }</td>
-                            <td class="py-4 px-2">${
-                                ticket.quantity_sold || 0
-                            }</td>
-                            <td class="py-4 px-2 text-sm">
-                                ${new Date(
-                                    ticket.start_pesan
-                                ).toLocaleDateString("id-ID")}<br>
-                                ${new Date(ticket.end_pesan).toLocaleDateString(
-                                    "id-ID"
-                                )}
-                            </td>
-                            <td class="py-4 px-2">
-                                <div class="flex space-x-2">
-                                    <button onclick="editTicket(${
-                                        ticket.ticket_id
-                                    })" 
-                                            class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 rounded-lg transition-colors duration-200 text-sm font-medium">
-                                        <i class="fas fa-edit mr-1"></i>
-                                        Edit
-                                    </button>
-                                    <button onclick="deleteTicket(${
-                                        ticket.ticket_id
-                                    })" 
-                                            class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium">
-                                        <i class="fas fa-trash mr-1"></i>
-                                        Hapus
-                                    </button>
-                                </div>
-                            </td>
-                        `;
+                    <td class="py-4 px-2 text-gray-600 font-medium">${
+                        index + 1
+                    }</td>
+                    <td class="py-4 px-2 font-medium">${
+                        ticket.ticket_code_prefix
+                    }</td>
+                    <td class="py-4 px-2">
+                        <span class="px-2 py-1 rounded-full text-xs 
+                            ${
+                                ticket.jenis_ticket === "VVIP"
+                                    ? "bg-purple-100 text-purple-800"
+                                    : ticket.jenis_ticket === "VIP"
+                                    ? "bg-blue-100 text-blue-800"
+                                    : ticket.jenis_ticket === "Reguler"
+                                    ? "bg-green-100 text-green-800"
+                                    : "bg-gray-100 text-gray-800"
+                            }">
+                            ${ticket.jenis_ticket}
+                        </span>
+                    </td>
+                    <td class="py-4 px-2">Rp ${new Intl.NumberFormat(
+                        "id-ID"
+                    ).format(ticket.price)}</td>
+                    <td class="py-4 px-2">${ticket.quantity_available}</td>
+                    <td class="py-4 px-2">${ticket.quantity_sold || 0}</td>
+                    <td class="py-4 px-2 text-sm">
+                        ${new Date(ticket.start_pesan).toLocaleDateString(
+                            "id-ID"
+                        )}<br>
+                        ${new Date(ticket.end_pesan).toLocaleDateString(
+                            "id-ID"
+                        )}
+                    </td>
+                    <td class="py-4 px-2">
+                        <div class="flex space-x-2">
+                            <button onclick="editTicket(${ticket.ticket_id})" 
+                                class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </button>
+                            <button onclick="deleteTicket(${ticket.ticket_id})" 
+                                class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                <i class="fas fa-trash mr-1"></i> Hapus
+                            </button>
+                        </div>
+                    </td>
+                `;
                 tbody.appendChild(row);
             });
         })
