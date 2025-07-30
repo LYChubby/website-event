@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->string('bank_account_name');
-            $table->string('bank_account_number');
+            $table->string('bank_account_number', 20);
             $table->string('bank_code'); // contoh: BCA, MANDIRI, BRI
 
             $table->boolean('is_verified')->default(false); // bisa diverifikasi oleh admin

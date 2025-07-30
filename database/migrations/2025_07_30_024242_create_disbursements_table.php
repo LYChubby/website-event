@@ -18,7 +18,10 @@ return new class extends Migration
 
             $table->decimal('amount', 12, 2); // jumlah yang ditransfer ke organizer
             $table->decimal('platform_fee', 12, 2); // komisi platform
-            $table->string('status')->default('sent'); // sent, completed, failed
+            $table->enum('status', ['pending', 'sent', 'completed', 'failed'])->default('pending');
+            $table->text('failure_reason')->nullable();
+            $table->index('status');
+            $table->index('event_id');
             $table->string('external_disbursement_id')->nullable(); // ID dari Xendit
             $table->timestamp('disbursed_at')->nullable();
 
