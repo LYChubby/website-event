@@ -59,6 +59,6 @@ class User extends Authenticatable
 
     public function organizerInfo()
     {
-        return $this->hasOne(OrganizersInfo::class, 'user_id');
+        return $this->hasOne(OrganizerInfo::class, 'user_id');
     }
 }

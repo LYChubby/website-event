@@ -17,7 +17,7 @@ class EventFactory extends Factory
     return [
         'event_id' => $this->faker->unique()->randomNumber(5), // tambahkan ini
         'user_id' => User::factory(),
-        'category_id' => \App\Models\Category::factory(),
+        'category_id' => Category::factory(),
         'name_event' => $this->faker->sentence(3),
         'description' => $this->faker->paragraph(),
         'event_image' => null,
