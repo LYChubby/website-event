@@ -13,7 +13,7 @@ class Disbursement extends Model
 
     protected $fillable = [
         'event_id',
-        'organizer_id',
+        'user_id',
         'amount',
         'platform_fee',
         'status',
@@ -23,12 +23,12 @@ class Disbursement extends Model
 
     public function event()
     {
-        return $this->belongsTo(Event::class, 'event_id');
+        return $this->belongsTo(Event::class, 'event_id', 'event_id');
     }
 
     // Relasi ke User (sebagai Organizer)
     public function organizer()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }
