@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DisbursementController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrganizerInfoController;
 use App\Http\Controllers\ParticipantController;
@@ -102,6 +103,8 @@ Route::middleware('auth')->group(function () {
     Route::post('participants/{id}/checkin', [ParticipantController::class, 'checkIn']);
 
     Route::resource('organizer-infos', OrganizerInfoController::class);
+
+    Route::resource('disbursements', DisbursementController::class);
 
     // Mark as read (opsional)
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
