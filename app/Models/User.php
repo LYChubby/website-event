@@ -51,4 +51,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function disbursements()
+    {
+        return $this->hasMany(Disbursement::class, 'user_id');
+    }
+
+    public function organizerInfo()
+    {
+        return $this->hasOne(OrganizerInfo::class, 'user_id');
+    }
 }

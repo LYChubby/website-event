@@ -96,7 +96,7 @@ window.openTicketModal = function (mode = "create") {
         document.getElementById("ticketId").value = "";
         document.getElementById("ticketForm").reset();
         document.getElementById("ticketModalTitle").innerHTML = `
-                    <i class="fas fa-plus mr-3 text-[#63A7F4]"></i>
+                    <i class="fas fa-plus mr-3 text-[#63A7F4]"></i>  
                     <span>Tambah Tiket</span>
                 `;
     } else if (mode === "edit") {
