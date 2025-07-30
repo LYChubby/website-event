@@ -9,6 +9,7 @@ class OrganizerInfo extends Model
 {
     use HasFactory;
 
+    protected $table = 'organizers_infos'; // ✅ Tambahkan baris ini
     protected $primaryKey = 'organizer_info_id';
 
     protected $fillable = [
