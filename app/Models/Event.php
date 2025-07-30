@@ -50,6 +50,6 @@ class Event extends Model
 
     public function disbursement()
     {
-        return $this->hasOne(Disbursement::class, 'event_id');
+        return $this->hasOne(Disbursement::class, 'event_id', 'event_id');
     }
 }
