@@ -54,11 +54,11 @@ class User extends Authenticatable
 
     public function disbursements()
     {
-        return $this->hasMany(Disbursement::class, 'user_id');
+        return $this->hasMany(Disbursement::class, 'user_id', 'user_id');
     }
 
     public function organizerInfo()
     {
-        return $this->hasOne(OrganizerInfo::class, 'user_id');
+        return $this->hasOne(OrganizerInfo::class, 'user_id', 'user_id');
     }
 }
