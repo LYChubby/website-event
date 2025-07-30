@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\OrganizerInfoController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
@@ -96,8 +97,11 @@ Route::middleware('auth')->group(function () {
         'destroy'
     ]);
 
+
     Route::apiResource('participants', ParticipantController::class);
     Route::post('participants/{id}/checkin', [ParticipantController::class, 'checkIn']);
+
+    Route::resource('organizer-infos', OrganizerInfoController::class);
 
     // Mark as read (opsional)
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
