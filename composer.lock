@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43b740fe601fdba982d4441451fc50b3",
+    "content-hash": "f1eb02fed7d6d6b087eb4be508cff50c",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -6462,7 +6462,19 @@
                     "Xendit\\": "lib/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Xendit\\Test\\": "test/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "DEVELOPMENT_API_KEY=$DEVELOPMENT_API_KEY BUSINESS_ID=$BUSINESS_ID phpunit"
+                ],
+                "filtered-test": [
+                    "DEVELOPMENT_API_KEY=$DEVELOPMENT_API_KEY BUSINESS_ID=$BUSINESS_ID phpunit --filter PaymentAPITest"
+                ]
+            },
             "license": [
                 "unlicense"
             ],
@@ -6484,8 +6496,8 @@
                 "sdk"
             ],
             "support": {
-                "issues": "https://github.com/xendit/xendit-php/issues",
-                "source": "https://github.com/xendit/xendit-php/tree/7.0.0"
+                "source": "https://github.com/xendit/xendit-php/tree/7.0.0",
+                "issues": "https://github.com/xendit/xendit-php/issues"
             },
             "time": "2025-05-29T04:04:47+00:00"
         }

@@ -2,45 +2,34 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Carbon\Carbon;
 use App\Models\Event;
-use App\Models\Transaction;
-use App\Models\OrganizerInfo;
 use App\Models\Disbursement;
-use Xendit\Configuration;
-use Xendit\Disbursements;
+use App\Models\OrganizerInfo;
+use App\Services\DisbursementService;
+use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProcessEventDisbursements extends Command
 {
-    protected $signature = 'disburse:events';
-    protected $description = 'Proses disbursement otomatis untuk event yang sudah selesai dan belum didisburse';
+    protected $signature = 'event:process-disbursements';
+    protected $description = 'Disburse payment to organizers for completed events (H+1)';
 
     public function handle()
     {
-        Configuration::setXenditKey('XENDIT_API_KEY');
+        $this->info('📦 Memproses disbursement untuk event yang sudah selesai...');
 
+        // Ambil semua event yang selesai H+1, belum pernah didisburse
         $events = Event::where('status_approval', 'approved')
-            ->where('end_date', '<', Carbon::yesterday())
-            ->doesntHave('disbursement') // pastikan event belum pernah didisburse
+            ->where('end_date', '<', Carbon::now()->subDay()) // H+1
+            ->whereDoesntHave('disbursement')
+            ->with('user') // organizer
             ->get();
 
-        if ($events->isEmpty()) {
-            $this->info('Tidak ada event yang memenuhi syarat untuk disbursement.');
-            return;
-        }
+        $disbursementService = new DisbursementService();
 
         foreach ($events as $event) {
-            $this->info("Memproses event: {$event->name_event}");
-
-            $total = Transaction::where('event_id', $event->event_id)
-                ->where('status_pembayaran', 'paid')
-                ->sum('total_price');
-
-            if ($total <= 0) {
-                $this->warn("  - Tidak ada pembayaran untuk event ini.");
-                continue;
-            }
+            $this->info("🔍 Event: {$event->name_event} (ID: {$event->event_id})");
 
             $organizerInfo = OrganizerInfo::where('user_id', $event->user_id)
                 ->where('is_verified', true)
@@ -48,15 +37,27 @@ class ProcessEventDisbursements extends Command
                 ->first();
 
             if (!$organizerInfo) {
-                $this->warn("  - Organizer belum melengkapi atau verifikasi info rekening.");
+                $this->warn("  - Organizer belum siap untuk disbursement.");
                 continue;
             }
 
-            $platformFee = round($total * 0.10, 2); // contoh fee 10%
-            $amountToDisburse = round($total - $platformFee, 2);
+            // Hitung total transaksi yang sukses
+            $totalRevenue = $event->transactions()
+                ->where('status_pembayaran', 'paid')
+                ->sum('total_price');
+
+            if ($totalRevenue <= 0) {
+                $this->warn("  - Tidak ada pendapatan dari event ini.");
+                continue;
+            }
+
+            $platformFee = round($totalRevenue * 0.1); // Contoh 10% fee platform
+            $amountToDisburse = $totalRevenue - $platformFee;
 
             try {
-                $xenditResponse = Disbursements::create([
+                DB::beginTransaction();
+
+                $xenditResponse = $disbursementService->send([
                     'external_id' => 'disb-event-' . $event->event_id,
                     'bank_code' => $organizerInfo->bank_code,
                     'account_holder_name' => $organizerInfo->bank_account_name,
@@ -71,16 +72,19 @@ class ProcessEventDisbursements extends Command
                     'amount' => $amountToDisburse,
                     'platform_fee' => $platformFee,
                     'status' => $xenditResponse['status'] ?? 'sent',
-                    'external_disbursement_id' => $xenditResponse['id'],
+                    'external_disbursement_id' => $xenditResponse['id'] ?? null,
                     'disbursed_at' => now(),
                 ]);
 
-                $this->info("  - Disbursement berhasil dikirim: Rp " . number_format($amountToDisburse));
+                DB::commit();
+
+                $this->info("  ✅ Disbursement berhasil dikirim: Rp " . number_format($amountToDisburse));
             } catch (\Exception $e) {
-                $this->error("  - Gagal mengirim disbursement: " . $e->getMessage());
+                DB::rollBack();
+                $this->error("  ❌ Gagal mengirim disbursement: " . $e->getMessage());
             }
         }
 
-        $this->info('Proses disbursement selesai.');
+        $this->info('🎉 Proses selesai.');
     }
 }
