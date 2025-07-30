@@ -9,8 +9,7 @@ use App\Models\Transaction;
 use App\Models\OrganizerInfo;
 use App\Models\Disbursement;
 use Xendit\Configuration;
-use Xendit\Disbursements\DisbursementsApi;
-
+use Xendit\Disbursements;
 
 class ProcessEventDisbursements extends Command
 {
@@ -20,8 +19,6 @@ class ProcessEventDisbursements extends Command
     public function handle()
     {
         Configuration::setXenditKey('XENDIT_API_KEY');
-
-        $disbursementApi = new DisbursementsApi();
 
         $events = Event::where('status_approval', 'approved')
             ->where('end_date', '<', Carbon::yesterday())
