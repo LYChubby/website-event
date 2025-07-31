@@ -143,6 +143,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/events/{id}', [EventController::class, 'show']);
     Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
     Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
+
+   
+
+
+    // Route::get('/admin/events/count', [EventController::class, 'countEvents']);
+    // Route::get('/organizer/events/count', function () {
+    //     $user = auth()->user();
+    //     $count = \App\Models\Event::where('user_id', $user->user_id)->count();
+    //     return response()->json(['count' => $count]);
+    // });
 });
 
 
