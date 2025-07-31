@@ -168,8 +168,9 @@
     <nav class="glass-morphism shadow-xl sticky top-0 z-50">
         <div class="flex items-center justify-between px-6 py-4">
             <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-white to-blue-100 rounded-full pulse-glow flex items-center justify-center">
-                    <span class="text-xl font-bold gradient-text">E</span>
+                <div class="flex items-center space-x-1">
+                    <img src="/images/logo.png" alt="Logo" class="h-20 w-20 transition-transform hover:scale-105" />
+                    <span class="text-white font-bold text-xl hidden sm:block">NEO.Vibe</span>
                 </div>
                 <div class="search-container">
                     <input type="text" placeholder="Cari event impian Anda..."
