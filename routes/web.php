@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventDashboardController;
@@ -106,7 +107,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('organizer-infos', OrganizerInfoController::class);
 
-    Route::resource('disbursements', DisbursementController::class);
+    Route::resource( 'disbursements', DisbursementController::class);
+    Route::resource('transaction', TransactionController::class);
 
     // Mark as read (opsional)
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
