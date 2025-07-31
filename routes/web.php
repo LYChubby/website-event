@@ -146,23 +146,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
     Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
 
-<<<<<<< HEAD
-   
-
-
-    // Route::get('/admin/events/count', [EventController::class, 'countEvents']);
-    // Route::get('/organizer/events/count', function () {
-    //     $user = auth()->user();
-    //     $count = \App\Models\Event::where('user_id', $user->user_id)->count();
-    //     return response()->json(['count' => $count]);
-    // });
-=======
     // routes/web.php
     Route::post('/checkout', [CheckoutController::class, 'checkout']);
     Route::get('/payment/success', [CheckoutController::class, 'success']);
     Route::get('/payment/failed',  [CheckoutController::class, 'failed']);
     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
->>>>>>> da607c9c0865e6312c5626b826b1dc8cfd762d85
 });
 
 
