@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    use HasFactory;
     protected $table = 'transactions';
 
     protected $primaryKey = 'transaction_id';
@@ -30,4 +32,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Event::class, 'event_id', 'event_id');
     }
+
+    // public function transactionDetails()
+    // {
+    //     return $this->hasMany(TransactionDetail::class, 'transaction_id', 'transaction_id');
+    // }
 }
