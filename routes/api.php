@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Controllers\CheckoutController;
@@ -32,4 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
     Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
+});
+
+Route::get('/ping', function () {
+    return 'pong';
 });

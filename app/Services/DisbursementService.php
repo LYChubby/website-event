@@ -7,6 +7,12 @@ use Xendit\Payout\PayoutApi;
 class DisbursementService
 {
     private PayoutApi $payoutApi;
+
+    public function __construct(PayoutApi $payoutApi)
+    {
+        $this->payoutApi = $payoutApi;
+    }
+
     public function send(array $payload): \Xendit\Payout\GetPayouts200ResponseDataInner
     {
         return $this->payoutApi->createPayout($payload);

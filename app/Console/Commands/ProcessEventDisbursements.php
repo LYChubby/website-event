@@ -26,7 +26,7 @@ class ProcessEventDisbursements extends Command
             ->with('user') // organizer
             ->get();
 
-        $disbursementService = new DisbursementService();
+        $disbursementService = new DisbursementService($events);
 
         foreach ($events as $event) {
             $this->info("🔍 Event: {$event->name_event} (ID: {$event->event_id})");

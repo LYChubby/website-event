@@ -17,7 +17,7 @@ class DisbursementController extends Controller
     public function store(DisbursementRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id(); // Menambahkan user_id dari user yang login
+        $data['user_id'] = auth()->id; // Menambahkan user_id dari user yang login
 
         $disbursement = Disbursement::create($data);
 

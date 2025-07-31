@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Policies\EventPolicy;
+use App\Policies\NotificationPolicy;
 use App\Models\Event;
 use App\Models\Notification;
 
