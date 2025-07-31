@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use Xendit\Xendit;
+use Xendit\Payout\PayoutApi;
 
 class DisbursementService
 {
-    public function send(array $payload): array
+    private PayoutApi $payoutApi;
+    public function send(array $payload): \Xendit\Payout\GetPayouts200ResponseDataInner
     {
-        return Xendit::createDisbursement($payload);
+        return $this->payoutApi->createPayout($payload);
     }
 }
