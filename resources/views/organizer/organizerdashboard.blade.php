@@ -559,48 +559,44 @@
         }
     </style>
     <div class="py-8 px-4 sm:px-8 bg-gray-50 min-h-screen space-y-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-        {{-- Total Event --}}
-        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-[#63A7F4] bg-opacity-10 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-tags text-xl text-[#63A7F4]"></i>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-[#63A7F4] bg-opacity-10 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-tags text-xl text-[#63A7F4]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Event</h3>
+                        <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">0</p>
+                    </div>
                 </div>
-                <div class="ml-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Total Event</h3>
-                    <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">{{ $totalEvents }}</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-xl text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Tiket</h3>
+                        <p class="text-3xl font-bold text-green-600" id="approvedEvents">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-clock text-xl text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Total Pendapatan</h3>
+                        <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">0</p>
+                    </div>
                 </div>
             </div>
         </div>
-
-        {{-- Total Tiket --}}
-        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-calendar-check text-xl text-green-600"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Total Tiket</h3>
-                    <p class="text-3xl font-bold text-green-600" id="approvedEvents">{{ $totalTickets }}</p>
-                </div>
-            </div>
-        </div>
-
-        {{-- Total Pendapatan --}}
-        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-gray-100">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-clock text-xl text-yellow-600"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Total Pendapatan</h3>
-                    <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">Rp{{ number_format($totalRevenue, 0, ',', '.') }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
         <div class="dashboard-container">
             {{-- Main Header --}}
