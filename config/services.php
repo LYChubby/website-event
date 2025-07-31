@@ -42,7 +42,8 @@ return [
     ],
 
     'xendit' => [
-        'secret_key' => env('XENDIT_SECRET_KEY'),
+        'key'  => env('XENDIT_SECRET_KEY'),
+        'mode' => env('XENDIT_API_MODE', 'sandbox'),
     ],
 
 ];
