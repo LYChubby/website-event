@@ -73,6 +73,8 @@ class EventController extends Controller
             'data' => $events
         ]);
     }
+
+   
     public function approveEvent($id)
     {
         $event = Event::findOrFail($id);
