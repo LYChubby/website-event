@@ -14,20 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(Configuration::class, function () {
-            $config = Configuration::getDefaultConfiguration()
-                ->setApiKey(config('services.xendit.secret_key'));
-
-            return new Configuration($config);
-        });
-
-        $this->app->singleton(PayoutApi::class, function ($app) {
-            return new PayoutApi($app->make(Configuration::class));
-        });
-
-        $this->app->singleton(InvoiceApi::class, function ($app) {
-            return new InvoiceApi($app->make(Configuration::class));
-        });
+        // Tidak perlu bind Configuration secara manual — cukup pakai static method
+        $this->app->singleton(PayoutApi::class, fn() => new PayoutApi());
+        $this->app->singleton(InvoiceApi::class, fn() => new InvoiceApi());
     }
 
     /**
@@ -35,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Optional: jika kamu masih ingin set key global
+        // Set API Key global untuk Xendit
         Configuration::setXenditKey(config('services.xendit.secret_key'));
     }
 }

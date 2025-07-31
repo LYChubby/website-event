@@ -60,7 +60,12 @@ class CheckoutController extends Controller
             'failure_redirect_url' => route('payment.failed'),
         ]);
 
-        return redirect($invoice['invoice_url']);
+        // return redirect($invoice['invoice_url']);
+
+        return response()->json([
+            'invoice_url' => $invoice['invoice_url'],
+            'message' => 'Invoice created successfully.'
+        ]);
     }
 
     public function success()
