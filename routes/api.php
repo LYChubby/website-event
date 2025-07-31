@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\XenditWebhookController;
 
 Route::post('/auth/login', function (Request $request) {
     $request->validate([
@@ -23,4 +25,11 @@ Route::post('/auth/login', function (Request $request) {
     $user->save();
 
     return response()->json(['token' => $token]);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/checkout', [CheckoutController::class, 'checkout']);
+    Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
+    Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
+    Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });
