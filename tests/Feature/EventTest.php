@@ -38,6 +38,29 @@ class EventTest extends TestCase
         ]);
     }
 
+    // public function test_can_count_events_for_organizer(): void
+    // {
+    //     $organizer = User::factory()->create(['role' => 'organizer']);
+
+    //     // Buat 3 event untuk organizer
+    //     Event::factory()->count(3)->create([
+    //         'user_id' => $organizer->user_id,
+    //     ]);
+
+    //     // Autentikasi sebagai organizer
+    //     $this->actingAs($organizer);
+
+    //     // Hitung langsung dari model
+    //     $eventCount = Event::where('user_id', $organizer->user_id)->count();
+
+    //     // Atau jika ada endpoint khusus untuk ini:
+    //     // $response = $this->getJson('/api/organizer/events/count');
+    //     // $response->assertOk()->assertJson(['count' => 3]);
+
+    //     $this->assertEquals(3, $eventCount);
+    // }
+
+
     public function test_organizer_can_update_event()
     {
         $organizer = User::factory()->create(['role' => 'organizer']);
@@ -82,52 +105,52 @@ class EventTest extends TestCase
 
 
     public function test_admin_can_approve_event()
-{
-    $admin = User::factory()->create(['role' => 'admin']);
-    $organizer = User::factory()->create(['role' => 'organizer']);
-    $event = Event::factory()->for($organizer, 'organizer')->create([
-        'status_approval' => 'pending',
-    ]);
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $organizer = User::factory()->create(['role' => 'organizer']);
+        $event = Event::factory()->for($organizer, 'organizer')->create([
+            'status_approval' => 'pending',
+        ]);
 
-    $response = $this->actingAs($admin)
-        ->putJson("/admin/events/{$event->event_id}/approve");
+        $response = $this->actingAs($admin)
+            ->putJson("/admin/events/{$event->event_id}/approve");
 
-    $response->assertStatus(200);
-    $this->assertDatabaseHas('events', [
-        'event_id' => $event->event_id,
-        'status_approval' => 'approved',
-    ]);
-}
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('events', [
+            'event_id' => $event->event_id,
+            'status_approval' => 'approved',
+        ]);
+    }
 
-public function test_admin_can_reject_event()
-{
-    $admin = User::factory()->create(['role' => 'admin']);
-    $organizer = User::factory()->create(['role' => 'organizer']);
-    $event = Event::factory()->for($organizer, 'organizer')->create([
-        'status_approval' => 'pending',
-    ]);
+    public function test_admin_can_reject_event()
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $organizer = User::factory()->create(['role' => 'organizer']);
+        $event = Event::factory()->for($organizer, 'organizer')->create([
+            'status_approval' => 'pending',
+        ]);
 
-    $response = $this->actingAs($admin)
-        ->putJson("/admin/events/{$event->event_id}/reject");
+        $response = $this->actingAs($admin)
+            ->putJson("/admin/events/{$event->event_id}/reject");
 
-    $response->assertStatus(200);
-    $this->assertDatabaseHas('events', [
-        'event_id' => $event->event_id,
-        'status_approval' => 'rejected',
-    ]);
-}
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('events', [
+            'event_id' => $event->event_id,
+            'status_approval' => 'rejected',
+        ]);
+    }
 
-public function test_non_admin_cannot_approve_event()
-{
-    $organizer = User::factory()->create(['role' => 'organizer']);
-    $event = Event::factory()->for($organizer, 'organizer')->create([
-        'status_approval' => 'pending',
-    ]);
+    public function test_non_admin_cannot_approve_event()
+    {
+        $organizer = User::factory()->create(['role' => 'organizer']);
+        $event = Event::factory()->for($organizer, 'organizer')->create([
+            'status_approval' => 'pending',
+        ]);
 
-    $response = $this->actingAs($organizer)
-        ->putJson("/admin/events/{$event->event_id}/approve");
+        $response = $this->actingAs($organizer)
+            ->putJson("/admin/events/{$event->event_id}/approve");
 
-    $response->assertStatus(403);
-}
+        $response->assertStatus(403);
+    }
 
 }

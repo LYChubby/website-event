@@ -568,7 +568,7 @@
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-gray-800">Total Event</h3>
-                        <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">0</p>
+                        <p class="text-3xl font-bold text-[#63A7F4]" id="totalCategories">{{ $totalEvents }}</p>
                     </div>
                 </div>
             </div>
@@ -580,7 +580,7 @@
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-gray-800">Total Tiket</h3>
-                        <p class="text-3xl font-bold text-green-600" id="approvedEvents">0</p>
+                        <p class="text-3xl font-bold text-green-600" id="approvedEvents">{{ $totalTickets }}</p>
                     </div>
                 </div>
             </div>
@@ -592,7 +592,7 @@
                     </div>
                     <div class="ml-4">
                         <h3 class="text-lg font-semibold text-gray-800">Total Pendapatan</h3>
-                        <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">0</p>
+                        <p class="text-3xl font-bold text-yellow-600" id="pendingEvents">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
                     </div>
                 </div>
             </div>

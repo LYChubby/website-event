@@ -8,9 +8,9 @@
                 <div class="flex justify-between items-center py-4">
                     <!-- Logo & Search Section -->
                     <div class="flex items-center space-x-6">
-                        <div class="flex items-center space-x-3">
-                            <img src="/assets/logo.png" alt="Logo" class="h-8 w-auto transition-transform hover:scale-105" />
-                            <span class="text-white font-bold text-xl hidden sm:block">EventHub</span>
+                        <div class="flex items-center space-x-1">
+                            <img src="/images/logo.png" alt="Logo" class="h-20 w-20 transition-transform hover:scale-105" />
+                            <span class="text-white font-bold text-xl hidden sm:block">NEO.Vibe</span>
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}" class="relative">

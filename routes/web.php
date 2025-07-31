@@ -17,6 +17,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventDashboardController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\XenditWebhookController;
 
 
 
@@ -143,6 +145,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/events/{id}', [EventController::class, 'show']);
     Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
     Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
+
+
+    // routes/web.php
+    Route::post('/checkout', [CheckoutController::class, 'checkout']);
+    Route::get('/payment/success', [CheckoutController::class, 'success']);
+    Route::get('/payment/failed',  [CheckoutController::class, 'failed']);
+    Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
+
 });
 
 

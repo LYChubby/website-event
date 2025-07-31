@@ -79,7 +79,9 @@ function loadEvents() {
             response.data.forEach((ev) => {
                 const card = document.createElement("div");
                 card.className =
-                    "bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover shadow-lg";
+                    card.className =
+                    "bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300";
+
 
                 const statusClass =
                     ev.status_approval === "pending"
