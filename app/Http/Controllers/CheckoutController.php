@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Transaction;
 use App\Models\Ticket;
+use App\Models\Participant;
+use App\Models\TransactionDetail;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -28,59 +31,86 @@ class CheckoutController extends Controller
             'payment_method' => 'nullable|string',
         ]);
 
-        $ticket = Ticket::where('ticket_id', $request->ticket_id)->with('event')->firstOrFail();
+        $ticket = Ticket::with('event')->where('ticket_id', $request->ticket_id)->firstOrFail();
         $pricePerItem = (int) round($ticket->price);
         $amount = $pricePerItem * $request->quantity;
-
         $noInvoice = 'INV-' . strtoupper(Str::random(8));
 
-        // Simpan transaksi ke database
-        $transaction = Transaction::create([
-            'user_id' => Auth::id(),
-            'event_id' => $request->event_id,
-            'ticket_id' => $request->ticket_id,
-            'no_invoice' => $noInvoice,
-            'total_price' => $amount,
-            'status_pembayaran' => 'pending',
-            'payment_method' => $request->payment_method ?? 0,
-        ]);
+        DB::beginTransaction();
+        try {
+            // 1. Simpan transaksi utama
+            $transaction = Transaction::create([
+                'user_id' => Auth::id(),
+                'event_id' => $request->event_id,
+                'ticket_id' => $request->ticket_id,
+                'no_invoice' => $noInvoice,
+                'total_price' => $amount,
+                'status_pembayaran' => 'pending',
+                'payment_method' => $request->payment_method ?? "XENDIT",
+            ]);
 
-        // Siapkan invoice payload
-        $invoiceData = [
-            'external_id' => $transaction->no_invoice,
-            'amount' => $amount,
-            'payer_email' => Auth::user()->email,
-            'description' => 'Pembayaran Tiket Event : ' . $ticket->event->name_event,
-            'customer' => [
-                'given_names' => Auth::user()->name,
-                'email' => Auth::user()->email
-            ],
-            'success_redirect_url' => route('payment.success'),
-            'failure_redirect_url' => route('payment.failed'),
-        ];
-
-        // Tambahkan items hanya jika kamu yakin field-nya valid
-        $invoiceData['items'] = [
-            [
-                'name' => $ticket->event->name_event,
+            // 2. Simpan detail transaksi
+            TransactionDetail::create([
+                'transaction_id' => $transaction->transaction_id,
+                'ticket_id' => $ticket->ticket_id,
                 'quantity' => $request->quantity,
-                'price' => $pricePerItem,
-                'category' => 'ticket',
-                'url' => route('events.show', ['id' => $request->event_id])
-            ]
-        ];
+                'price_per_ticket' => $pricePerItem,
+                'subtotal' => $amount,
+            ]);
 
-        // Buat invoice di Xendit
-        $invoice = $this->paymentService->createInvoice($invoiceData);
+            // 3. Simpan data peserta
+            Participant::create([
+                'user_id' => Auth::id(),
+                'event_id' => $request->event_id,
+                'nama' => $request->nama,
+                'name_event' => $ticket->event->name_event,
+                'ticket_id' => $ticket->ticket_id,
+                'jenis_ticket' => $ticket->jenis_ticket,
+                'jumlah' => $request->quantity,
+            ]);
 
-        // Respons tergantung request (API / Web)
-        return $request->expectsJson()
-            ? response()->json([
-                'invoice_url' => $invoice['invoice_url'],
-                'message' => 'Invoice created successfully.'
-            ])
-            : redirect($invoice['invoice_url']);
+            // 4. Siapkan invoice ke Xendit
+            $invoiceData = [
+                'external_id' => $transaction->no_invoice,
+                'amount' => $amount,
+                'payer_email' => Auth::user()->email,
+                'description' => 'Pembayaran Tiket Event: ' . $ticket->event->name_event,
+                'customer' => [
+                    'given_names' => Auth::user()->name,
+                    'email' => Auth::user()->email
+                ],
+                'success_redirect_url' => route('payment.success'),
+                'failure_redirect_url' => route('payment.failed'),
+                'items' => [
+                    [
+                        'name' => $ticket->event->name_event,
+                        'quantity' => $request->quantity,
+                        'price' => $pricePerItem,
+                        'category' => 'ticket',
+                        'url' => route('events.show', ['id' => $request->event_id])
+                    ]
+                ]
+            ];
+
+            // 5. Kirim ke Xendit
+            $invoice = $this->paymentService->createInvoice($invoiceData);
+
+            DB::commit();
+
+            return $request->expectsJson()
+                ? response()->json([
+                    'invoice_url' => $invoice['invoice_url'],
+                    'message' => 'Invoice created successfully.'
+                ])
+                : redirect($invoice['invoice_url']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to create invoice: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function success()
     {
