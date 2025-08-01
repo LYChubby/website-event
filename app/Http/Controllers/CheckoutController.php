@@ -25,7 +25,7 @@ class CheckoutController extends Controller
             'ticket_id' => 'required|exists:tickets,ticket_id',
             'quantity' => 'required|integer|min:1',
             'nama' => 'required|string|max:255',
-            'payment_method' => 'required|string',
+            'payment_method' => 'nullable|string',
         ]);
 
         $ticket = Ticket::where('ticket_id', $request->ticket_id)->with('event')->firstOrFail();
@@ -42,7 +42,7 @@ class CheckoutController extends Controller
             'no_invoice' => $noInvoice,
             'total_price' => $amount,
             'status_pembayaran' => 'pending',
-            'payment_method' => $request->payment_method,
+            'payment_method' => $request->payment_method ?? 0,
         ]);
 
         // Siapkan invoice payload
@@ -50,12 +50,11 @@ class CheckoutController extends Controller
             'external_id' => $transaction->no_invoice,
             'amount' => $amount,
             'payer_email' => Auth::user()->email,
-            'description' => 'Pembayaran Tiket Event #' . $ticket->event->name_event,
+            'description' => 'Pembayaran Tiket Event : ' . $ticket->event->name_event,
             'customer' => [
                 'given_names' => Auth::user()->name,
                 'email' => Auth::user()->email
             ],
-            'payment_methods' => [$request->payment_method],
             'success_redirect_url' => route('payment.success'),
             'failure_redirect_url' => route('payment.failed'),
         ];
@@ -63,7 +62,7 @@ class CheckoutController extends Controller
         // Tambahkan items hanya jika kamu yakin field-nya valid
         $invoiceData['items'] = [
             [
-                'name' => $ticket->name,
+                'name' => $ticket->event->name_event,
                 'quantity' => $request->quantity,
                 'price' => $pricePerItem,
                 'category' => 'ticket',

@@ -261,13 +261,7 @@
                     <input type="number" name="quantity" id="ticketQuantity" min="1" class="w-full border rounded px-3 py-2" required>
                 </div>
 
-                <div class="mb-6">
-                    <label class="block mb-1 font-semibold">Metode Pembayaran</label>
-                    <select name="payment_method" id="paymentMethod" class="w-full border rounded px-3 py-2" required>
-                        <option value="QRIS">QRIS</option>
-                        <option value="BANK_TRANSFER">Transfer Bank</option>
-                    </select>
-                </div>
+
 
                 <div class="flex justify-end">
                     <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
@@ -285,7 +279,7 @@
             document.getElementById('buyTicketPrice').textContent = 'Rp ' + parseInt(price).toLocaleString('id-ID');
             document.getElementById('participantName').value = '';
             document.getElementById('ticketQuantity').value = 1;
-            document.getElementById('paymentMethod').value = 'qris';
+
 
             document.getElementById('buyTicketModal').classList.remove('hidden');
             document.getElementById('buyTicketModal').classList.add('flex');
