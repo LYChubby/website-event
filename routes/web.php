@@ -149,10 +149,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
 
     // routes/web.php
-    // Route::post('/checkout', [CheckoutController::class, 'checkout']);
-    // Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
-    // Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
-    // Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
+    Route::post('/checkout', [CheckoutController::class, 'checkout']);
+    Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
+    Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
+    Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });
 
 

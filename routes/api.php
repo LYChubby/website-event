@@ -48,15 +48,15 @@ Route::post('/login', function (Request $request) {
 });
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
-    Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
-    Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
+//     Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
+//     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
+// });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/checkout', [CheckoutController::class, 'checkout']);
-});
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::post('/checkout', [CheckoutController::class, 'checkout']);
+// });
 
 Route::get('/ping', function () {
     return 'pong';

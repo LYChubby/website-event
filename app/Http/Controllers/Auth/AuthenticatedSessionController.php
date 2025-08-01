@@ -26,7 +26,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $request->authenticate();
-        // $request->session()->regenerate();
+        $request->session()->regenerate();
 
         // $credentials = $request->only('email', 'password');
         // // Cek jika request datang dari API (Accept: application/json)

@@ -33,8 +33,9 @@ class Transaction extends Model
         return $this->belongsTo(Event::class, 'event_id', 'event_id');
     }
 
-    // public function transactionDetails()
-    // {
-    //     return $this->hasMany(TransactionDetail::class, 'transaction_id', 'transaction_id');
-    // }
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class, 'transaction_id');
+    }
 }
