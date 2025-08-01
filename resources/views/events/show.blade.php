@@ -129,9 +129,8 @@
                                         {{ $ticket->description ?? 'Tidak ada deskripsi tambahan' }}
                                     </span>
                                     <button
-                                        onclick="openBuyTicketModal('{{ $ticket->id }}', '{{ $ticket->name }}', '{{ $ticket->price }}')"
-                                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                                    >
+                                        onclick="openBuyTicketModal('{{ $ticket->ticket_id }}', '{{ $event->name_event }}', '{{ $ticket->price }}')"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                                         Beli Tiket
                                     </button>
                                 </div>
@@ -147,7 +146,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="md:w-1/3 bg-gray-50 p-6">
                     <div class="sticky top-6">
@@ -236,70 +235,94 @@
         </div>
     </footer>
 
+    <!-- MODAL PEMBELIAN TIKET -->
     <div id="buyTicketModal" class="fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50 hidden">
-                <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 relative">
-                    <!-- Close -->
-                    <button class="absolute top-3 right-3 text-gray-500 hover:text-black" onclick="closeBuyTicketModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 relative">
+            <button class="absolute top-3 right-3 text-gray-500 hover:text-black" onclick="closeBuyTicketModal()">
+                <i class="fas fa-times"></i>
+            </button>
 
-                    <!-- Isi Modal -->
-                    <h2 class="text-2xl font-bold mb-2 text-center">Beli Tiket</h2>
-                    <p class="text-gray-700 text-center mb-4">Event: <span id="buyTicketName" class="font-semibold"></span></p>
-                    <p class="text-gray-700 text-center mb-4">Harga: <span id="buyTicketPrice" class="font-semibold"></span></p>
+            <h2 class="text-2xl font-bold mb-2 text-center">Beli Tiket</h2>
+            <p class="text-gray-700 text-center mb-4">Event: <span id="buyTicketName" class="font-semibold"></span></p>
+            <p class="text-gray-700 text-center mb-4">Harga: <span id="buyTicketPrice" class="font-semibold"></span></p>
 
-                    <form method="POST" action="/">
-                        @csrf
-                        <input type="hidden" name="ticket_id" id="buyTicketId">
+            <form id="buyTicketForm">
+                @csrf
+                <input type="hidden" name="ticket_id" id="buyTicketId">
+                <input type="hidden" name="event_id" value="{{ $event->event_id }}">
 
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Nama Peserta</label>
-                            <input type="text" name="participant_name" id="participantName" class="w-full border rounded px-3 py-2" required>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Jumlah Tiket</label>
-                            <input type="number" name="quantity" id="ticketQuantity" min="1" class="w-full border rounded px-3 py-2" required>
-                        </div>
-
-                        <div class="mb-6">
-                            <label class="block mb-1 font-semibold">Metode Pembayaran</label>
-                            <select name="payment_method" id="paymentMethod" class="w-full border rounded px-3 py-2" required>
-                                <option value="qris">QRIS</option>
-                                <option value="bank_transfer">Transfer Bank</option>
-                            </select>
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                                Konfirmasi Pembelian
-                            </button>
-                        </div>
-                    </form>
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Nama Peserta</label>
+                    <input type="text" name="nama" id="participantName" class="w-full border rounded px-3 py-2" required>
                 </div>
-            </div>
+
+                <div class="mb-4">
+                    <label class="block mb-1 font-semibold">Jumlah Tiket</label>
+                    <input type="number" name="quantity" id="ticketQuantity" min="1" class="w-full border rounded px-3 py-2" required>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block mb-1 font-semibold">Metode Pembayaran</label>
+                    <select name="payment_method" id="paymentMethod" class="w-full border rounded px-3 py-2" required>
+                        <option value="QRIS">QRIS</option>
+                        <option value="BANK_TRANSFER">Transfer Bank</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                        Konfirmasi Pembelian
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
-    function openBuyTicketModal(ticketId, ticketName, price) {
-        // Isi input di dalam modal
-        document.getElementById('buyTicketId').value = ticketId;
-        document.getElementById('buyTicketName').textContent = ticketName;
-        document.getElementById('buyTicketPrice').textContent = 'Rp ' + price.toLocaleString('id-ID');
+        function openBuyTicketModal(ticketId, ticketName, price) {
+            document.getElementById('buyTicketId').value = ticketId;
+            document.getElementById('buyTicketName').textContent = ticketName;
+            document.getElementById('buyTicketPrice').textContent = 'Rp ' + parseInt(price).toLocaleString('id-ID');
+            document.getElementById('participantName').value = '';
+            document.getElementById('ticketQuantity').value = 1;
+            document.getElementById('paymentMethod').value = 'qris';
 
-        // Reset input jumlah & nama peserta
-        document.getElementById('participantName').value = '';
-        document.getElementById('ticketQuantity').value = 1;
-        document.getElementById('paymentMethod').value = 'qris';
-        
-        // Tampilkan modal
-        document.getElementById('buyTicketModal').classList.remove('hidden');
-        document.getElementById('buyTicketModal').classList.add('flex');
-    }
+            document.getElementById('buyTicketModal').classList.remove('hidden');
+            document.getElementById('buyTicketModal').classList.add('flex');
+        }
 
-    function closeBuyTicketModal() {
-        document.getElementById('buyTicketModal').classList.add('hidden');
-        document.getElementById('buyTicketModal').classList.remove('flex');
-    }
-</script>
+        function closeBuyTicketModal() {
+            document.getElementById('buyTicketModal').classList.add('hidden');
+            document.getElementById('buyTicketModal').classList.remove('flex');
+        }
+
+        document.getElementById('buyTicketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch("{{ route('checkout') }}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': form.querySelector('[name="_token"]').value,
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.invoice_url) {
+                        window.location.href = data.invoice_url;
+                    } else {
+                        alert('Pembayaran gagal dibuat. Coba lagi.');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Terjadi kesalahan saat memproses pembayaran.');
+                });
+        });
+    </script>
 
 </x-app-layout>
