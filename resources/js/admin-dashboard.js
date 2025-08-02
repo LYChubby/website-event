@@ -37,14 +37,14 @@ function loadCategories() {
                                     <button onclick="editCategory(${
                                         cat.category_id
                                     }, '${cat.name}')" 
-                                            class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 dark:hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                            class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 dark:hover:bg-blue-500 hover:text-white rounded-lg transition-colors duration-200 text-sm font-medium">
                                         <i class="fas fa-edit mr-1"></i>
                                         Edit
                                     </button>
                                     <button onclick="deleteCategory(${
                                         cat.category_id
                                     })" 
-                                            class="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                            class="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-500 hover:text-white rounded-lg transition-colors duration-200 text-sm font-medium">
                                         <i class="fas fa-trash mr-1"></i>
                                         Hapus
                                     </button>
