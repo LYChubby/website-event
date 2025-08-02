@@ -78,10 +78,8 @@ function loadEvents() {
 
             response.data.forEach((ev) => {
                 const card = document.createElement("div");
-                card.className =
-                    card.className =
+                card.className = card.className =
                     "bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300";
-
 
                 const statusClass =
                     ev.status_approval === "pending"
@@ -105,7 +103,7 @@ function loadEvents() {
                             </a>
                             <div class="p-6">
                                 <a href="/events/${ev.event_id}" class="block">
-                                    <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200 mb-2 line-clamp-2">${
+                                    <h3 class="font-bold text-lg text-gray-800 dark:text-gray-700 mb-2 line-clamp-2">${
                                         ev.name_event
                                     }</h3>
                                 </a>
