@@ -73,19 +73,17 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <div class="bg-white rounded-lg shadow-lg border border-gray-200">
-                                        <x-dropdown-link :href="route('profile.edit')" class="hover:bg-[#63A7F4] hover:text-white transition-colors">
-                                            <i class="fas fa-user-edit mr-2"></i>{{ __('Profile') }}
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        <i class="fas fa-user-edit mr-2"></i>{{ __('Profile') }}
+                                    </x-dropdown-link>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault(); this.closest('form').submit();"
+                                            class="text-red-600 hover:bg-red-50">
+                                            <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
                                         </x-dropdown-link>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <x-dropdown-link :href="route('logout')"
-                                                onclick="event.preventDefault(); this.closest('form').submit();"
-                                                class="text-red-600 hover:bg-red-50 hover:text-red-700">
-                                                <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
-                                            </x-dropdown-link>
-                                        </form>
-                                    </div>
+                                    </form>
                                 </x-slot>
                             </x-dropdown>
                         </div>
