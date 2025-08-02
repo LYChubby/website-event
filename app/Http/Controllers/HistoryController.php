@@ -10,6 +10,9 @@ class HistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
 
         $histories = Transaction::with(['event', 'user'])
             ->where('user_id', $user->user_id)
