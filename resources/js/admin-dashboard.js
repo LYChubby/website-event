@@ -17,7 +17,7 @@ function loadCategories() {
             categories.forEach((cat, index) => {
                 const row = document.createElement("tr");
                 row.className =
-                    "hover:bg-blue-50 dark:hover:bg-blue-700 transition-colors duration-200";
+                    "hover:bg-blue-50 dark:hover:bg-blue-100 transition-colors duration-200";
                 row.innerHTML = `
                             <td class="py-4 px-2 text-gray-600 dark:text-gray-400 font-medium">${
                                 index + 1
@@ -37,14 +37,14 @@ function loadCategories() {
                                     <button onclick="editCategory(${
                                         cat.category_id
                                     }, '${cat.name}')" 
-                                            class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                            class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 dark:hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
                                         <i class="fas fa-edit mr-1"></i>
                                         Edit
                                     </button>
                                     <button onclick="deleteCategory(${
                                         cat.category_id
                                     })" 
-                                            class="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors duration-200 text-sm font-medium">
+                                            class="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-500 rounded-lg transition-colors duration-200 text-sm font-medium">
                                         <i class="fas fa-trash mr-1"></i>
                                         Hapus
                                     </button>
