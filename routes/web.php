@@ -162,6 +162,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });
 
+Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
+
 
 
 

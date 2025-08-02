@@ -45,9 +45,11 @@ class HistoryController extends Controller
                 'event_name' => $transaction->event->name_event ?? '-',
                 'tanggal_beli' => $transaction->created_at->format('d M Y'),
                 'status_pembayaran' => $transaction->status_pembayaran,
+                'no_invoice' => $transaction->no_invoice,
                 'details' => $transaction->transactionDetails->map(function ($detail) {
                     return [
                         'ticket_name' => $detail->ticket->jenis_ticket ?? '-',
+                        'ticket_code' => $detail->ticket->ticket_code_prefix . '-' . random_int(1000, 9999) . '-' . str_pad($detail->id, 6, '0', STR_PAD_LEFT),
                         'quantity' => $detail->quantity,
                         'price' => $detail->price_per_ticket,
                         'subtotal' => $detail->subtotal,
@@ -57,5 +59,14 @@ class HistoryController extends Controller
                 'payment_method' => $transaction->payment_method,
             ]
         ]);
+    }
+
+    public function tampilkanTiket($no_invoice)
+    {
+        $transaction = Transaction::with(['transactionDetails.ticket', 'event', 'user'])
+            ->where('no_invoice', $no_invoice)
+            ->firstOrFail();
+
+        return view('history.tiket', compact('transaction'));
     }
 }
