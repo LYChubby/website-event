@@ -30,7 +30,7 @@
                     <!-- Navigation Menu -->
                     <div class="flex items-center space-x-4">
                         <!-- History Button -->
-                        <a href="{{ route('login') }}"
+                        <a href="{{ route('history.index') }}"
                             class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-white/40">
                             <i class="fas fa-history mr-2"></i>Riwayat
                         </a>
