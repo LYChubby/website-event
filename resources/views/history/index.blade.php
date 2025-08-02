@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                   @forelse ($histories as $history)
+                    @foreach ($histories as $history)
                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="py-3 px-4">{{ $history['nama_pembeli'] }}</td>
                         <td class="py-3 px-4">{{ $history['nama_event'] }}</td>
@@ -30,18 +30,12 @@
                         </td>
                         <td class="py-3 px-4">
                             <a href="{{ route('history.show', $history['transaction_id']) }}"
-                            class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-xs">
+                                class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-xs">
                                 Lihat Detail
                             </a>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-6 text-gray-500 dark:text-gray-400">
-                            Belum ada riwayat pembelian tiket.
-                        </td>
-                    </tr>
-                @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
