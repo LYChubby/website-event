@@ -118,7 +118,7 @@ Route::middleware('auth')->group(function () {
 
     //History
 
-    Route::get('/history/{id}', [HistoryController::class, 'show'])->name('history.show');
+    Route::get('/history/{id}', [HistoryController::class, 'show'])->name('history.index');
 
 
 
