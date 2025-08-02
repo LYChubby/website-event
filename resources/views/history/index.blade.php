@@ -87,7 +87,7 @@
     <div class="py-6 px-4 max-w-7xl mx-auto -mt-10">
         <div class="glass-effect rounded-2xl card-shadow overflow-hidden">
             <!-- Stats Cards -->
-            <div class="p-6 border-b border-blue-100">
+            <div class="py-10 px-6 border-b border-blue-100">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 text-white">
                         <div class="flex items-center justify-between">
