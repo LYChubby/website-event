@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DisbursementController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\OrganizerInfoController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ProfileController;
@@ -113,6 +114,12 @@ Route::middleware('auth')->group(function () {
     // Mark as read (opsional)
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
         ->name('notifications.markAsRead');
+
+
+    //History
+
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+    Route::get('/history/{id}', [HistoryController::class, 'show'])->name('history.show');
 
 
 
