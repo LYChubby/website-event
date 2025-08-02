@@ -18,31 +18,30 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse ($histories as $history)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td class="py-3 px-4">{{ $history->nama_pembeli }}</td>
-                            <td class="py-3 px-4">{{ $history->name_event }}</td>
-                            <td class="py-3 px-4">{{ \Carbon\Carbon::parse($history->tanggal_beli)->format('d M Y') }}</td>
-                            <td class="py-3 px-4">
-                                <span class="px-3 py-1 rounded-full text-white text-xs 
-                                    {{ $history->status_pembayaran == 'paid' ? 'bg-green-500' : 'bg-red-500' }}">
-                                    {{ ucfirst($history->status_pembayaran) }}
-                                </span>
-                            </td>
-                            <td class="py-3 px-4">
-                                <a href="{{ route('history.show', $history->transaction_id) }}"
-                                    class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-xs">
-                                    Lihat Detail
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-6 text-gray-500 dark:text-gray-400">
-                                Belum ada riwayat pembelian tiket.
-                            </td>
-                        </tr>
-                    @endforelse
+                   @forelse ($histories as $history)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="py-3 px-4">{{ $history['nama_pembeli'] }}</td>
+                        <td class="py-3 px-4">{{ $history['nama_event'] }}</td>
+                        <td class="py-3 px-4">{{ \Carbon\Carbon::parse($history['tanggal_beli'])->format('d M Y') }}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-3 py-1 rounded-full text-white text-xs {{ $history['status_pembayaran'] === 'paid' ? 'bg-green-500' : 'bg-red-500' }}">
+                                {{ ucfirst($history['status_pembayaran']) }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <a href="{{ route('history.show', $history['transaction_id']) }}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-xs">
+                                Lihat Detail
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-6 text-gray-500 dark:text-gray-400">
+                            Belum ada riwayat pembelian tiket.
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>
