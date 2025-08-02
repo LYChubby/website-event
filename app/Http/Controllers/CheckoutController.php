@@ -53,6 +53,7 @@ class CheckoutController extends Controller
             TransactionDetail::create([
                 'transaction_id' => $transaction->transaction_id,
                 'ticket_id' => $ticket->ticket_id,
+                'jenis_ticket' => $ticket->jenis_ticket,
                 'quantity' => $request->quantity,
                 'price_per_ticket' => $pricePerItem,
                 'subtotal' => $amount,
