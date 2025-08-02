@@ -107,8 +107,11 @@
                                     </svg>
                                 </div>
                                 <div>
+                                    @foreach($transaction->transactionDetails as $detail)
                                     <p class="text-sm text-gray-500 font-medium">Total Tiket</p>
-                                    <p class="text-lg font-semibold text-gray-800">{{ count($transaction->transactionDetails) }} Tiket</p>
+                                    <span class="text-lg font-semibold text-gray-800">{{ ($detail->quantity) }} Tiket </span>
+                                    <span class="text-lg font-semibold text-gray-800">{{ $detail->ticket->jenis_ticket ?? 'Tiket' }}</span>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
