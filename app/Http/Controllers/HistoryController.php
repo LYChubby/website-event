@@ -24,7 +24,7 @@ class HistoryController extends Controller
                     'nama_pembeli'       => $transaction->user->name ?? '-',
                     'nama_event'         => $transaction->event->name_event ?? '-',
                     'tanggal_beli'       => $transaction->created_at,
-                    'status_pembayaran'  => $transaction->status_pembayaran ?? 'unpaid',
+                    'status_pembayaran'  => $transaction->status_pembayaran ?? 'pending',
                 ];
             });
 
