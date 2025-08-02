@@ -49,7 +49,7 @@ class HistoryController extends Controller
                 'details' => $transaction->transactionDetails->map(function ($detail) {
                     return [
                         'ticket_name' => $detail->ticket->jenis_ticket ?? '-',
-                        'ticket_code' => $detail->ticket->ticket_code_prefix . '-' . random_int(1000, 9999) . '-' . str_pad($detail->id, 6, '0', STR_PAD_LEFT),
+                        'ticket_code' => $detail->ticket->ticket_code_prefix . '-' . uniqid() . bin2hex(random_bytes(6)),
                         'quantity' => $detail->quantity,
                         'price' => $detail->price_per_ticket,
                         'subtotal' => $detail->subtotal,

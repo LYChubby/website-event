@@ -147,7 +147,7 @@
                                         <div class="bg-white rounded-lg px-4 py-3 shadow-sm border">
                                             <p class="text-xs text-gray-500 mb-1">Kode Tiket</p>
                                             <p class="text-lg font-bold font-mono" style="color: #63A7F4;">
-                                                {{ $detail->ticket->ticket_code_prefix }}-{{ str_pad($detail->transaction_detail_id, 6, '0', STR_PAD_LEFT) }}
+                                                {{ $detail->ticket->ticket_code_prefix }}-{{ uniqid() }}-{{ bin2hex(random_bytes(6)) }}
                                             </p>
                                         </div>
                                     </div>
