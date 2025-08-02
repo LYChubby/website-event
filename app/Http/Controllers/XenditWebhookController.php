@@ -3,36 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
+use App\Models\Transaction;
 
 class XenditWebhookController extends Controller
 {
     public function handle(Request $req)
     {
+        // Verifikasi token callback
         $signature = $req->header('X-Callback-Token');
+        $expectedToken = config('services.xendit.webhook_token');
 
-        if ($signature !== config('services.xendit.webhook_token')) {
-            Log::warning('Invalid Xendit webhook signature', ['provided' => $signature]);
-            abort(403, 'Invalid signature');
+        if (!$signature || $signature !== $expectedToken) {
+            Log::warning('Invalid Xendit webhook token received', [
+                'provided' => $signature,
+                'expected' => $expectedToken,
+            ]);
+            return response()->json(['message' => 'Invalid signature'], 403);
         }
 
         $event = $req->input('event');
-        $data  = $req->input('data');
+        $data = $req->input('data');
+
+        if (!$event || !$data) {
+            Log::error('Invalid Xendit webhook payload', [
+                'payload' => $req->all()
+            ]);
+            return response()->json(['message' => 'Invalid payload'], 400);
+        }
 
         if ($event === 'invoice.paid') {
-            $externalId = $data['external_id'];
+            $externalId = $data['external_id'] ?? null;
 
-            // Temukan transaksi berdasarkan external_id (no_invoice)
-            $transaction = Transaction::where('no_invoice', $externalId)->first();
+            if ($externalId) {
+                $transaction = Transaction::where('no_invoice', $externalId)->first();
 
-            if ($transaction && $transaction->status_pembayaran !== 'paid') {
-                $transaction->update([
-                    'status_pembayaran' => 'paid',
+                if ($transaction) {
+                    if ($transaction->status_pembayaran !== 'paid') {
+                        $transaction->update([
+                            'status_pembayaran' => 'paid',
+                        ]);
+                        Log::info("Transaksi berhasil dibayar: {$externalId}");
+                    } else {
+                        Log::info("Transaksi {$externalId} sudah pernah dibayar sebelumnya.");
+                    }
+                } else {
+                    Log::warning("Transaksi dengan no_invoice {$externalId} tidak ditemukan.");
+                }
+            } else {
+                Log::error('external_id tidak ditemukan pada payload invoice.paid', [
+                    'data' => $data
                 ]);
-
-                // Tambahan: logika otomatis bisa ditambahkan di sini jika perlu
-                Log::info("Transaksi berhasil dibayar: {$externalId}");
             }
         }
 
