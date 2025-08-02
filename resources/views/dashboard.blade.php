@@ -290,7 +290,7 @@
                     <!-- Company Info -->
                     <div>
                         <div class="flex items-center space-x-3 mb-4">
-                            <img src="/assets/logo.png" alt="Logo" class="h-8 w-auto" />
+                            <img src="/images/logo.png" alt="Logo" class="h-8 w-auto" />
                             <span class="text-xl font-bold">EventHub</span>
                         </div>
                         <p class="text-white/80 text-sm leading-relaxed">
