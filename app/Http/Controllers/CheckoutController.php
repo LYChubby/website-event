@@ -32,13 +32,26 @@ class CheckoutController extends Controller
         ]);
 
         $ticket = Ticket::with('event')->where('ticket_id', $request->ticket_id)->firstOrFail();
+
+        // Validasi stok tiket
+        if ($ticket->quantity_available < $request->quantity) {
+            return response()->json([
+                'message' => 'Stok tiket tidak mencukupi'
+            ], 400);
+        }
+
         $pricePerItem = (int) round($ticket->price);
         $amount = $pricePerItem * $request->quantity;
         $noInvoice = 'INV-' . strtoupper(Str::random(8));
 
         DB::beginTransaction();
         try {
-            // 1. Simpan transaksi utama
+            // 1. Update stok tiket
+            $ticket->quantity_available -= $request->quantity;
+            $ticket->quantity_sold += $request->quantity;
+            $ticket->save();
+
+            // 2. Simpan transaksi utama
             $transaction = Transaction::create([
                 'user_id' => Auth::id(),
                 'event_id' => $request->event_id,
@@ -49,7 +62,7 @@ class CheckoutController extends Controller
                 'payment_method' => $request->payment_method ?? "XENDIT",
             ]);
 
-            // 2. Simpan detail transaksi
+            // 3. Simpan detail transaksi
             TransactionDetail::create([
                 'transaction_id' => $transaction->transaction_id,
                 'ticket_id' => $ticket->ticket_id,
@@ -59,7 +72,7 @@ class CheckoutController extends Controller
                 'subtotal' => $amount,
             ]);
 
-            // 3. Simpan data peserta
+            // 4. Simpan data peserta
             Participant::create([
                 'user_id' => Auth::id(),
                 'event_id' => $request->event_id,
@@ -70,7 +83,7 @@ class CheckoutController extends Controller
                 'jumlah' => $request->quantity,
             ]);
 
-            // 4. Siapkan invoice ke Xendit
+            // 5. Siapkan invoice ke Xendit
             $invoiceData = [
                 'external_id' => $transaction->no_invoice,
                 'amount' => $amount,
@@ -93,7 +106,7 @@ class CheckoutController extends Controller
                 ]
             ];
 
-            // 5. Kirim ke Xendit
+            // 6. Kirim ke Xendit
             $invoice = $this->paymentService->createInvoice($invoiceData);
 
             DB::commit();
