@@ -48,6 +48,11 @@ class Event extends Model
         return $this->hasMany(Transaction::class, 'event_id');
     }
 
+    public function participants()
+    {
+        return $this->hasMany(Participant::class, 'event_id');
+    }
+
     public function disbursement()
     {
         return $this->hasOne(Disbursement::class, 'event_id', 'event_id');
