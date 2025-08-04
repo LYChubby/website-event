@@ -74,7 +74,7 @@ class EventController extends Controller
         ]);
     }
 
-   
+
     public function approveEvent($id)
     {
         $event = Event::findOrFail($id);

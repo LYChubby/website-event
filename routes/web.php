@@ -147,7 +147,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
     Route::get('/organizer/events/{id}/dashboard', [EventDashboardController::class, 'show'])->name('events.dashboard');
 
-
     // Admin
 
     Route::get('/admin/events', [EventController::class, 'adminEvents']);
