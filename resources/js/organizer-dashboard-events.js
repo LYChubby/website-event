@@ -1,9 +1,67 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadTickets();
+    loadTicketStatistics(); // Tambahkan pemanggilan fungsi statistik
     document
         .getElementById("ticketForm")
         .addEventListener("submit", submitTicketForm);
+
+    // Set interval untuk auto-refresh setiap 30 detik
+    setInterval(() => {
+        loadTickets();
+        loadTicketStatistics();
+    }, 30000);
 });
+
+function loadTicketStatistics() {
+    const eventId = document.getElementById("eventId").value;
+
+    fetch(`/events/${eventId}/tickets`)
+        .then((res) => res.json())
+        .then((response) => {
+            const tickets = response.data;
+
+            let totalTickets = 0;
+            let availableTickets = 0;
+            let soldTickets = 0;
+
+            tickets.forEach((ticket) => {
+                totalTickets +=
+                    parseInt(ticket.quantity_available) +
+                    parseInt(ticket.quantity_sold);
+                availableTickets += parseInt(ticket.quantity_available);
+                soldTickets += parseInt(ticket.quantity_sold);
+            });
+
+            const soldPercentage =
+                totalTickets > 0
+                    ? Math.round((soldTickets / totalTickets) * 100)
+                    : 0;
+
+            // Update tampilan
+            document.getElementById("totalTickets").textContent =
+                totalTickets.toLocaleString();
+            document.getElementById("availableTickets").textContent =
+                availableTickets.toLocaleString();
+            document.getElementById("soldTickets").textContent =
+                soldTickets.toLocaleString();
+            document.getElementById(
+                "soldPercentage"
+            ).textContent = `${soldPercentage}%`;
+
+            // Update warna persentase
+            const percentageElement = document.getElementById("soldPercentage");
+            if (soldPercentage >= 80) {
+                percentageElement.classList.add("text-red-600");
+                percentageElement.classList.remove("text-purple-600");
+            } else {
+                percentageElement.classList.add("text-purple-600");
+                percentageElement.classList.remove("text-red-600");
+            }
+        })
+        .catch((error) => {
+            console.error("Error loading ticket statistics:", error);
+        });
+}
 
 function loadTickets() {
     const eventId = document.getElementById("eventId").value;
@@ -11,7 +69,7 @@ function loadTickets() {
     fetch(`/events/${eventId}/tickets`)
         .then((res) => res.json())
         .then((response) => {
-            const tickets = response.data; // karena response-nya pakai 'data'
+            const tickets = response.data;
 
             const tbody = document.getElementById("ticketTableBody");
             tbody.innerHTML = "";
@@ -81,6 +139,9 @@ function loadTickets() {
                 `;
                 tbody.appendChild(row);
             });
+
+            // Setelah memuat tiket, update juga statistik
+            loadTicketStatistics();
         })
         .catch((error) => {
             console.error("Error loading tickets:", error);
@@ -190,6 +251,7 @@ function submitTicketForm(e) {
         .then((data) => {
             closeTicketModal();
             loadTickets();
+            loadTicketStatistics(); // Refresh statistik setelah submit
             showToast(
                 "success",
                 isEdit ? "Tiket berhasil diperbarui" : "Tiket berhasil dibuat"
@@ -215,6 +277,7 @@ window.deleteTicket = function (ticket_id) {
         })
             .then(() => {
                 loadTickets();
+                loadTicketStatistics(); // Refresh statistik setelah delete
                 showToast("success", "Tiket berhasil dihapus");
             })
             .catch((error) => {
