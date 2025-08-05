@@ -521,7 +521,7 @@
                         A
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">Anang</h4>
-                    <p class="text-sm text-gray-600">Leader</p>
+                    <p class="text-sm text-gray-600">Mentor</p>
                 </div>
 
                 <!-- Lintang -->
