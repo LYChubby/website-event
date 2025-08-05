@@ -34,13 +34,27 @@
         }
 
         .hover-lift {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            outline: none;
         }
 
         .hover-lift:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            outline: none;
         }
+
+        /* Remove outline on focus (e.g. on click) */
+        .hover-lift:focus,
+        .hover-lift:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);  /* Optional: if you want to remove shadow on focus too */
+        }
+
 
         .floating-animation {
             animation: floating 6s ease-in-out infinite;
@@ -210,9 +224,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
                     <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
-                            <i class="fas fa-calendar-alt text-white text-xl"></i>
-                        </div>
+                        <img src="/images/logo.png" alt="Logo" class="h-10 w-auto transition-transform hover:scale-105" />
                         <span class="gradient-text font-bold text-2xl">NEO.Vibe</span>
                     </div>
                     <div class="hidden md:block">
@@ -243,19 +255,19 @@
             <div class="glass-card rounded-3xl p-12 hover-lift floating-animation pulse-border">
                 <div class="text-center max-w-4xl mx-auto">
                     <h1 class="font-bold text-5xl mb-6 text-gray-800 leading-tight">
-                        Selamat Datang di <span class="gradient-text">EventHub</span>
+                        Selamat Datang di <span class="gradient-text">NEO.Vibe</span>
                     </h1>
                     <p class="text-xl leading-relaxed text-gray-600 mb-8">
                         Platform terdepan untuk mengelola dan mengikuti berbagai acara spektakuler. Dari konser musik yang memukau,
                         seminar inspiratif, workshop kreatif, hingga festival budaya yang meriah.
                     </p>
                     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                        <button class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg">
-                            <i class="fas fa-rocket mr-2"></i>Jelajahi Event
-                        </button>
-                        <button class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg">
-                            <i class="fas fa-plus mr-2"></i>Buat Event
-                        </button>
+                        <a href="{{ route('login') }}"
+                        class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg">
+                            <i class="fas fa-rocket mr-2"></i>Jelajahi Event</a>
+                        <a href="{{ route('login') }}"
+                        class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg">
+                            <i class="fas fa-plus mr-2"></i>Buat Event</a>
                     </div>
                 </div>
             </div>
@@ -266,20 +278,20 @@
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="text-center hover-lift">
-                    <div class="stats-counter">10K+</div>
+                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
                     <p class="text-gray-600 font-medium">Event Terselenggara</p>
                 </div>
-                <div class="text-center hover-lift">
-                    <div class="stats-counter">50K+</div>
+                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
                     <p class="text-gray-600 font-medium">Peserta Aktif</p>
                 </div>
-                <div class="text-center hover-lift">
-                    <div class="stats-counter">1000+</div>
+                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
                     <p class="text-gray-600 font-medium">Organizer Terpercaya</p>
                 </div>
-                <div class="text-center hover-lift">
-                    <div class="stats-counter">99%</div>
+                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                    <div class="stats-counter"data-target="99" data-unit="percent">0%</div>
                     <p class="text-gray-600 font-medium">Kepuasan Pengguna</p>
                 </div>
             </div>
@@ -519,66 +531,114 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
-                            <i class="fas fa-calendar-alt text-white"></i>
-                        </div>
-                        <span class="font-bold text-xl">EventHub</span>
-                    </div>
-                    <p class="text-gray-400">Membuat setiap momen menjadi tak terlupakan dengan teknologi terdepan.</p>
+   <footer class="bg-gray-900 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+            <!-- Company Info -->
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                    <span class="text-xl font-bold">NEO.Vibe</span>
                 </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Platform</h4>
-                    <div class="space-y-2">
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Jelajahi Event</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Buat Event</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Harga</a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Perusahaan</h4>
-                    <div class="space-y-2">
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Tentang Kami</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Karir</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Blog</a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Dukungan</h4>
-                    <div class="space-y-2">
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Pusat Bantuan</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Hubungi Kami</a>
-                        <a href="#" class="block text-gray-400 hover:text-white transition-colors">Status</a>
-                    </div>
+                <p class="text-white/80 text-sm leading-relaxed">
+                    Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="font-semibold mb-4">Link Cepat</h4>
+                <div class="space-y-2">
+                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                    </a>
+                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                        <i class="fas fa-fire mr-2"></i>Event Populer
+                    </a>
+                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                        <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                    </a>
+                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                        <i class="fas fa-question-circle mr-2"></i>FAQ
+                    </a>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400">&copy; 2025 EventHub. All rights reserved.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+
+            <!-- Social Media -->
+            <div>
+                <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fab fa-linkedin-in"></i>
+                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                        <i class="fab fa-youtube"></i>
                     </a>
+                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+                <div class="mt-4">
+                    <p class="text-white/60 text-xs">
+                        <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                    </p>
                 </div>
             </div>
         </div>
-    </footer>
+
+        <!-- Copyright -->
+        <div class="border-t border-white/20 mt-8 pt-8 text-center">
+            <p class="text-white text-sm">
+                © {{ date('Y') }} EventHub. Semua hak dilindungi undang-undang.
+            </p>
+        </div>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.stats-counter');
+        const speed = 200;
+
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const unit = counter.getAttribute('data-unit') || 'number';
+
+            const updateCount = () => {
+                const currentText = counter.innerText.replace(/[^0-9]/g, '');
+                const count = +currentText;
+                const increment = Math.ceil(target / speed);
+
+                if (count < target) {
+                    const newVal = count + increment;
+                    counter.innerText = unit === 'percent' 
+                        ? `${Math.min(newVal, target)}%` 
+                        : new Intl.NumberFormat().format(newVal);
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = unit === 'percent' 
+                        ? `${target}%` 
+                        : new Intl.NumberFormat().format(target);
+                }
+            };
+
+            updateCount();
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+
+        counters.forEach(counter => observer.observe(counter));
+    });
+</script>
 
 </body>
 </html>
