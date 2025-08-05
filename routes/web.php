@@ -163,6 +163,12 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 
+Route::middleware(['auth', 'role:organizer'])->group(function () {
+    Route::get('/organizer-info', [OrganizerInfoController::class, 'edit'])->name('organizer-info.edit');
+    Route::post('/organizer-info', [OrganizerInfoController::class, 'store'])->name('organizer-info.store');
+    Route::put('/organizer-info', [OrganizerInfoController::class, 'update'])->name('organizer-info.update');
+});
+
 
 
 
