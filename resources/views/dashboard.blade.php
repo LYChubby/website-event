@@ -35,23 +35,6 @@
                             <i class="fas fa-history mr-2"></i>Riwayat
                         </a>
 
-                        @if (Auth::check())
-                        @php
-                        $role = Auth::user()->role;
-                        $dashboardRoute = match($role) {
-                        'admin' => route('admin.dashboard'),
-                        'organizer' => route('organizer.dashboard'),
-                        'user' => route('dashboard'),
-                        default => '#'
-                        };
-                        @endphp
-
-                        @if ($role !== 'user')
-                        <a href="{{ $dashboardRoute }}"
-                            class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-white/40">
-                            <i class="fas fa-home mr-2"></i>Dashboard
-                        </a>
-                        @endif
 
                         <!-- User Dropdown -->
                         <div class="hidden sm:flex sm:items-center">
@@ -87,7 +70,7 @@
                                 </x-slot>
                             </x-dropdown>
                         </div>
-                        @endif
+
                     </div>
                 </div>
             </div>
