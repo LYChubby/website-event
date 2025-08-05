@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 class Event extends Model
 {
@@ -57,4 +58,11 @@ class Event extends Model
     {
         return $this->hasOne(Disbursement::class, 'event_id', 'event_id');
     }
+    // Event.php
+    public function getIsExpiredAttribute(): bool
+    {
+        return now()->greaterThan($this->end_date);
+    }
+
+
 }

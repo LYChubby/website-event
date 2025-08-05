@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Event;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
@@ -17,7 +19,17 @@ class TransactionController extends Controller
 
     public function store(StoreTransactionRequest $request)
     {
+        $event = Event::findOrFail($request->event_id);
+
+        // Cek apakah event sudah berakhir
+        if ($event->is_expired) {
+            return response()->json([
+                'message' => 'Tidak bisa membeli tiket untuk event yang sudah berakhir.'
+            ], 403);
+        }
+
         $transaction = Transaction::create($request->validated());
+
         return response()->json([
             'message' => 'Transaction created successfully',
             'data' => $transaction
