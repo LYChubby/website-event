@@ -12,7 +12,13 @@
         }
         
         .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-image:
+                url('/images/event.svg'),
+                linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            background-attachment: fixed;
             min-height: 100vh;
             position: relative;
             overflow: hidden;
