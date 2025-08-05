@@ -53,7 +53,7 @@ Route::post('/choose-role', function (Request $request) {
     Auth::login($user);
     session()->forget('google_user');
 
-    return redirect('/dashboard');
+    return redirect()->route($user->role === 'organizer' ? 'organizer.dashboard' : 'dashboard');
 });
 
 

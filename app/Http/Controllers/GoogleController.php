@@ -19,23 +19,31 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            // Cek apakah user sudah ada
-            $user = User::where('google_id', $googleUser->id)->first();
+            // Cari user berdasarkan email
+            $user = User::where('email', $googleUser->getEmail())->first();
 
-            if (!$user) {
-                // Simpan user baru, redirect ke halaman pilih role
-                session([
-                    'google_user' => [
-                        'id' => $googleUser->getId(),
-                        'name' => $googleUser->getName(),
-                        'email' => $googleUser->getEmail(),
-                    ]
-                ]); // simpan sementara
-                return redirect()->route('choose-role');
+            if ($user) {
+                // Jika user ditemukan, login langsung
+                Auth::login($user);
+
+                // Redirect berdasarkan role
+                return match ($user->role) {
+                    'admin' => redirect()->route('admin.dashboard'),
+                    'organizer' => redirect()->route('organizer.dashboard'),
+                    default => redirect()->route('dashboard'),
+                };
             }
 
-            Auth::login($user);
-            return redirect('/dashboard');
+            // Jika user belum ada, simpan info sementara di session dan arahkan ke pilih role
+            session([
+                'google_user' => [
+                    'id' => $googleUser->getId(),
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                ]
+            ]);
+
+            return redirect()->route('choose-role');
         } catch (\Exception $e) {
             return redirect('/')->with('error', 'Gagal login dengan Google.');
         }

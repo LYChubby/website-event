@@ -27,6 +27,7 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+        $user = Auth::user();
 
         // $credentials = $request->only('email', 'password');
         // // Cek jika request datang dari API (Accept: application/json)
@@ -46,7 +47,14 @@ class AuthenticatedSessionController extends Controller
         //     'user'         => $user
         // ]);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirect berdasarkan role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->role === 'organizer') {
+            return redirect()->route('organizer.dashboard');
+        } else {
+            return redirect()->route('dashboard'); // default user
+        }
     }
 
     /**
