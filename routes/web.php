@@ -62,18 +62,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'role:user'])->name('dashboard');
 
 
 // Dashboard untuk Organizer
 Route::get('/dashboard/organizer', function () {
     return view('organizer.organizerdashboard');
-})->middleware(['auth', 'verified'])->name('organizer.dashboard');
+})->middleware(['auth', 'role:organizer'])->name('organizer.dashboard');
 
 // Dashboard untuk Admin
 Route::get('/dashboard/admin', function () {
     return view('admin.admindashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+})->middleware(['auth', 'role:admin'])->name('admin.dashboard');
 
 
 Route::middleware('auth')->group(function () {
