@@ -15,14 +15,19 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Custom Style -->
     <style>
+        body {
+            @apply font-sans antialiased;
+        }
+
         .gradient-bg {
             background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
         }
 
         .glass-effect {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -39,6 +44,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, #7fc1fd 0%, #4d9ef8 100%);
+            color: white;
             transition: all 0.3s ease;
         }
 
@@ -53,10 +59,8 @@
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
+            0%, 100% {
+                transform: translateY(0);
             }
 
             50% {
@@ -86,102 +90,12 @@
     </style>
 </head>
 
-<body class="font-sans antialiased gradient-bg">
-    <!-- Main Container -->
-    <div class="min-h-screen flex">
-        <!-- Left: Login Form -->
-        <div class="w-full md:w-1/2 flex justify-center items-center p-6 relative">
-            <!-- Animated background elements -->
-            <!-- <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
-            <div class="absolute bottom-20 right-10 w-32 h-32 bg-white/5 rounded-full animate-bounce"></div> -->
-
-            <div class="w-full max-w-md glass-effect rounded-3xl p-8 shadow-2xl slide-fade-in">
-                {{ $slot }}
-            </div>
+<body class="gradient-bg min-h-screen flex items-center justify-center">
+    <main class="w-full max-w-md p-6">
+        <div class="glass-effect rounded-3xl p-50 py- shadow-2xl slide-fade-in">
+            {{ $slot }}
         </div>
-
-        <!-- Right: Carousel -->
-        <div class="hidden md:flex w-1/2 relative overflow-hidden">
-            <div x-data="{
-                currentIndex: 0,
-                images: [
-                    '{{ asset('images/side-image-login.png') }}',
-                    '{{ asset('images/slide2.jpg') }}',
-                    '{{ asset('images/side-image-login.png') }}'
-                ],
-                titles: [
-                    'Welcome to Our Platform',
-                    'Innovation Meets Technology',
-                    'Your Journey Starts Here'
-                ],
-                descriptions: [
-                    'Experience the future of digital solutions with our cutting-edge platform.',
-                    'Discover powerful tools designed to transform your workflow and boost productivity.',
-                    'Join thousands of satisfied users who trust our platform for their success.'
-                ],
-                next() {
-                    this.currentIndex = (this.currentIndex + 1) % this.images.length;
-                },
-                prev() {
-                    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-                },
-                goTo(index) {
-                    this.currentIndex = index;
-                },
-                init() {
-                    setInterval(() => {
-                        this.next();
-                    }, 5000);
-                }
-            }" class="w-full h-full relative">
-
-                <!-- Slides -->
-                <div class="flex w-full h-screen transition-transform duration-500 ease-in-out"
-                    :style="`transform: translateX(-${currentIndex * 100}%)`">
-                    <template x-for="(image, index) in images" :key="index">
-                        <div class="w-full h-full flex-shrink-0 relative">
-                            <img :src="image" alt="Slide" class="w-full h-full object-cover" />
-                            <!-- Overlay with gradient -->
-                            <div class="absolute inset-0 carousel-overlay"></div>
-                            <!-- Content overlay -->
-                            <div class="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
-                                <h2 class="text-4xl font-bold mb-4 text-center" x-text="titles[index]"></h2>
-                                <p class="text-xl text-center leading-relaxed max-w-md opacity-90" x-text="descriptions[index]"></p>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
-                <!-- Navigation Buttons -->
-                <button @click="prev()"
-                    class="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full opacity-0 hover:opacity-100 hover:bg-white/30 transition-all duration-300 group">
-                    <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                <button @click="next()"
-                    class="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full opacity-0 hover:opacity-100 hover:bg-white/30 transition-all duration-300 group">
-                    <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-
-                <!-- Indicators -->
-                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
-                    <template x-for="(image, index) in images" :key="index">
-                        <button @click="goTo(index)"
-                            class="w-3 h-3 rounded-full transition-all duration-300 hover:scale-125"
-                            :class="{
-                                'bg-white shadow-lg': currentIndex === index, 
-                                'bg-white/50 hover:bg-white/70': currentIndex !== index
-                            }">
-                        </button>
-                    </template>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 </body>
 
 </html>
