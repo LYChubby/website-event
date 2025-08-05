@@ -443,7 +443,7 @@
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="font-bold text-4xl gradient-text mb-4">Mengapa Memilih EventHub?</h2>
+                <h2 class="font-bold text-4xl gradient-text mb-4">Mengapa Memilih NEO.Vibe?</h2>
                 <p class="text-xl text-gray-600">Fitur terdepan untuk pengalaman event yang sempurna</p>
             </div>
 
@@ -480,7 +480,7 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="font-bold text-4xl gradient-text mb-4">Tim Kreatif Kami</h2>
-                <p class="text-xl text-gray-600">Bertemu dengan para ahli di balik kesuksesan EventHub</p>
+                <p class="text-xl text-gray-600">Bertemu dengan para ahli di balik kesuksesan NEO.Vibe</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
@@ -589,7 +589,7 @@
             <!-- Copyright -->
             <div class="border-t border-white/20 mt-8 pt-8 text-center">
                 <p class="text-white text-sm">
-                    © {{ date('Y') }} EventHub. Semua hak dilindungi undang-undang.
+                    © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
                 </p>
             </div>
         </div>
