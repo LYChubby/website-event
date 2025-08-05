@@ -43,14 +43,26 @@
     <script>
         const alertBox = document.getElementById('form-alert');
         const bankSelect = document.getElementById('bank_code');
-        const accountNumberInput = document.getElementById('bank_account_number');
-        const accountNameInput = document.getElementById('bank_account_name');
 
         // 🔄 Ambil daftar bank saat halaman dimuat
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const res = await fetch(`{{ route('organizer.info.banks') }}`);
-                const banks = await res.json();
+                // const banks = await res.json();
+
+                const banks = [{
+                        code: 'BCA',
+                        name: 'Bank Central Asia'
+                    },
+                    {
+                        code: 'BNI',
+                        name: 'Bank Negara Indonesia'
+                    },
+                    {
+                        code: 'BRI',
+                        name: 'Bank Rakyat Indonesia'
+                    },
+                ];
 
                 banks.forEach(bank => {
                     const option = document.createElement('option');
@@ -63,47 +75,14 @@
             }
         });
 
-        // ✨ Autofill nama rekening
-        accountNumberInput.addEventListener('blur', async () => {
-            const bankCode = bankSelect.value;
-            const accountNumber = accountNumberInput.value;
-
-            if (!bankCode || !accountNumber) return;
-
-            try {
-                const res = await fetch(`{{ route('organizer.info.verify') }}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                    body: JSON.stringify({
-                        bank_code: bankCode,
-                        account_number: accountNumber, // ✅ Sesuai dengan validator
-                    }),
-                });
-
-                const result = await res.json();
-
-                if (res.ok && result.account_holder_name) {
-                    accountNameInput.value = result.account_holder_name;
-                } else {
-                    console.warn('Response error:', result);
-                }
-            } catch (err) {
-                console.warn('Gagal verifikasi rekening:', err);
-            }
-        });
-
         // 📤 Submit form
         document.getElementById('organizer-info-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const data = {
-                bank_code: bankSelect.value,
-                bank_account_number: accountNumberInput.value,
-                bank_account_name: accountNameInput.value,
+                bank_code: document.getElementById('bank_code').value,
+                bank_account_number: document.getElementById('bank_account_number').value,
+                bank_account_name: document.getElementById('bank_account_name').value,
             };
 
             alertBox.classList.add('hidden');
@@ -122,7 +101,7 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    alertBox.textContent = 'Informasi berhasil disimpan dan telah diverifikasi.';
+                    alertBox.textContent = 'Informasi berhasil disimpan.';
                     alertBox.className = 'bg-green-100 text-green-800 p-4 rounded mb-4';
                     alertBox.classList.remove('hidden');
 
@@ -130,12 +109,7 @@
                         window.location.href = "{{ route('organizer.dashboard') }}";
                     }, 1500);
                 } else {
-                    let message = result.message || 'Terjadi kesalahan.';
-                    if (result.expected_name) {
-                        message += ` Nama yang sesuai: ${result.expected_name}`;
-                    }
-
-                    alertBox.textContent = message;
+                    alertBox.textContent = result.message || 'Terjadi kesalahan.';
                     alertBox.className = 'bg-red-100 text-red-800 p-4 rounded mb-4';
                     alertBox.classList.remove('hidden');
                 }

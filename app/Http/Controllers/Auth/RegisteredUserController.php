@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\OrganizerInfo;
 
 class RegisteredUserController extends Controller
 {
@@ -44,15 +45,19 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
         // Redirect berdasarkan role
         if ($user->role === 'organizer') {
-            if (!$user->organizerInfo || !$user->organizerInfo->is_verified) {
-                return redirect()->route('organizer.info-form'); // route untuk isi rekening
-            }
-            return redirect()->route('organizer.dashboard');
+            $hasInfo = OrganizerInfo::where('user_id', $user->id)->exists();
+
+            return $hasInfo
+                ? redirect()->route('organizer.dashboard')
+                : redirect()->route('organizer.info.form'); // ✅ ganti sesuai nama route form rekening
+        }
+
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
         }
 
         return redirect()->route('dashboard');

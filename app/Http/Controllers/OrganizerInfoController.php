@@ -23,31 +23,43 @@ class OrganizerInfoController extends Controller
         return view('organizer.info-form', compact('banks'));
     }
 
-    public function store(OrganizerInfoRequest $request, XenditBankService $xenditBankService): JsonResponse
+    // public function store(OrganizerInfoRequest $request, XenditBankService $xenditBankService): JsonResponse
+    // {
+    //     $validated = $request->validated();
+
+    //     $xenditResponse = $xenditBankService->validateBankAccount(
+    //         $validated['bank_code'],
+    //         $validated['bank_account_number']
+    //     );
+
+    //     if (!$xenditResponse || !isset($xenditResponse['account_holder_name'])) {
+    //         return response()->json(['message' => 'Nomor rekening tidak valid atau tidak ditemukan.'], 422);
+    //     }
+
+    //     // Bandingkan nama (case-insensitive, hilangkan spasi)
+    //     $providedName = strtolower(preg_replace('/\s+/', '', $validated['bank_account_name']));
+    //     $xenditName = strtolower(preg_replace('/\s+/', '', $xenditResponse['account_holder_name']));
+
+    //     if ($providedName !== $xenditName) {
+    //         return response()->json([
+    //             'message' => 'Nama rekening tidak cocok dengan data bank.',
+    //             'expected_name' => $xenditResponse['account_holder_name']
+    //         ], 422);
+    //     }
+
+    //     $validated['is_verified'] = true;
+    //     $validated['user_id'] = Auth::id();
+
+    //     $organizerInfo = OrganizerInfo::create($validated);
+
+    //     return response()->json($organizerInfo, 201);
+    // }
+
+    public function store(OrganizerInfoRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
-        $xenditResponse = $xenditBankService->validateBankAccount(
-            $validated['bank_code'],
-            $validated['bank_account_number']
-        );
-
-        if (!$xenditResponse || !isset($xenditResponse['account_holder_name'])) {
-            return response()->json(['message' => 'Nomor rekening tidak valid atau tidak ditemukan.'], 422);
-        }
-
-        // Bandingkan nama (case-insensitive, hilangkan spasi)
-        $providedName = strtolower(preg_replace('/\s+/', '', $validated['bank_account_name']));
-        $xenditName = strtolower(preg_replace('/\s+/', '', $xenditResponse['account_holder_name']));
-
-        if ($providedName !== $xenditName) {
-            return response()->json([
-                'message' => 'Nama rekening tidak cocok dengan data bank.',
-                'expected_name' => $xenditResponse['account_holder_name']
-            ], 422);
-        }
-
-        $validated['is_verified'] = true;
+        $validated['is_verified'] = false; // Karena tidak divalidasi
         $validated['user_id'] = Auth::id();
 
         $organizerInfo = OrganizerInfo::create($validated);

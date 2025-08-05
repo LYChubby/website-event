@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
+use App\Models\OrganizerInfo;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -27,7 +28,8 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
-        $role = Auth::user()->role;
+        $user = Auth::user();
+        $role = $user->role;
         // $credentials = $request->only('email', 'password');
         // // Cek jika request datang dari API (Accept: application/json)
         // if (!Auth::attempt($credentials)) {
@@ -47,10 +49,18 @@ class AuthenticatedSessionController extends Controller
         // ]);
 
         // Redirect berdasarkan role
+        if ($role === 'organizer') {
+            // Cek apakah organizer sudah mengisi data rekening
+            if (!$user->OrganizerInfo) {
+                return redirect()->route('organizer.info.form');
+            }
+            return redirect()->route('organizer.dashboard');
+        }
+
         return match ($role) {
             'admin' => redirect()->route('admin.dashboard'),
-            'organizer' => redirect()->route('organizer.dashboard'),
-            default => redirect()->route('dashboard'),
+            'user' => redirect()->route('dashboard'),
+            default => redirect('/'),
         };
     }
 
