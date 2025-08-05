@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -483,45 +484,50 @@
                 <p class="text-xl text-gray-600">Bertemu dengan para ahli di balik kesuksesan NEO.Vibe</p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Anang -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         A
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">Anang</h4>
                     <p class="text-sm text-gray-600">Leader</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                <!-- Lintang -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         L
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">Lintang</h4>
                     <p class="text-sm text-gray-600">UI/UX Designer</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-teal-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                <!-- M Farras -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         MF
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">M Farras</h4>
                     <p class="text-sm text-gray-600">Back End</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-red-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                <!-- Ilzam -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         I
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">Ilzam</h4>
                     <p class="text-sm text-gray-600">Front End</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                <!-- Fauzi -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         F
                     </div>
                     <h4 class="font-semibold text-gray-800 mb-1">Fauzi</h4>
-                    <p class="text-sm text-gray-600"></p>
+                    <p class="text-sm text-gray-600">Support</p>
                 </div>
             </div>
         </div>
