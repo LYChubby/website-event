@@ -49,9 +49,12 @@ class RegisteredUserController extends Controller
 
         // Redirect berdasarkan role
         if ($user->role === 'organizer') {
+            if (!$user->organizerInfo || !$user->organizerInfo->is_verified) {
+                return redirect()->route('organizer.info-form'); // route untuk isi rekening
+            }
             return redirect()->route('organizer.dashboard');
-        } else {
-            return redirect()->route('dashboard');
         }
+
+        return redirect()->route('dashboard');
     }
 }

@@ -12,11 +12,14 @@ class RedirectIfAuthenticatedByRole
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            $role = Auth::user()->role;
+            $user = Auth::user();
+            $role = $user->role;
 
             return match ($role) {
                 'admin' => redirect()->route('admin.dashboard'),
-                'organizer' => redirect()->route('organizer.dashboard'),
+                'organizer' => !$user->organizerInfo || !$user->organizerInfo->is_verified
+                    ? redirect()->route('organizer.info-form')
+                    : redirect()->route('organizer.dashboard'),
                 'user' => redirect()->route('dashboard'),
                 default => redirect('/'),
             };

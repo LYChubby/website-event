@@ -21,6 +21,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EventDashboardController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\XenditWebhookController;
+use App\Http\Controllers\OrganizerDashboardController;
 
 
 
@@ -66,9 +67,9 @@ Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 
 
 
 // Dashboard untuk Organizer
-Route::get('/dashboard/organizer', function () {
-    return view('organizer.organizerdashboard');
-})->middleware(['auth', 'role:organizer'])->name('organizer.dashboard');
+Route::get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])
+    ->middleware(['auth', 'role:organizer'])
+    ->name('organizer.dashboard');
 
 // Dashboard untuk Admin
 Route::get('/dashboard/admin', function () {
@@ -164,10 +165,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 
 Route::middleware(['auth', 'role:organizer'])->group(function () {
-    Route::get('/organizer-info', [OrganizerInfoController::class, 'edit'])->name('organizer-info.edit');
-    Route::post('/organizer-info', [OrganizerInfoController::class, 'store'])->name('organizer-info.store');
-    Route::put('/organizer-info', [OrganizerInfoController::class, 'update'])->name('organizer-info.update');
+    Route::get('/organizer/info', [OrganizerInfoController::class, 'create'])->name('organizer.info.form');
+    Route::post('/organizer/info', [OrganizerInfoController::class, 'store'])->name('organizer.info.store');
+    Route::get('/organizer/banks', [OrganizerInfoController::class, 'getBanks'])->name('organizer.info.banks');
+    Route::post('/organizer/verify', [OrganizerInfoController::class, 'verifyAccount'])->name('organizer.info.verify');
 });
+
 
 
 
