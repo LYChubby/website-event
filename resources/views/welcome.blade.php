@@ -35,18 +35,47 @@
         }
 
         .hover-lift {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 16px;
             background-color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
             outline: none;
+            border: 1px solid rgba(238, 242, 255, 0.8);
+            position: relative;
+            overflow: hidden;
         }
 
         .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            outline: none;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .hover-lift::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-lift:hover::before {
+            opacity: 1;
+        }
+
+        .stats-counter {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
         }
 
         /* Remove outline on focus (e.g. on click) */
@@ -218,12 +247,6 @@
             }
         }
 
-        .stats-counter {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #667eea;
-        }
-
         .feature-icon {
             background: linear-gradient(135deg, #667eea, #764ba2);
             width: 60px;
@@ -297,24 +320,31 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                <!-- Event Terselenggara -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Event Terselenggara</p>
+                    <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+
+                <!-- Peserta Aktif -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Peserta Aktif</p>
+                    <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+
+                <!-- Organizer Terpercaya -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Organizer Terpercaya</p>
+                    <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+
+                <!-- Kepuasan Pengguna -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="99" data-unit="percent">0%</div>
-                    <p class="text-gray-600 font-medium">Kepuasan Pengguna</p>
+                    <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
                 </div>
             </div>
         </div>
