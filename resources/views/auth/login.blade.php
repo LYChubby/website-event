@@ -3,21 +3,28 @@
         .gradient-primary {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-image:
+                url('/images/event.svg'),
+                linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            background-attachment: fixed;
             min-height: 100vh;
             position: relative;
             overflow: hidden;
         }
-        
+
+
         .floating-orb {
             position: absolute;
             border-radius: 50%;
@@ -25,7 +32,7 @@
             opacity: 0.2;
             animation: float 10s ease-in-out infinite;
         }
-        
+
         .orb-1 {
             width: 200px;
             height: 200px;
@@ -34,7 +41,7 @@
             right: -100px;
             animation-delay: 0s;
         }
-        
+
         .orb-2 {
             width: 150px;
             height: 150px;
@@ -43,67 +50,75 @@
             left: -75px;
             animation-delay: 5s;
         }
-        
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
         }
-        
+
         .login-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .input-enhanced {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(104, 69, 151, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .input-enhanced:focus {
             background: rgba(255, 255, 255, 1);
             border-color: rgba(104, 69, 151, 0.3);
             box-shadow: 0 5px 15px rgba(104, 69, 151, 0.1);
         }
-        
+
         .btn-gradient {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
             transition: all 0.3s ease;
         }
-        
+
         .btn-gradient:hover {
             background: linear-gradient(135deg, #5a3a7d 0%, #4d5bb6 100%);
             transform: translateY(-1px);
             box-shadow: 0 10px 25px rgba(104, 69, 151, 0.3);
         }
-        
+
         .icon-bg {
             background: linear-gradient(135deg, #684597 20%, #5C6AD0 80%);
         }
-        
+
         body {
             margin: 0;
             padding: 0;
         }
-        
+
         .glass-effect {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .slide-fade-in {
             animation: slideUp 0.6s ease-out;
         }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -112,11 +127,12 @@
     </style>
 
     <!-- Background with Gradient and Floating Orbs -->
+
     <body class="gradient-bg min-h-screen flex items-center justify-center">
         <div class="floating-orb orb-1"></div>
         <div class="floating-orb orb-2"></div>
-        
-        <main class="w-full max-w-sm p-6">
+
+        <main class="w-full max-w-sm p-6 mx-auto px-4">
             <div class="glass-effect rounded-3xl p-1 shadow-2xl slide-fade-in">
                 <!-- Login Card Content -->
                 <div class="p-5">
@@ -154,7 +170,7 @@
                                 </div>
                             </div>
                             @error('email')
-                                <p class="text-xs text-red-500">{{ $message }}</p>
+                            <p class="text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -186,7 +202,7 @@
                                 </button>
                             </div>
                             @error('password')
-                                <p class="text-xs text-red-500">{{ $message }}</p>
+                            <p class="text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -196,11 +212,11 @@
                                 <input type="checkbox" name="remember" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50 w-3 h-3">
                                 <span class="ml-1.5 text-gray-600">Remember me</span>
                             </label>
-                            
+
                             @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="gradient-text font-medium hover:underline transition-all duration-300">
-                                    Forgot Password?
-                                </a>
+                            <a href="{{ route('password.request') }}" class="gradient-text font-medium hover:underline transition-all duration-300">
+                                Forgot Password?
+                            </a>
                             @endif
                         </div>
 
@@ -234,6 +250,14 @@
                                 <a href="{{ route('register') }}" class="gradient-text font-semibold hover:underline transition-all duration-300 ml-1">
                                     Register Now
                                 </a>
+                            </p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="text-gray-400 text-xs">
+                                By signing in, you agree to our
+                                <a href="#" class="text-gray-500 hover:text-gray-700 underline">Terms</a> and
+                                <a href="#" class="text-gray-500 hover:text-gray-700 underline">Privacy Policy</a>
                             </p>
                         </div>
                     </form>
