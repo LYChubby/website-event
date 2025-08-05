@@ -3,14 +3,14 @@
         .gradient-primary {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .gradient-bg {
             background-image:
                 url('/images/event.svg'),
@@ -23,7 +23,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .floating-orb {
             position: absolute;
             border-radius: 50%;
@@ -31,7 +31,7 @@
             opacity: 0.2;
             animation: float 10s ease-in-out infinite;
         }
-        
+
         .orb-1 {
             width: 200px;
             height: 200px;
@@ -40,7 +40,7 @@
             right: -100px;
             animation-delay: 0s;
         }
-        
+
         .orb-2 {
             width: 150px;
             height: 150px;
@@ -49,67 +49,75 @@
             left: -75px;
             animation-delay: 5s;
         }
-        
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
         }
-        
+
         .login-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .input-enhanced {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(104, 69, 151, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .input-enhanced:focus {
             background: rgba(255, 255, 255, 1);
             border-color: rgba(104, 69, 151, 0.3);
             box-shadow: 0 5px 15px rgba(104, 69, 151, 0.1);
         }
-        
+
         .btn-gradient {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
             transition: all 0.3s ease;
         }
-        
+
         .btn-gradient:hover {
             background: linear-gradient(135deg, #5a3a7d 0%, #4d5bb6 100%);
             transform: translateY(-1px);
             box-shadow: 0 10px 25px rgba(104, 69, 151, 0.3);
         }
-        
+
         .icon-bg {
             background: linear-gradient(135deg, #684597 20%, #5C6AD0 80%);
         }
-        
+
         body {
             margin: 0;
             padding: 0;
         }
-        
+
         .glass-effect {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .slide-fade-in {
             animation: slideUp 0.6s ease-out;
         }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -118,11 +126,12 @@
     </style>
 
     <!-- Background with Gradient and Floating Orbs -->
+
     <body class="gradient-bg min-h-screen flex items-center justify-center">
         <div class="floating-orb orb-1"></div>
         <div class="floating-orb orb-2"></div>
-        
-        <main class="w-full p-6 mx-auto px-4" style="max-width: 700px;">
+
+        <main class="w-full max-w-2xl p-6 mx-auto px-4">
             <div class="glass-effect rounded-3xl p-1 shadow-2xl slide-fade-in">
                 <!-- Register Card Content -->
                 <div class="p-5">
@@ -162,7 +171,7 @@
                                     </div>
                                 </div>
                                 @error('name')
-                                    <p class="text-xs text-red-500">{{ $message }}</p>
+                                <p class="text-xs text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -185,7 +194,7 @@
                                     </div>
                                 </div>
                                 @error('email')
-                                    <p class="text-xs text-red-500">{{ $message }}</p>
+                                <p class="text-xs text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -217,7 +226,7 @@
                                 </div>
                             </div>
                             @error('role')
-                                <p class="text-xs text-red-500">{{ $message }}</p>
+                            <p class="text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -251,7 +260,7 @@
                                     </button>
                                 </div>
                                 @error('password')
-                                    <p class="text-xs text-red-500">{{ $message }}</p>
+                                <p class="text-xs text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -295,17 +304,6 @@
                                 </svg>
                             </span>
                         </button>
-
-                        <!-- Divider -->
-                        <div class="my-4 text-center">
-                            <span class="text-xs font-medium text-gray-400">or continue with</span>
-                        </div>
-
-                        <!-- Google Register -->
-                        <a href="/auth/google" class="flex items-center justify-center w-full bg-white border-2 border-gray-200 rounded-xl py-2.5 hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 group shadow-sm">
-                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="h-4 w-4 mr-2" alt="Google">
-                            <span class="font-medium text-gray-700 group-hover:text-gray-900 text-sm">Continue with Google</span>
-                        </a>
 
                         <!-- Login Link -->
                         <div class="mt-4 text-center">

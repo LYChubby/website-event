@@ -93,7 +93,7 @@
 </head>
 
 <body class="gradient-bg min-h-screen flex items-center justify-center">
-    <main class="w-full max-w-md p-6">
+    <main class="w-full max-w-2xl p-6">
         <div class="glass-effect rounded-3xl p-50 py- shadow-2xl slide-fade-in">
             {{ $slot }}
         </div>
