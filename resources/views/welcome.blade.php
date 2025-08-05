@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -34,25 +35,55 @@
         }
 
         .hover-lift {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 16px;
             background-color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
             outline: none;
+            border: 1px solid rgba(238, 242, 255, 0.8);
+            position: relative;
+            overflow: hidden;
         }
 
         .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            outline: none;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .hover-lift::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-lift:hover::before {
+            opacity: 1;
+        }
+
+        .stats-counter {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
         }
 
         /* Remove outline on focus (e.g. on click) */
         .hover-lift:focus,
         .hover-lift:focus-visible {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);  /* Optional: if you want to remove shadow on focus too */
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);
+            /* Optional: if you want to remove shadow on focus too */
         }
 
 
@@ -69,9 +100,12 @@
         }
 
         @keyframes floating {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-15px);
             }
@@ -82,10 +116,13 @@
         }
 
         @keyframes pulse-border {
-            0%, 100% {
+
+            0%,
+            100% {
                 border-color: rgba(102, 126, 234, 0.3);
                 box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
             }
+
             50% {
                 border-color: rgba(102, 126, 234, 0.6);
                 box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
@@ -178,8 +215,13 @@
         }
 
         @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .sparkle {
@@ -192,14 +234,17 @@
         }
 
         @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
-        }
 
-        .stats-counter {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #667eea;
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .feature-icon {
@@ -228,17 +273,17 @@
                         <span class="gradient-text font-bold text-2xl">NEO.Vibe</span>
                     </div>
                     <div class="hidden md:block">
-                        <input type="text" placeholder="Cari event impian Anda..." 
-                               class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
+                        <input type="text" placeholder="Cari event impian Anda..."
+                            class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('register') }}"
-                    class="btn-secondary px-6 py-2 rounded-full font-semibold">Daftar
-                </a>
+                        class="btn-secondary px-6 py-2 rounded-full font-semibold">Daftar
+                    </a>
                     <a href="{{ route('login') }}"
-                    class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Masuk
-                </a>
+                        class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Masuk
+                    </a>
                 </div>
             </div>
         </div>
@@ -250,7 +295,7 @@
         <div class="sparkle" style="top: 60%; left: 80%; animation-delay: 1s;"></div>
         <div class="sparkle" style="top: 30%; left: 90%; animation-delay: 0.5s;"></div>
         <div class="sparkle" style="top: 80%; left: 20%; animation-delay: 1.5s;"></div>
-        
+
         <div class="container mx-auto px-6 relative z-10">
             <div class="glass-card rounded-3xl p-12 hover-lift floating-animation pulse-border">
                 <div class="text-center max-w-4xl mx-auto">
@@ -263,10 +308,10 @@
                     </p>
                     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                         <a href="{{ route('login') }}"
-                        class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg">
+                            class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg">
                             <i class="fas fa-rocket mr-2"></i>Jelajahi Event</a>
                         <a href="{{ route('login') }}"
-                        class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg">
+                            class="btn-secondary px-8 py-4 rounded-full font-semibold text-lg">
                             <i class="fas fa-plus mr-2"></i>Buat Event</a>
                     </div>
                 </div>
@@ -275,24 +320,31 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+                <!-- Event Terselenggara -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Event Terselenggara</p>
+                    <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+
+                <!-- Peserta Aktif -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Peserta Aktif</p>
+                    <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
+
+                <!-- Organizer Terpercaya -->
+                <div class="hover-lift text-center">
                     <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-600 font-medium">Organizer Terpercaya</p>
+                    <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
                 </div>
-                <div class="text-center hover-lift transition-transform duration-300 ease-in-out transform hover:-translate-y-2 bg-white rounded-lg shadow-md hover:shadow-lg p-6">
-                    <div class="stats-counter"data-target="99" data-unit="percent">0%</div>
-                    <p class="text-gray-600 font-medium">Kepuasan Pengguna</p>
+
+                <!-- Kepuasan Pengguna -->
+                <div class="hover-lift text-center">
+                    <div class="stats-counter" data-target="99" data-unit="percent">0%</div>
+                    <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
                 </div>
             </div>
         </div>
@@ -462,183 +514,167 @@
                 <p class="text-xl text-gray-600">Bertemu dengan para ahli di balik kesuksesan NEO.Vibe</p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        D
-                    </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Davina</h4>
-                    <p class="text-sm text-gray-600">Creative Director</p>
-                </div>
-
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        N
-                    </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Nayla</h4>
-                    <p class="text-sm text-gray-600">Event Manager</p>
-                </div>
-
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-teal-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        R
-                    </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Risa</h4>
-                    <p class="text-sm text-gray-600">Marketing Lead</p>
-                </div>
-
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-red-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Anang -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         A
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Ariel T</h4>
-                    <p class="text-sm text-gray-600">Tech Lead</p>
+                    <h4 class="font-semibold text-gray-800 mb-1">Anang</h4>
+                    <p class="text-sm text-gray-600">Leader</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                <!-- Lintang -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         L
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Lara</h4>
+                    <h4 class="font-semibold text-gray-800 mb-1">Lintang</h4>
                     <p class="text-sm text-gray-600">UI/UX Designer</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-400 to-blue-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        V
+                <!-- M Farras -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                        MF
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Vonzy</h4>
-                    <p class="text-sm text-gray-600">Content Creator</p>
+                    <h4 class="font-semibold text-gray-800 mb-1">M Farras</h4>
+                    <p class="text-sm text-gray-600">Back End</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        Z
+                <!-- Ilzam -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                        I
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Zee</h4>
-                    <p class="text-sm text-gray-600">Social Media</p>
+                    <h4 class="font-semibold text-gray-800 mb-1">Ilzam</h4>
+                    <p class="text-sm text-gray-600">Front End</p>
                 </div>
 
-                <div class="team-card rounded-2xl p-6 text-center">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        R
+                <!-- Fauzi -->
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                        F
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-1">Remar</h4>
-                    <p class="text-sm text-gray-600">Operations</p>
+                    <h4 class="font-semibold text-gray-800 mb-1">Fauzi</h4>
+                    <p class="text-sm text-gray-600">Support</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-   <footer class="bg-gray-900 mt-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-            <!-- Company Info -->
-            <div>
-                <div class="flex items-center space-x-3 mb-4">
-                    <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
-                    <span class="text-xl font-bold">NEO.Vibe</span>
-                </div>
-                <p class="text-white/80 text-sm leading-relaxed">
-                    Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
-                </p>
-            </div>
-
-            <!-- Quick Links -->
-            <div>
-                <h4 class="font-semibold mb-4">Link Cepat</h4>
-                <div class="space-y-2">
-                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                        <i class="fas fa-info-circle mr-2"></i>Tentang Kami
-                    </a>
-                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                        <i class="fas fa-fire mr-2"></i>Event Populer
-                    </a>
-                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                        <i class="fas fa-envelope mr-2"></i>Kontak Kami
-                    </a>
-                    <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                        <i class="fas fa-question-circle mr-2"></i>FAQ
-                    </a>
-                </div>
-            </div>
-
-            <!-- Social Media -->
-            <div>
-                <h4 class="font-semibold mb-4">Ikuti Kami</h4>
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                </div>
-                <div class="mt-4">
-                    <p class="text-white/60 text-xs">
-                        <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+    <footer class="bg-gray-900 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                        <span class="text-xl font-bold">NEO.Vibe</span>
+                    </div>
+                    <p class="text-white/80 text-sm leading-relaxed">
+                        Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
                     </p>
                 </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Link Cepat</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-fire mr-2"></i>Event Populer
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-question-circle mr-2"></i>FAQ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-white/60 text-xs">
+                            <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                <p class="text-white text-sm">
+                    © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
+                </p>
             </div>
         </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.stats-counter');
+            const speed = 200;
 
-        <!-- Copyright -->
-        <div class="border-t border-white/20 mt-8 pt-8 text-center">
-            <p class="text-white text-sm">
-                © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
-            </p>
-        </div>
-    </div>
-</footer>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const counters = document.querySelectorAll('.stats-counter');
-        const speed = 200;
+            const animateCounter = (counter) => {
+                const target = +counter.getAttribute('data-target');
+                const unit = counter.getAttribute('data-unit') || 'number';
 
-        const animateCounter = (counter) => {
-            const target = +counter.getAttribute('data-target');
-            const unit = counter.getAttribute('data-unit') || 'number';
+                const updateCount = () => {
+                    const currentText = counter.innerText.replace(/[^0-9]/g, '');
+                    const count = +currentText;
+                    const increment = Math.ceil(target / speed);
 
-            const updateCount = () => {
-                const currentText = counter.innerText.replace(/[^0-9]/g, '');
-                const count = +currentText;
-                const increment = Math.ceil(target / speed);
+                    if (count < target) {
+                        const newVal = count + increment;
+                        counter.innerText = unit === 'percent' ?
+                            `${Math.min(newVal, target)}%` :
+                            new Intl.NumberFormat().format(newVal);
+                        setTimeout(updateCount, 15);
+                    } else {
+                        counter.innerText = unit === 'percent' ?
+                            `${target}%` :
+                            new Intl.NumberFormat().format(target);
+                    }
+                };
 
-                if (count < target) {
-                    const newVal = count + increment;
-                    counter.innerText = unit === 'percent' 
-                        ? `${Math.min(newVal, target)}%` 
-                        : new Intl.NumberFormat().format(newVal);
-                    setTimeout(updateCount, 15);
-                } else {
-                    counter.innerText = unit === 'percent' 
-                        ? `${target}%` 
-                        : new Intl.NumberFormat().format(target);
-                }
+                updateCount();
             };
 
-            updateCount();
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    observer.unobserve(entry.target);
-                }
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.6
             });
-        }, { threshold: 0.6 });
 
-        counters.forEach(counter => observer.observe(counter));
-    });
-</script>
+            counters.forEach(counter => observer.observe(counter));
+        });
+    </script>
 
 </body>
+
 </html>
