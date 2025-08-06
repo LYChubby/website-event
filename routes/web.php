@@ -71,6 +71,14 @@ Route::get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashbo
     ->middleware(['auth', 'role:organizer'])
     ->name('organizer.dashboard');
 
+Route::get('/organizer/check-verification', function () {
+    $organizer = Auth::user()->organizer;
+    return response()->json([
+        'is_verified' => $organizer->is_verified ?? false
+    ]);
+})->middleware('auth');
+
+
 // Dashboard untuk Admin
 Route::get('/dashboard/admin', function () {
     return view('admin.admindashboard');

@@ -334,6 +334,14 @@
             gap: 1rem;
         }
 
+        .opacity-50 {
+            opacity: 0.5;
+        }
+
+        .cursor-not-allowed {
+            cursor: not-allowed;
+        }
+
         .action-btn {
             padding: 0.5rem 1rem;
             border-radius: 10px;
