@@ -29,7 +29,7 @@ class HomeController extends Controller
         // Filtered Events - Base query
         $filterQuery = Event::with(['category', 'organizer'])
             ->where('status_approval', 'approved')
-            ->where('start_date', '>=', $today)
+            // ->where('start_date', '>=', $today)
             ->orderBy('start_date', 'asc');
 
         if (!empty($kategoriId) && $kategoriId !== 'all') {
