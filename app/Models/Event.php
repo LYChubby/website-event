@@ -64,5 +64,8 @@ class Event extends Model
         return now()->greaterThan($this->end_date);
     }
 
-
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'event_id', 'event_id');
+    }
 }

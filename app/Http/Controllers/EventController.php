@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\User;
+use App\Models\Feedback;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\Auth;
@@ -125,7 +126,7 @@ class EventController extends Controller
 
     public function detail($id)
     {
-        $event = Event::with(['category', 'organizer', 'tickets'])->findOrFail($id);
+        $event = Event::with(['category', 'organizer', 'tickets', 'feedbacks.user'])->findOrFail($id);
 
         return view('events.show', compact('event'));
     }

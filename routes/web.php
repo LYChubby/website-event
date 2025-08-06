@@ -109,6 +109,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [HistoryController::class, 'show'])->name('show');
     });
 
+    // === FEEDBACK ===
+    Route::resource('feedbacks', FeedbackController::class)->only(['store']);
+
     // === ORGANIZER ===
     Route::prefix('organizer')->name('organizer.')->middleware('role:organizer')->group(function () {
         Route::get('/check-verification', function () {

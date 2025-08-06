@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Models\Feedback;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
     public function index()
     {
-        $role = auth()->user()->role;
+        $role = Auth::user()->role;
 
         // Hanya user, organizer, admin yang boleh lihat
         if (!in_array($role, ['user', 'organizer', 'admin'])) {
@@ -22,25 +23,16 @@ class FeedbackController extends Controller
 
     public function store(StoreFeedbackRequest $request)
     {
-        // 🔍 Cek dulu apakah user login
-        if (!auth()->check()) {
-            return response()->json([
-                'message' => 'User not authenticated.'
-            ], 401);
+        if (!Auth::check()) {
+            return response()->json(['error' => 'User not authenticated.'], 401);
         }
 
-        $role = auth()->user()->role;
-
-        // ✅ Hanya user biasa boleh store
-        if ($role !== 'user') {
-            return response()->json([
-                'message' => 'Only users can submit feedback.'
-            ], 403);
+        if (Auth::user()->role !== 'user') {
+            return response()->json(['error' => 'Only users can submit feedback.'], 403);
         }
 
-        // ✅ auth()->id() sekarang aman dipakai
         $feedback = Feedback::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'event_id' => $request->event_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
@@ -48,7 +40,12 @@ class FeedbackController extends Controller
 
         return response()->json([
             'message' => 'Feedback submitted successfully!',
-            'data' => $feedback
+            'feedback' => [
+                'user_name' => Auth::user()->name,
+                'rating' => $feedback->rating,
+                'comment' => $feedback->comment,
+                'created_at' => 'Baru saja'
+            ]
         ], 201);
     }
 
@@ -76,7 +73,7 @@ class FeedbackController extends Controller
 
     public function show(Feedback $feedback)
     {
-        $role = auth()->user()->role;
+        $role = Auth::user()->role;
 
         // Semua boleh show
         if (!in_array($role, ['user', 'organizer', 'admin'])) {
@@ -88,7 +85,7 @@ class FeedbackController extends Controller
 
     public function destroy(Feedback $feedback)
     {
-        $role = auth()->user()->role;
+        $role = Auth::user()->role;
 
         // Hanya admin boleh hapus
         if ($role !== 'admin') {

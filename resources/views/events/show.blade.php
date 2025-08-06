@@ -1,4 +1,15 @@
 <x-app-layout>
+    <style>
+        .rating-star {
+            color: #d1d5db;
+            /* Warna bintang tidak aktif */
+        }
+
+        .rating-star.active {
+            color: #f59e0b;
+            /* Warna bintang aktif */
+        }
+    </style>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
@@ -167,6 +178,73 @@
         </div>
     </div>
 
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Ulasan dan Rating</h2>
+
+        <!-- Form Tambah Feedback -->
+        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+            @csrf
+            <input type="hidden" name="event_id" value="{{ $event->event_id }}">
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Rating</label>
+                <div class="flex space-x-1">
+                    @for($i = 1; $i <= 5; $i++)
+                        <button type="button" onclick="setRating({{ $i }})" class="text-2xl focus:outline-none">
+                        <i class="far fa-star rating-star" data-rating="{{ $i }}"></i>
+                        </button>
+                        @endfor
+                </div>
+                <input type="hidden" name="rating" id="ratingValue" value="0">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Komentar</label>
+                <textarea name="comment" rows="3" class="w-full border rounded px-3 py-2" required></textarea>
+            </div>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Kirim Ulasan
+            </button>
+        </form>
+
+        <div id="feedbackMessage" class="hidden mt-4 p-4 rounded"></div>
+
+        <!-- Daftar Feedback -->
+        <div class="space-y-6">
+            @forelse($event->feedbacks as $feedback)
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800">{{ $feedback->user->name ?? 'Anonim' }}</h4>
+                            <div class="flex items-center">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <=$feedback->rating)
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    @else
+                                    <i class="far fa-star text-yellow-400"></i>
+                                    @endif
+                                    @endfor
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-sm text-gray-500">{{ $feedback->created_at->diffForHumans() }}</span>
+                </div>
+                <p class="text-gray-700 mt-2">{{ $feedback->comment }}</p>
+            </div>
+            @empty
+            <div class="bg-gray-50 p-8 rounded-lg text-center">
+                <i class="fas fa-comment-alt text-4xl text-gray-300 mb-3"></i>
+                <p class="text-gray-500">Belum ada ulasan untuk event ini</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gradient-to-r from-[#63A7F4] to-[#4A90E2] mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -323,6 +401,118 @@
                     alert('Terjadi kesalahan saat memproses pembayaran.');
                 });
         });
+
+        function setRating(rating) {
+            // Update hidden input value
+            document.getElementById('ratingValue').value = rating;
+
+            // Update star display
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                if (parseInt(star.dataset.rating) <= rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                } else {
+                    star.classList.remove('fas');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        async function submitFeedback(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const messageDiv = document.getElementById('feedbackMessage');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            // Disable button saat proses submit
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+            try {
+                const response = await fetch("{{ route('feedbacks.store') }}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+                const data = await response.json();
+
+                // Tampilkan pesan sukses/error
+                messageDiv.classList.remove('hidden');
+
+                if (data.message) {
+                    messageDiv.className = 'mt-4 p-4 bg-green-100 text-green-700 rounded';
+                    messageDiv.textContent = data.message;
+                    form.reset();
+                    resetStars();
+
+                    // Tambahkan feedback baru ke daftar tanpa refresh
+                    if (data.feedback) {
+                        addNewFeedback(data.feedback);
+                    }
+                } else if (data.error) {
+                    messageDiv.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
+                    messageDiv.textContent = data.error;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded';
+                messageDiv.textContent = 'Terjadi kesalahan saat mengirim feedback';
+                messageDiv.classList.remove('hidden');
+            } finally {
+                // Enable button kembali
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Ulasan';
+            }
+        }
+
+        function resetStars() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            });
+            document.getElementById('ratingValue').value = 0;
+        }
+
+        function addNewFeedback(feedback) {
+            const feedbackContainer = document.querySelector('.space-y-6'); // Sesuaikan dengan container feedback Anda
+
+            const newFeedback = document.createElement('div');
+            newFeedback.className = 'bg-white border border-gray-200 rounded-lg shadow-sm p-6';
+            newFeedback.innerHTML = `
+        <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <i class="fas fa-user text-gray-500"></i>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">${feedback.user_name}</h4>
+                    <div class="flex items-center">
+                        ${'<i class="fas fa-star text-yellow-400"></i>'.repeat(feedback.rating)}
+                        ${'<i class="far fa-star text-yellow-400"></i>'.repeat(5 - feedback.rating)}
+                    </div>
+                </div>
+            </div>
+            <span class="text-sm text-gray-500">Baru saja</span>
+        </div>
+        <p class="text-gray-700 mt-2">${feedback.comment}</p>
+    `;
+
+            // Jika tidak ada feedback sebelumnya, hapus placeholder "belum ada ulasan"
+            const emptyState = feedbackContainer.querySelector('.bg-gray-50');
+            if (emptyState) {
+                feedbackContainer.removeChild(emptyState);
+            }
+
+            // Tambahkan feedback baru di paling atas
+            feedbackContainer.insertBefore(newFeedback, feedbackContainer.firstChild);
+        }
     </script>
 
 </x-app-layout>
