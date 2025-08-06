@@ -1,46 +1,41 @@
 <?php
 
-use App\Http\Controllers\DisbursementController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\OrganizerInfoController;
-use App\Http\Controllers\ParticipantController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\EventDashboardController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\XenditWebhookController;
-use App\Http\Controllers\OrganizerDashboardController;
+use App\Http\Controllers\{
+    GoogleController,
+    CategoryController,
+    EventController,
+    TicketController,
+    FeedbackController,
+    NotificationController,
+    ParticipantController,
+    ProfileController,
+    OrganizerInfoController,
+    DisbursementController,
+    TransactionController,
+    CheckoutController,
+    XenditWebhookController,
+    HomeController,
+    HistoryController,
+    OrganizerDashboardController,
+    EventDashboardController
+};
 
-
-
-// Callback setelah login Google
+// ========== AUTH & GOOGLE LOGIN ==========
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::get('/choose-role', function () {
     $googleUser = session('google_user');
-    if (!$googleUser)
-        return redirect('/');
+    if (!$googleUser) return redirect('/');
     return view('auth.choose-role', compact('googleUser'));
 })->name('choose-role');
 
 Route::post('/choose-role', function (Request $request) {
-    $request->validate([
-        'role' => 'required|in:user,organizer',
-    ]);
-
+    $request->validate(['role' => 'required|in:user,organizer']);
     $googleUser = session('google_user');
 
     $user = \App\Models\User::create([
@@ -57,125 +52,125 @@ Route::post('/choose-role', function (Request $request) {
     return redirect()->route($user->role === 'organizer' ? 'organizer.dashboard' : 'dashboard');
 });
 
+// ========== GENERAL ==========
+Route::get('/', fn() => view('welcome'));
+Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 
+// ========== USER DASHBOARD ==========
+Route::middleware(['auth', 'role:user'])->get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// ========== ORGANIZER DASHBOARD ==========
+Route::middleware(['auth', 'role:organizer'])->get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])->name('organizer.dashboard');
 
-Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'role:user'])->name('dashboard');
+// ========== ADMIN DASHBOARD ==========
+Route::middleware(['auth', 'role:admin'])->get('/dashboard/admin', fn() => view('admin.admindashboard'))->name('admin.dashboard');
 
-
-// Dashboard untuk Organizer
-Route::get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])
-    ->middleware(['auth', 'role:organizer'])
-    ->name('organizer.dashboard');
-
-// Dashboard untuk Admin
-Route::get('/dashboard/admin', function () {
-    return view('admin.admindashboard');
-})->middleware(['auth', 'role:admin'])->name('admin.dashboard');
-
-
+// ========== AUTH MIDDLEWARE GROUP ==========
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // === PROFILE ===
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    // === CATEGORIES ===
     Route::resource('categories', CategoryController::class);
 
-    // Route::resource('events', EventController::class);
+    // === EVENTS (User & Shared) ===
     Route::get('/events/{id}', [EventController::class, 'detail'])->name('events.show');
+
+    // === TICKETS ===
     Route::resource('tickets', TicketController::class);
     Route::get('/events/{eventId}/tickets', [TicketController::class, 'ticketsByEvent']);
-    Route::resource('feedbacks', FeedbackController::class)->only([
-        'index',
-        'store',
-        'show',
-        'destroy'
-    ]);
 
-    Route::resource('notifications', NotificationController::class)->only([
-        'index',
-        'show',
-        'store',
-        'update',
-        'destroy'
-    ]);
+    // === FEEDBACK ===
+    Route::resource('feedbacks', FeedbackController::class)->only(['index', 'store', 'show', 'destroy']);
 
+    // === NOTIFICATIONS ===
+    Route::resource('notifications', NotificationController::class);
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
+    // === PARTICIPANTS ===
     Route::apiResource('participants', ParticipantController::class);
     Route::post('participants/{id}/checkin', [ParticipantController::class, 'checkIn']);
 
+    // === ORGANIZER INFO ===
     Route::resource('organizer-infos', OrganizerInfoController::class);
 
-    Route::resource('disbursements', DisbursementController::class);
+    // === TRANSACTIONS & DISBURSEMENTS ===
     Route::resource('transaction', TransactionController::class);
+    Route::resource('disbursements', DisbursementController::class);
 
-    // Mark as read (opsional)
-    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])
-        ->name('notifications.markAsRead');
+    // === HISTORY ===
+    Route::prefix('history')->name('history.')->group(function () {
+        Route::get('/', [HistoryController::class, 'index'])->name('index');
+        Route::get('/{id}', [HistoryController::class, 'show'])->name('show');
+    });
 
+    // === ORGANIZER ===
+    Route::prefix('organizer')->name('organizer.')->middleware('role:organizer')->group(function () {
+        Route::get('/check-verification', function () {
+            $user = Auth::user();
 
-    //History
+            if ($user->role !== 'organizer') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Hanya organizer yang dapat mengakses fitur ini',
+                    'is_verified' => false
+                ], 403);
+            }
 
-    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
-    Route::get('/history/{id}', [HistoryController::class, 'show'])->name('history.show');
+            if (!$user->organizerInfo) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data organizer tidak lengkap',
+                    'is_verified' => false
+                ], 404);
+            }
 
+            return response()->json([
+                'success' => true,
+                'is_verified' => (bool) $user->organizerInfo->is_verified,
+                'organizer_data' => [
+                    'id' => $user->organizerInfo->organizer_info_id,
+                    'bank_account' => $user->organizerInfo->bank_account_name
+                ]
+            ]);
+        });
 
+        // CRUD Event Organizer
+        Route::get('/events', [EventController::class, 'myEvents']);
+        Route::post('/events', [EventController::class, 'store']);
+        Route::get('/events/{id}', [EventController::class, 'show']);
+        Route::put('/events/{id}', [EventController::class, 'update']);
+        Route::delete('/events/{id}', [EventController::class, 'destroy']);
 
+        // Dashboard event
+        Route::get('/events/{id}/dashboard', [EventDashboardController::class, 'show'])->name('events.dashboard');
 
+        // Info Bank & Verifikasi
+        Route::get('/info', [OrganizerInfoController::class, 'create'])->name('info.form');
+        Route::post('/info', [OrganizerInfoController::class, 'store'])->name('info.store');
+        Route::get('/banks', [OrganizerInfoController::class, 'getBanks'])->name('info.banks');
+        Route::post('/verify', [OrganizerInfoController::class, 'verifyAccount'])->name('info.verify');
+    });
 
-    // //purchase endpoint
-    // Route::middleware(['auth', 'role:user'])->group(function () {
-    //     Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])
-    //         ->name('tickets.purchase');
-    // });
+    // === ADMIN ===
+    Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
+        Route::get('/events', [EventController::class, 'adminEvents']);
+        Route::get('/events/{id}', [EventController::class, 'show']);
+        Route::put('/events/{id}/approve', [EventController::class, 'approveEvent']);
+        Route::put('/events/{id}/reject', [EventController::class, 'rejectEvent']);
+    });
 
-
-
-
-
-    // Route::get('events', [EventController::class, 'index']);
-    // Route::get('events/{event}', [EventController::class, 'show']);
-
-    // Organizer
-
-    Route::get('/organizer/events', [EventController::class, 'myEvents']);
-    Route::post('/organizer/events', [EventController::class, 'store']);
-    Route::get('/organizer/events/{id}', [EventController::class, 'show']);
-    Route::put('/organizer/events/{id}', [EventController::class, 'update']);
-    Route::delete('/organizer/events/{id}', [EventController::class, 'destroy']);
-    Route::get('/organizer/events/{id}/dashboard', [EventDashboardController::class, 'show'])->name('events.dashboard');
-
-    // Admin
-
-    Route::get('/admin/events', [EventController::class, 'adminEvents']);
-    Route::get('/admin/events/{id}', [EventController::class, 'show']);
-    Route::put('/admin/events/{id}/approve', [EventController::class, 'approveEvent']);
-    Route::put('/admin/events/{id}/reject', [EventController::class, 'rejectEvent']);
-
-    // routes/web.php
+    // === CHECKOUT & PAYMENT ===
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
-    Route::get('/payment/failed',  [CheckoutController::class, 'failed'])->name('payment.failed');
+    Route::get('/payment/failed', [CheckoutController::class, 'failed'])->name('payment.failed');
     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });
 
-Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
-
-Route::middleware(['auth', 'role:organizer'])->group(function () {
-    Route::get('/organizer/info', [OrganizerInfoController::class, 'create'])->name('organizer.info.form');
-    Route::post('/organizer/info', [OrganizerInfoController::class, 'store'])->name('organizer.info.store');
-    Route::get('/organizer/banks', [OrganizerInfoController::class, 'getBanks'])->name('organizer.info.banks');
-    Route::post('/organizer/verify', [OrganizerInfoController::class, 'verifyAccount'])->name('organizer.info.verify');
-});
-
-
-
-
-
-
-
-
+// ========== AUTH ROUTES ==========
 require __DIR__ . '/auth.php';

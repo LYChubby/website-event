@@ -18,7 +18,7 @@ class OrganizerDashboardController extends Controller
 
 
 
-        if (!$user->OrganizerInfo || !$user->OrganizerInfo->is_verified) {
+        if (!$user->OrganizerInfo) {
             return redirect()->route('organizer.info.form')
                 ->with('warning', 'Silakan isi dan verifikasi informasi rekening terlebih dahulu.');
         }

@@ -2,6 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
     loadEvents();
     loadCategories();
 
+    fetch("/organizer/check-verification")
+        .then((res) => res.json())
+        .then((data) => {
+            const addButton = document.querySelector(
+                'button[onclick="openEventModal()"]'
+            );
+            if (!data.is_verified) {
+                addButton.disabled = true;
+                addButton.title =
+                    "Anda harus terverifikasi untuk membuat event";
+                addButton.classList.add("opacity-50", "cursor-not-allowed");
+            }
+        });
+
     // Tambahkan ini di DOMContentLoaded
     document.getElementById("eventForm").addEventListener("reset", function () {
         // Clear file info
@@ -192,30 +206,43 @@ function loadCategories() {
 
 // ========== Modal Handler ==========
 window.openEventModal = function () {
-    // Reset form terlebih dahulu
-    const form = document.getElementById("eventForm");
-    form.reset();
-    document.getElementById("eventId").value = "";
-    document.getElementById("status_approval").value = "pending";
+    // Cek status verifikasi organizer
+    fetch("/organizer/check-verification")
+        .then((res) => res.json())
+        .then((data) => {
+            if (!data.is_verified) {
+                showNotification(
+                    "Anda harus terverifikasi untuk membuat event",
+                    "error"
+                );
+                return;
+            }
 
-    // Clear file info
-    document.getElementById("fileInfo").style.display = "none";
-    document.getElementById("fileInfo").innerHTML = "";
-    document.querySelector('input[name="existing_image"]').value = "";
+            // Lanjutkan dengan membuka modal jika terverifikasi
+            const form = document.getElementById("eventForm");
+            form.reset();
+            document.getElementById("eventId").value = "";
+            document.getElementById("status_approval").value = "pending";
 
-    // Reset label file upload
-    const fileLabel = document.querySelector('label[for="event_image"]');
-    const originalText = "Gambar Event";
-    fileLabel.innerHTML = originalText;
+            document.getElementById("fileInfo").style.display = "none";
+            document.getElementById("fileInfo").innerHTML = "";
+            document.querySelector('input[name="existing_image"]').value = "";
 
-    // Set judul modal
-    document.getElementById("eventModalTitle").textContent = "Tambah Event";
+            const fileLabel = document.querySelector(
+                'label[for="event_image"]'
+            );
+            const originalText = "Gambar Event";
+            fileLabel.innerHTML = originalText;
 
-    // Buka modal
-    document.getElementById("eventModal").classList.add("show");
-
-    // Hapus draft setelah reset (jika ada)
-    clearDraft();
+            document.getElementById("eventModalTitle").textContent =
+                "Tambah Event";
+            document.getElementById("eventModal").classList.add("show");
+            clearDraft();
+        })
+        .catch((error) => {
+            console.error("Error checking verification:", error);
+            showNotification("Gagal memeriksa status verifikasi", "error");
+        });
 };
 
 window.closeEventModal = function () {
@@ -234,53 +261,69 @@ function formatDateForInput(dateStr) {
 
 // ========== Edit Event ==========
 window.editEvent = function (id) {
-    fetch(`/organizer/events/${id}`)
+    fetch("/organizer/check-verification")
         .then((res) => res.json())
-        .then((ev) => {
-            document.getElementById("eventId").value = ev.event_id;
-            document.getElementById("name_event").value = ev.name_event;
-            document.getElementById("category_id").value = ev.category_id;
-            document.getElementById("description").value = ev.description || "";
-            document.getElementById("venue_name").value = ev.venue_name || "";
-            document.getElementById("venue_address").value =
-                ev.venue_address || "";
-            document.getElementById("status_approval").value =
-                ev.status_approval || "pending";
-
-            const fileInfo = document.getElementById("fileInfo");
-            const existingImageInput = document.querySelector(
-                'input[name="existing_image"]'
-            );
-
-            if (ev.event_image) {
-                fileInfo.textContent = `File saat ini: ${ev.event_image}`;
-                fileInfo.style.display = "block";
-                existingImageInput.value = ev.event_image;
-
-                // Tambahkan preview gambar jika mau
-                const imgPreview = document.createElement("img");
-                imgPreview.src = `/storage/${ev.event_image}`;
-                fileInfo.appendChild(imgPreview);
-            } else {
-                fileInfo.style.display = "none";
-                existingImageInput.value = "";
+        .then((data) => {
+            if (!data.is_verified) {
+                showNotification(
+                    "Anda harus terverifikasi untuk mengedit event",
+                    "error"
+                );
+                return;
             }
 
-            // ✅ Format tanggal supaya gak reset
-            document.getElementById("start_date").value = formatDateForInput(
-                ev.start_date
-            );
-            document.getElementById("end_date").value = formatDateForInput(
-                ev.end_date
-            );
+            // Lanjutkan dengan mengambil data event jika terverifikasi
+            fetch(`/organizer/events/${id}`)
+                .then((res) => res.json())
+                .then((ev) => {
+                    document.getElementById("eventId").value = ev.event_id;
+                    document.getElementById("name_event").value = ev.name_event;
+                    document.getElementById("category_id").value =
+                        ev.category_id;
+                    document.getElementById("description").value =
+                        ev.description || "";
+                    document.getElementById("venue_name").value =
+                        ev.venue_name || "";
+                    document.getElementById("venue_address").value =
+                        ev.venue_address || "";
+                    document.getElementById("status_approval").value =
+                        ev.status_approval || "pending";
 
-            document.getElementById("eventModalTitle").textContent =
-                "Edit Event";
-            document.getElementById("eventModal").classList.add("show");
+                    const fileInfo = document.getElementById("fileInfo");
+                    const existingImageInput = document.querySelector(
+                        'input[name="existing_image"]'
+                    );
+
+                    if (ev.event_image) {
+                        fileInfo.textContent = `File saat ini: ${ev.event_image}`;
+                        fileInfo.style.display = "block";
+                        existingImageInput.value = ev.event_image;
+
+                        const imgPreview = document.createElement("img");
+                        imgPreview.src = `/storage/${ev.event_image}`;
+                        fileInfo.appendChild(imgPreview);
+                    } else {
+                        fileInfo.style.display = "none";
+                        existingImageInput.value = "";
+                    }
+
+                    document.getElementById("start_date").value =
+                        formatDateForInput(ev.start_date);
+                    document.getElementById("end_date").value =
+                        formatDateForInput(ev.end_date);
+
+                    document.getElementById("eventModalTitle").textContent =
+                        "Edit Event";
+                    document.getElementById("eventModal").classList.add("show");
+                })
+                .catch((error) => {
+                    console.error("Error loading event:", error);
+                    showNotification("Gagal memuat data event", "error");
+                });
         })
         .catch((error) => {
-            console.error("Error loading event:", error);
-            alert("Gagal memuat data event");
+            console.error("Error checking verification:", error);
+            showNotification("Gagal memeriksa status verifikasi", "error");
         });
 };
 
@@ -346,31 +389,51 @@ function submitEventForm(e) {
 // ========== Delete Event ==========
 window.deleteEvent = function (id) {
     if (confirm("Yakin ingin menghapus event ini?")) {
-        fetch(`/organizer/events/${id}`, {
-            method: "DELETE",
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector(
-                    'meta[name="csrf-token"]'
-                ).content,
-            },
-        })
+        fetch("/organizer/check-verification")
             .then((res) => res.json())
-            .then((response) => {
-                if (response.success) {
-                    loadEvents();
-                    showNotification("Event berhasil dihapus!", "success");
-                } else {
-                    throw new Error(
-                        response.message || "Gagal menghapus event"
+            .then((data) => {
+                if (!data.is_verified) {
+                    showNotification(
+                        "Anda harus terverifikasi untuk menghapus event",
+                        "error"
                     );
+                    return;
                 }
+
+                // Lanjutkan dengan menghapus jika terverifikasi
+                fetch(`/organizer/events/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content,
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((response) => {
+                        if (response.success) {
+                            loadEvents();
+                            showNotification(
+                                "Event berhasil dihapus!",
+                                "success"
+                            );
+                        } else {
+                            throw new Error(
+                                response.message || "Gagal menghapus event"
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting event:", error);
+                        showNotification(
+                            "Gagal menghapus event. Silakan coba lagi.",
+                            "error"
+                        );
+                    });
             })
             .catch((error) => {
-                console.error("Error deleting event:", error);
-                showNotification(
-                    "Gagal menghapus event. Silakan coba lagi.",
-                    "error"
-                );
+                console.error("Error checking verification:", error);
+                showNotification("Gagal memeriksa status verifikasi", "error");
             });
     }
 };
