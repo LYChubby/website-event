@@ -298,6 +298,10 @@ window.editEvent = function (id) {
                         fileInfo.textContent = `File saat ini: ${ev.event_image}`;
                         fileInfo.style.display = "block";
                         existingImageInput.value = ev.event_image;
+
+                        const imgPreview = document.createElement("img");
+                        imgPreview.src = `/storage/${ev.event_image}`;
+                        fileInfo.appendChild(imgPreview);
                     } else {
                         fileInfo.style.display = "none";
                         existingImageInput.value = "";
