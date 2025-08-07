@@ -1,7 +1,32 @@
 <x-app-layout>
     <style>
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border: 2px solid #6a4190;
+            color: #6a4190;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #6a4190;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
         .gradient-primary {
-            background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
+            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
         }
         .gradient-secondary {
             background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
@@ -17,8 +42,53 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .hover-glow:hover {
-            box-shadow: 0 0 30px rgba(104, 69, 151, 0.4);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hover-lift {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 16px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            outline: none;
+            border: 1px solid rgba(238, 242, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .hover-lift::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-lift:hover::before {
+            opacity: 1;
+        }
+
+        /* Remove outline on focus (e.g. on click) */
+        .hover-lift:focus,
+        .hover-lift:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);
+            /* Optional: if you want to remove shadow on focus too */
         }
         .animate-float {
             animation: float 6s ease-in-out infinite;
@@ -33,6 +103,32 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        .search-glow {
+            transition: all 0.3s ease;
+        }
+
+        .search-glow:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .pulse-border {
+            animation: pulse-border 3s infinite;
+        }
+
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                border-color: rgba(102, 126, 234, 0.3);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+            }
+
+            50% {
+                border-color: rgba(102, 126, 234, 0.6);
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+        }
         .card-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -40,9 +136,10 @@
             transform: translateY(-8px) scale(1.02);
         }
         .shimmer {
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            background: linear-gradient(45deg, transparent 30%,rgba(209, 211, 227, 0.6) 50%, transparent 70%);
             background-size: 200% 100%;
             animation: shimmer 3s infinite;
+            color: #684597;
         }
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -51,32 +148,24 @@
     </style>
 
     <!-- Background with Enhanced Gradient -->
-    <div class="min-h-screen bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50">
+    <div class="min-h-screen bg-white">
         
         <!-- Enhanced Navbar -->
-        <nav class="gradient-primary shadow-2xl sticky top-0 z-50">
+        <nav class="bg-white shadow-2xl sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <!-- Logo & Search Section -->
                     <div class="flex items-center space-x-8">
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 glass-effect rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
-                                <i class="fas fa-calendar-star text-white text-xl"></i>
-                            </div>
-                            <span class="text-white font-bold text-2xl tracking-wide">NEO.Vibe</span>
+                            <img src="/images/logo.png" alt="Logo" class="h-10 w-auto transition-transform hover:scale-105" />
+                            <span class="gradient-text font-bold text-2xl">NEO.Vibe</span>
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}" class="relative">
-                            <div class="flex items-center glass-effect rounded-2xl px-6 py-3 transition-all hover:bg-white/20 focus-within:bg-white/20 min-w-80">
-                                <input type="text"
-                                    name="search"
-                                    placeholder="Cari event yang menarik..."
-                                    value="{{ request('search') }}"
-                                    class="bg-transparent text-white placeholder-white/80 w-64 outline-none text-sm border-0 focus:border-0 focus:ring-0" />
-                                <button type="submit" class="text-white/90 hover:text-white ml-3 hover:scale-110 transition-transform">
-                                    <i class="fas fa-search text-lg"></i>
-                                </button>
-                            </div>
+                                <div class="hidden md:block">
+                                    <input type="text" placeholder="Cari event impian Anda..."
+                                        class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
+                                </div>
                         </form>
                     </div>
 
@@ -84,7 +173,7 @@
                     <div class="flex items-center space-x-4">
                         <!-- History Button -->
                         <a href="{{ route('history.index') }}"
-                            class="glass-effect hover:bg-white/30 text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
+                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
                             <i class="fas fa-history mr-2"></i>Riwayat
                         </a>
 
@@ -92,18 +181,16 @@
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-6 py-3 text-sm leading-4 font-medium rounded-2xl text-white glass-effect hover:bg-white/30 focus:outline-none transition-all duration-300 hover:scale-105">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-user text-sm text-white"></i>
-                                            </div>
-                                            <span>{{ Auth::user()->name }}</span>
+                                    <button class="btn-secondary text-[#6a4190] px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center gap-3 group">
+                                        <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user text-xs transition-colors duration-300 group-hover:text-white text-[#6a4190]"></i>
                                         </div>
-                                        <div class="ml-3">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
+                                        <span class="transition-colors duration-300 group-hover:text-white text-[#6a4190] truncate max-w-[120px]">
+                                            {{ Auth::user()->name }}
+                                        </span>
+                                        <svg class="fill-current h-4 w-4 text-[#6a4190] transition-colors duration-300 group-hover:text-white ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
                                     </button>
                                 </x-slot>
 
@@ -138,13 +225,13 @@
 
         <section class="relative px-4 sm:px-6 lg:px-8 mt-8">
             <div class="max-w-7xl mx-auto">
-                <div x-data="{ activeSlide: 0, total: {{ count($banners) }} }" class="relative rounded-3xl overflow-hidden shadow-2xl hover-glow">
+                <div x-data="{ activeSlide: 0, total: {{ count($banners) }} }" class="relative rounded-3xl overflow-hidden shadow-2xl pulse-border hover-lift glass-card">
                     
                     <!-- Slides -->
                     <template x-for="(banner, index) in {{ json_encode($banners) }}" :key="index">
                         <div x-show="activeSlide === index" class="relative w-full h-72 sm:h-96 transition-all duration-1000 ease-in-out">
                             <img :src="banner.image" class="absolute inset-0 w-full h-full object-cover" alt="" />
-                            <div class="absolute inset-0 gradient-primary opacity-80"></div>
+                            <div class="absolute inset-0 opacity-80"></div>
                             <div class="absolute inset-0 bg-black/20"></div>
 
                             <!-- Banner Content Overlay -->
@@ -152,11 +239,6 @@
                                 <div class="text-white animate-float">
                                     <h1 class="text-4xl sm:text-6xl font-bold mb-6 tracking-wide" x-text="banner.title"></h1>
                                     <p class="text-lg sm:text-2xl opacity-95 font-medium" x-text="banner.subtitle"></p>
-                                    <div class="mt-8">
-                                        <button class="glass-effect px-8 py-4 rounded-2xl text-white font-semibold hover:bg-white/30 transition-all duration-300 hover:scale-110">
-                                            <i class="fas fa-rocket mr-2"></i>Jelajahi Sekarang
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +275,7 @@
                         <div class="w-2 h-12 gradient-primary rounded-full mr-6 animate-pulse"></div>
                         <span class="gradient-text">Featured Events</span>
                     </h2>
-                    <a href="#" class="gradient-primary text-white px-6 py-3 rounded-2xl font-medium flex items-center transition-all hover:scale-105 hover-glow">
+                    <a href="#" class="btn-primary text-white px-6 py-3 rounded-2xl font-medium flex items-center transition-all hover:scale-105 hover-glow">
                         Lihat Semua <i class="fas fa-arrow-right ml-3"></i>
                     </a>
                 </div>
@@ -219,12 +301,12 @@
                             </div>
 
                             <div class="p-6">
-                                <div class="flex items-center text-sm text-purple-600 mb-3 font-medium">
+                                <div class="flex items-center text-sm mb-3 font-medium">
                                     <i class="fas fa-calendar-alt mr-2"></i>
                                     {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
                                 </div>
 
-                                <h3 class="font-bold text-gray-800 mb-4 group-hover:text-purple-600 transition-colors line-clamp-2 text-lg">
+                                <h3 class="font-bold text-gray-800 mb-4 line-clamp-2 text-lg">
                                     {{ $event->name_event }}
                                 </h3>
 
@@ -268,7 +350,7 @@
 
                 <!-- Filter Buttons -->
                 <div class="flex gap-4 mb-10 flex-wrap" id="categoryFilter">
-                    <button class="filter-btn active px-8 py-4 rounded-2xl text-sm font-bold gradient-primary text-white shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 shimmer"
+                    <button class="filter-btn active px-8 py-4 rounded-2xl text-sm font-bold gradient-primary text-white  shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 shimmer"
                         data-category="all">
                         <i class="fas fa-th-large mr-2"></i>Semua Kategori
                     </button>
@@ -299,16 +381,16 @@
                                         <i class="fas fa-heart"></i>
                                     </button>
                                 </div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-purple-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
 
                             <div class="p-6">
-                                <div class="flex items-center text-sm text-purple-600 mb-3 font-medium">
+                                <div class="flex items-center text-sm mb-3 font-medium">
                                     <i class="fas fa-calendar-alt mr-2"></i>
                                     {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
                                 </div>
 
-                                <h3 class="font-bold text-gray-800 mb-4 group-hover:text-purple-600 transition-colors line-clamp-2 text-lg">
+                                <h3 class="font-bold text-gray-800 mb-4 transition-colors line-clamp-2 text-lg">
                                     {{ $event->name_event }}
                                 </h3>
 
@@ -341,88 +423,73 @@
             </div>
         </section>
 
-        <!-- Enhanced Footer -->
-        <footer class="gradient-primary mt-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-black/10"></div>
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
-                    <!-- Company Info -->
-                    <div class="md:col-span-2">
-                        <div class="flex items-center space-x-4 mb-6">
-                            <div class="w-12 h-12 glass-effect rounded-xl flex items-center justify-center">
-                                <i class="fas fa-calendar-star text-white text-xl"></i>
-                            </div>
-                            <span class="text-2xl font-bold">NEO.Vibe</span>
-                        </div>
-                        <p class="text-white/90 text-base leading-relaxed mb-6 max-w-md">
-                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia. 
-                            Bergabunglah dengan komunitas yang dinamis dan temukan pengalaman baru setiap hari.
-                        </p>
-                        <div class="flex items-center space-x-4">
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-shield-alt mr-2 text-yellow-300"></i>
-                                <span>Keamanan Terjamin</span>
-                            </div>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                <span>Rating 4.9/5</span>
-                            </div>
-                        </div>
+        <!-- Footer -->
+    <footer class="bg-gray-900 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                        <span class="text-xl font-bold">NEO.Vibe</span>
                     </div>
-
-                    <!-- Quick Links -->
-                    <div>
-                        <h4 class="font-bold mb-6 text-lg">Link Cepat</h4>
-                        <div class="space-y-3">
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm hover:translate-x-2 transform duration-300">
-                                <i class="fas fa-info-circle mr-3 w-4"></i>Tentang Kami
-                            </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm hover:translate-x-2 transform duration-300">
-                                <i class="fas fa-fire mr-3 w-4"></i>Event Populer
-                            </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm hover:translate-x-2 transform duration-300">
-                                <i class="fas fa-envelope mr-3 w-4"></i>Kontak Kami
-                            </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm hover:translate-x-2 transform duration-300">
-                                <i class="fas fa-question-circle mr-3 w-4"></i>FAQ
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Social Media -->
-                    <div>
-                        <h4 class="font-bold mb-6 text-lg">Ikuti Kami</h4>
-                        <div class="flex space-x-4 mb-6">
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-youtube text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-tiktok text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-facebook text-xl"></i>
-                            </a>
-                        </div>
-                        <div class="glass-effect p-4 rounded-xl">
-                            <p class="text-white/90 text-sm">
-                                <i class="fas fa-bell mr-2"></i>Dapatkan notifikasi event terbaru!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Copyright -->
-                <div class="border-t border-white/20 mt-12 pt-8 text-center">
-                    <p class="text-white/80 text-sm">
-                        © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang. 
-                        <span class="text-white/60">Made with ❤️ in Indonesia</span>
+                    <p class="text-white/80 text-sm leading-relaxed">
+                        Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
                     </p>
                 </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Link Cepat</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-fire mr-2"></i>Event Populer
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                        </a>
+                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                            <i class="fas fa-question-circle mr-2"></i>FAQ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-white/60 text-xs">
+                            <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                        </p>
+                    </div>
+                </div>
             </div>
-        </footer>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                <p class="text-white text-sm">
+                    © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
+                </p>
+            </div>
+        </div>
+    </footer>
     </div>
 
     <script>
