@@ -81,13 +81,22 @@ function renderUsers(users) {
                 user.created_at
             ).toLocaleDateString()}</td>
             <td class="py-4 px-2">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold ${
+                    user.status === "Aktif"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-gray-100 text-gray-800"
+                }">
+                    ${user.status}
+                </span>
+            </td>
+            <td class="py-4 px-2">
                 <div class="flex space-x-2">
-                    <button onclick="editUser('${user.user_id}', '${
-            user.name
-        }', '${user.email}', '${user.role}')" 
+                   <button onclick="editUser('${user.user_id}', '${
+            user.status
+        }')" 
                             class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 rounded-lg transition-colors duration-200 text-sm font-medium">
                         <i class="fas fa-edit mr-1"></i>
-                        Edit
+                        Edit Status
                     </button>
                     <button onclick="deleteUser('${user.user_id}')" 
                             class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium">
@@ -195,16 +204,23 @@ function getRoleFilter() {
 window.openUserModal = function (mode = "create") {
     const modal = document.getElementById("userModal");
     const modalContent = document.getElementById("userModalContent");
+    const form = document.getElementById("userForm");
+
+    // Hanya reset form jika mode create
+    if (mode === "create") {
+        form.reset();
+        document.getElementById("userId").value = "";
+        document.getElementById("passwordFields").style.display = "block";
+    }
 
     if (mode === "create") {
-        document.getElementById("userId").value = "";
-        document.getElementById("userName").value = "";
-        document.getElementById("userEmail").value = "";
-        document.getElementById("userRole").value = "";
-        document.getElementById("userPassword").value = "";
         document.getElementById("userModalTitle").innerHTML =
             '<i class="fas fa-user-plus mr-3"></i>Tambah User';
-        document.getElementById("passwordFields").style.display = "block";
+        document.getElementById("createFields").style.display = "block";
+    } else {
+        document.getElementById("userModalTitle").innerHTML =
+            '<i class="fas fa-user-edit mr-3"></i>Edit Status User';
+        document.getElementById("createFields").style.display = "none";
     }
 
     modal.classList.remove("hidden");
@@ -226,17 +242,30 @@ window.closeUserModal = function () {
     setTimeout(() => {
         modal.classList.add("hidden");
         modal.classList.remove("flex");
+        // Hanya reset form jika modal tertutup dari mode create
+        if (document.getElementById("userId").value === "") {
+            document.getElementById("userForm").reset();
+        }
     }, 300);
 };
 
-window.editUser = function (user_id, name, email, role) {
-    document.getElementById("userId").value = user_id;
-    document.getElementById("userName").value = name;
-    document.getElementById("userEmail").value = email;
-    document.getElementById("userRole").value = role;
+window.editUser = function (id, status) {
+    document.getElementById("userId").value = id;
     document.getElementById("userModalTitle").innerHTML =
-        '<i class="fas fa-user-edit mr-3"></i>Edit User';
-    document.getElementById("passwordFields").style.display = "none";
+        '<i class="fas fa-user-edit mr-3"></i>Edit Status User';
+
+    document.getElementById("createFields").style.display = "none";
+
+    // Uncheck all status first
+    document.querySelectorAll('input[name="status"]').forEach((radio) => {
+        radio.checked = false;
+    });
+
+    // Set status value
+    document.querySelector(
+        `input[name="status"][value="${status}"]`
+    ).checked = true;
+
     openUserModal("edit");
 };
 
@@ -249,10 +278,39 @@ function initUserModal() {
             const id = document.getElementById("userId").value;
             const isEdit = !!id;
             const url = isEdit ? `/admin/api/users/${id}` : "/admin/api/users";
-            const method = isEdit ? "PUT" : "POST";
 
-            const formData = new FormData(this);
-            if (isEdit) formData.append("_method", "PUT");
+            const formData = new FormData();
+
+            if (isEdit) {
+                // For edit, only send status
+                formData.append(
+                    "status",
+                    document.querySelector('input[name="status"]:checked').value
+                );
+                formData.append("_method", "PUT");
+            } else {
+                // For create, send all fields
+                formData.append(
+                    "name",
+                    document.getElementById("userName").value
+                );
+                formData.append(
+                    "email",
+                    document.getElementById("userEmail").value
+                );
+                formData.append(
+                    "role",
+                    document.getElementById("userRole").value
+                );
+                formData.append(
+                    "password",
+                    document.getElementById("userPassword").value
+                );
+                formData.append(
+                    "status",
+                    document.querySelector('input[name="status"]:checked').value
+                );
+            }
 
             fetch(url, {
                 method: "POST",
@@ -260,11 +318,17 @@ function initUserModal() {
                     "X-CSRF-TOKEN": document.querySelector(
                         'meta[name="csrf-token"]'
                     ).content,
+                    Accept: "application/json",
                 },
                 body: formData,
+                credentials: "same-origin",
             })
-                .then((response) => response.json())
+                .then((response) => {
+                    console.log("Raw response:", response);
+                    return response.json();
+                })
                 .then((data) => {
+                    console.log("Parsed response:", data);
                     if (data.success) {
                         closeUserModal();
                         loadUsers(
@@ -276,7 +340,7 @@ function initUserModal() {
                             "success",
                             data.message ||
                                 (isEdit
-                                    ? "User berhasil diperbarui"
+                                    ? "Status user berhasil diperbarui"
                                     : "User berhasil ditambahkan")
                         );
                     } else {
@@ -299,9 +363,9 @@ function initUserModal() {
         });
 }
 
-window.deleteUser = function (user_id) {
+window.deleteUser = function (id) {
     if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-        fetch(`/admin/api/users/${user_id}`, {
+        fetch(`/admin/api/users/${id}`, {
             method: "DELETE",
             headers: {
                 "X-CSRF-TOKEN": document.querySelector(

@@ -46,6 +46,7 @@
                                 <th class="text-left py-4 px-2 font-semibold text-gray-600">Email</th>
                                 <th class="text-left py-4 px-2 font-semibold text-gray-600">Role</th>
                                 <th class="text-left py-4 px-2 font-semibold text-gray-600">Tanggal Daftar</th>
+                                <th class="text-left py-4 px-2 font-semibold text-gray-600">Status</th>
                                 <th class="text-left py-4 px-2 font-semibold text-gray-600">Aksi</th>
                             </tr>
                         </thead>
@@ -78,54 +79,76 @@
                 </h2>
             </div>
 
+            <!-- Inside the modal form -->
             <form id="userForm" class="p-6">
                 @csrf
                 <input type="hidden" id="userId" name="user_id" />
 
-                <div class="mb-4">
-                    <label for="userName" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-user mr-2 text-[#63A7F4]"></i>
-                        Nama Lengkap
-                    </label>
-                    <input type="text" id="userName" name="name"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
-                        placeholder="Masukkan nama lengkap..." required />
+                <!-- Only show these fields for create -->
+                <div id="createFields">
+                    <div class="mb-4">
+                        <label for="userName" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-user mr-2 text-[#63A7F4]"></i>
+                            Nama Lengkap
+                        </label>
+                        <input type="text" id="userName" name="name"
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
+                            placeholder="Masukkan nama lengkap..." />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="userEmail" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-envelope mr-2 text-[#63A7F4]"></i>
+                            Email
+                        </label>
+                        <input type="email" id="userEmail" name="email"
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
+                            placeholder="Masukkan email..." />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="userRole" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-user-tag mr-2 text-[#63A7F4]"></i>
+                            Role
+                        </label>
+                        <select id="userRole" name="role"
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800">
+                            <option value="">Pilih Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="organizer">Organizer</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6" id="passwordFields">
+                        <label for="userPassword" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-2 text-[#63A7F4]"></i>
+                            Password
+                        </label>
+                        <input type="password" id="userPassword" name="password"
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
+                            placeholder="Masukkan password..." />
+                    </div>
                 </div>
 
-                <div class="mb-4">
-                    <label for="userEmail" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-envelope mr-2 text-[#63A7F4]"></i>
-                        Email
+                <!-- Status field (shown for both create and edit) -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-toggle-on mr-2 text-[#63A7F4]"></i>
+                        Status
                     </label>
-                    <input type="email" id="userEmail" name="email"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
-                        placeholder="Masukkan email..." required />
-                </div>
-
-                <div class="mb-4">
-                    <label for="userRole" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-user-tag mr-2 text-[#63A7F4]"></i>
-                        Role
-                    </label>
-                    <select id="userRole" name="role"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
-                        required>
-                        <option value="">Pilih Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="organizer">Organizer</option>
-                        <option value="user">User</option>
-                    </select>
-                </div>
-
-                <div class="mb-6" id="passwordFields">
-                    <label for="userPassword" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-[#63A7F4]"></i>
-                        Password
-                    </label>
-                    <input type="password" id="userPassword" name="password"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#63A7F4] focus:border-[#63A7F4] transition-all duration-300 bg-white text-gray-800"
-                        placeholder="Masukkan password..." />
-                    <p class="text-xs text-gray-500 mt-1">Biarkan kosong jika tidak ingin mengubah password</p>
+                    <div class="flex items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="status" value="Aktif" checked
+                                class="form-radio h-5 w-5 text-[#63A7F4] focus:ring-[#63A7F4] border-gray-300">
+                            <span class="ml-2 text-gray-700">Aktif</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="status" value="Non-Aktif"
+                                class="form-radio h-5 w-5 text-[#63A7F4] focus:ring-[#63A7F4] border-gray-300">
+                            <span class="ml-2 text-gray-700">Non-Aktif</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="flex space-x-3">
