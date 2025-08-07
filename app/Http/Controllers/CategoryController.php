@@ -3,41 +3,119 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Category::all());
+        $query = Category::withCount('events');
+
+        // Search
+        if ($request->has('search') && $request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        // Pagination
+        $perPage = $request->per_page ?? 10;
+        $categories = $query->latest()->paginate($perPage);
+
+        return response()->json([
+            'data' => $categories->items(),
+            'total' => $categories->total(),
+            'current_page' => $categories->currentPage(),
+            'per_page' => $categories->perPage(),
+        ]);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        $category = Category::create($request->validated());
-        return response()->json($category, 201);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:categories',
+            'is_active' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $category = Category::create([
+            'name' => $request->name,
+            'is_active' => $request->is_active,
+        ]);
+
+        // Log activity
+        logActivity('category', 'Kategori baru ditambahkan', $category->name . ' telah ditambahkan');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategori berhasil ditambahkan',
+            'data' => $category
+        ]);
     }
 
-    public function show($id)
+    public function update(Request $request, Category $category)
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'is_active' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $category->update([
+            'name' => $request->name,
+            'is_active' => $request->is_active,
+        ]);
+
+        // Log activity
+        logActivity('category', 'Kategori diperbarui', $category->name . ' telah diperbarui');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategori berhasil diperbarui',
+            'data' => $category
+        ]);
     }
 
-    public function update(UpdateCategoryRequest $request, $id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
-        $category->update($request->validated());
-        return response()->json($category);
-    }
+        if ($category->events()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak dapat menghapus kategori karena memiliki event terkait'
+            ], 422);
+        }
 
-    public function destroy($id)
-    {
-        $category = Category::findOrFail($id);
         $category->delete();
-        return response()->json(['message' => 'Category deleted.']);
+
+        // Log activity
+        logActivity('category', 'Kategori dihapus', $category->name . ' telah dihapus');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kategori berhasil dihapus'
+        ]);
+    }
+
+    public function stats()
+    {
+        return response()->json([
+            'total_categories' => Category::count(),
+            'active_categories' => Category::where('is_active', true)->count(),
+            'total_events' => \App\Models\Event::count()
+        ]);
     }
 }

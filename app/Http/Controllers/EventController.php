@@ -112,6 +112,8 @@ class EventController extends Controller
         }
 
         $event = Event::create($data);
+        $user = Auth::user();
+        logActivity('event', 'Event baru diajukan', $event->title . ' telah diajukan oleh ' . $user->name);
         return response()->json([
             'message' => 'Event berhasil dibuat',
             'data' => $event
@@ -153,6 +155,7 @@ class EventController extends Controller
         }
 
         $event->update($data);
+        logActivity('event', 'Event telah diperbarui', $event->title . ' telah diperbarui oleh ' . Auth::user()->name);
 
         return response()->json([
             'message' => 'Event berhasil diperbarui',
@@ -168,6 +171,7 @@ class EventController extends Controller
             Storage::disk('public')->delete($event->event_image);
         }
         $event->delete();
+        logActivity('event', 'Event telah dihapus', $event->title . ' telah dihapus oleh ' . Auth::user()->name);
 
         return response()->json(['message' => 'Event berhasil dihapus']);
     }
