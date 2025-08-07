@@ -60,45 +60,87 @@ class EventController extends Controller
         ]);
     }
 
-    public function adminEvents()
+    public function pendingEvents(Request $request)
     {
+        try {
+            $query = Event::with(['category', 'organizer'])
+                ->where('status_approval', 'pending');
 
-        // $this->authorize('viewAdmin', User::class);
+            if ($request->search) {
+                $query->where('name_event', 'like', '%' . $request->search . '%');
+            }
 
-        $events = Event::with(['category', 'organizer'])
-            ->latest()
-            ->get();
+            $perPage = $request->per_page ?? 9;
+            $events = $query->latest()->paginate($perPage);
 
-        return response()->json([
-            'success' => true,
-            'data' => $events
-        ]);
+            return response()->json([
+                'success' => true,
+                'data' => $events->items(),
+                'total' => $events->total(),
+                'current_page' => $events->currentPage(),
+                'per_page' => $events->perPage()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch events',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
-    public function approveEvent($id)
+
+    public function approveEvent(Event $event)
     {
-        $event = Event::findOrFail($id);
+        try {
+            $event->update(['status_approval' => 'approved']);
 
-        $this->authorize('approve', $event); // Tambahkan ini
+            // Log activity atau send notification bisa ditambahkan di sini
+            logActivity('event', 'Event telah disetujui', $event->title . ' telah disetujui oleh ' . Auth::user()->name);
 
-        $event->update(['status_approval' => 'approved']);
-
-        return response()->json([
-            'message' => 'Event disetujui'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Event approved successfully',
+                'data' => $event
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to approve event',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    public function rejectEvent($id)
+    public function rejectEvent(Event $event)
     {
-        $event = Event::findOrFail($id);
+        try {
+            $event->update(['status_approval' => 'rejected']);
 
-        $this->authorize('approve', $event); // Gunakan policy yang sama
+            // Log activity atau send notification bisa ditambahkan di sini
+            logActivity('event', 'Event telah ditolak', $event->title . ' telah ditolak oleh ' . Auth::user()->name);
 
-        $event->update(['status_approval' => 'rejected']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Event rejected successfully',
+                'data' => $event
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to reject event',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
+    public function stats()
+    {
         return response()->json([
-            'message' => 'Event ditolak'
+            'approved' => Event::where('status_approval', 'approved')->count(),
+            'pending' => Event::where('status_approval', 'pending')->count(),
+            'rejected' => Event::where('status_approval', 'rejected')->count()
         ]);
     }
 

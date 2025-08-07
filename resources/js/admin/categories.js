@@ -1,6 +1,7 @@
 // resources/js/admin/categories.js
 export function initCategories() {
     loadCategories();
+    updateStats();
     initCategoryModal();
     initCategorySearch();
 }

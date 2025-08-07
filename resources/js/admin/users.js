@@ -82,14 +82,14 @@ function renderUsers(users) {
             ).toLocaleDateString()}</td>
             <td class="py-4 px-2">
                 <div class="flex space-x-2">
-                    <button onclick="editUser('${user.id}', '${user.name}', '${
-            user.email
-        }', '${user.role}')" 
+                    <button onclick="editUser('${user.user_id}', '${
+            user.name
+        }', '${user.email}', '${user.role}')" 
                             class="px-3 py-2 text-[#63A7F4] hover:bg-blue-50 rounded-lg transition-colors duration-200 text-sm font-medium">
                         <i class="fas fa-edit mr-1"></i>
                         Edit
                     </button>
-                    <button onclick="deleteUser('${user.id}')" 
+                    <button onclick="deleteUser('${user.user_id}')" 
                             class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium">
                         <i class="fas fa-trash mr-1"></i>
                         Hapus
@@ -229,8 +229,8 @@ window.closeUserModal = function () {
     }, 300);
 };
 
-window.editUser = function (id, name, email, role) {
-    document.getElementById("userId").value = id;
+window.editUser = function (user_id, name, email, role) {
+    document.getElementById("userId").value = user_id;
     document.getElementById("userName").value = name;
     document.getElementById("userEmail").value = email;
     document.getElementById("userRole").value = role;
@@ -299,9 +299,9 @@ function initUserModal() {
         });
 }
 
-window.deleteUser = function (id) {
+window.deleteUser = function (user_id) {
     if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
-        fetch(`/admin/api/users/${id}`, {
+        fetch(`/admin/api/users/${user_id}`, {
             method: "DELETE",
             headers: {
                 "X-CSRF-TOKEN": document.querySelector(

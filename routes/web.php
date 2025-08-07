@@ -175,11 +175,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/activities', [AdminController::class, 'getActivities']);
 
             // Categories API
-            Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
+            Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
             Route::get('/categories/stats', [CategoryController::class, 'stats']);
 
             // Events Approval API
             Route::get('/events', [EventController::class, 'pendingEvents']);
+            Route::get('/events/stats', [EventController::class, 'stats']);
             Route::put('/events/{event}/approve', [EventController::class, 'approveEvent']);
             Route::put('/events/{event}/reject', [EventController::class, 'rejectEvent']);
 

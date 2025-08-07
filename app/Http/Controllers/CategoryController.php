@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 
 class CategoryController extends Controller
@@ -22,7 +23,7 @@ class CategoryController extends Controller
 
         // Pagination
         $perPage = $request->per_page ?? 10;
-        $categories = $query->latest()->paginate($perPage);
+        $categories = $query->orderBy('name')->paginate($perPage); // atau kolom lain yang ada
 
         return response()->json([
             'data' => $categories->items(),
@@ -52,7 +53,7 @@ class CategoryController extends Controller
         ]);
 
         // Log activity
-        logActivity('category', 'Kategori baru ditambahkan', $category->name . ' telah ditambahkan');
+        logActivity('category', 'Kategori baru ditambahkan', $category->name . ' telah ditambahkan oleh' . Auth::user()->name);
 
         return response()->json([
             'success' => true,
