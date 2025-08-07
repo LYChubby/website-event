@@ -74,6 +74,8 @@ class UserController extends Controller
             'status' => $request->status // Only update status
         ]);
 
+        logActivity('user', 'Status User Diperbaharui', $user->name . ' telah diperharui oleh ' . Auth::user()->name, 'menjadi ' . $user->status);
+
         return response()->json([
             'success' => true,
             'message' => 'Status user berhasil diperbarui',
@@ -93,6 +95,8 @@ class UserController extends Controller
         }
 
         $user->delete();
+
+        logActivity('user', 'User Dihapus', $user->name . ' telah dihapus oleh ' . Auth::user()->name);
 
         return response()->json([
             'success' => true,
