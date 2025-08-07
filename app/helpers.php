@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 
 function logActivity($type, $title, $description)
 {
@@ -8,5 +9,6 @@ function logActivity($type, $title, $description)
         'type' => $type,
         'title' => $title,
         'description' => $description,
+        'user_id' => Auth::id(),
     ]);
 }
