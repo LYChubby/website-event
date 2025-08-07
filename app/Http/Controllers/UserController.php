@@ -74,7 +74,11 @@ class UserController extends Controller
             'status' => $request->status // Only update status
         ]);
 
-        logActivity('user', 'Status User Diperbaharui', $user->name . ' telah diperharui oleh ' . Auth::user()->name, 'menjadi ' . $user->status);
+        logActivity(
+            'user',
+            'Status User Diperbarui',
+            $user->name . ' telah diperbarui oleh ' . Auth::user()->name . ' menjadi ' . $user->status
+        );
 
         return response()->json([
             'success' => true,
