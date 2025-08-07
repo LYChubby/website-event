@@ -49,6 +49,7 @@ class RegisteredUserController extends Controller
 
         // Redirect berdasarkan role
         if ($user->role === 'organizer') {
+            logActivity('user', 'User baru mendaftar', $user->name . ' telah mendaftar sebagai organizer');
             $hasInfo = OrganizerInfo::where('user_id', $user->id)->exists();
 
             return $hasInfo
@@ -57,8 +58,12 @@ class RegisteredUserController extends Controller
         }
 
         if ($user->role === 'admin') {
+            logActivity('user', 'Admin baru mendaftar', $user->name . ' telah mendaftar sebagai admin');
             return redirect()->route('admin.dashboard');
         }
+
+        logActivity('user', 'User baru mendaftar', $user->name . ' telah mendaftar sebagai participant');
+
 
         return redirect()->route('dashboard');
     }

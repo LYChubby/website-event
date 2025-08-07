@@ -21,7 +21,7 @@
     ])
 
     @if(request()->is('admin/*'))
-    @vite(['resources/js/admin-dashboard.js'])
+    @vite(['resources/js/admin.js'])
     @elseif(request()->is('organizer/*'))
     @vite(['resources/js/organizer-dashboard.js'])
     @endif

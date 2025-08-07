@@ -21,7 +21,9 @@ use App\Http\Controllers\{
     HomeController,
     HistoryController,
     OrganizerDashboardController,
-    EventDashboardController
+    EventDashboardController,
+    AdminController,
+    UserController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -63,7 +65,7 @@ Route::middleware(['auth', 'role:user'])->get('/dashboard', [HomeController::cla
 Route::middleware(['auth', 'role:organizer'])->get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])->name('organizer.dashboard');
 
 // ========== ADMIN DASHBOARD ==========
-Route::middleware(['auth', 'role:admin'])->get('/dashboard/admin', fn() => view('admin.admindashboard'))->name('admin.dashboard');
+Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
 
 // ========== AUTH MIDDLEWARE GROUP ==========
 Route::middleware('auth')->group(function () {
@@ -162,10 +164,31 @@ Route::middleware('auth')->group(function () {
 
     // === ADMIN ===
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
-        Route::get('/events', [EventController::class, 'adminEvents']);
-        Route::get('/events/{id}', [EventController::class, 'show']);
-        Route::put('/events/{id}/approve', [EventController::class, 'approveEvent']);
-        Route::put('/events/{id}/reject', [EventController::class, 'rejectEvent']);
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
+        Route::get('/events-approval', [AdminController::class, 'eventsApproval'])->name('events-approval');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+
+        // API Endpoints
+        Route::prefix('api')->group(function () {
+            Route::get('/stats', [AdminController::class, 'getStats']);
+            Route::get('/activities', [AdminController::class, 'getActivities']);
+
+            // Categories API
+            Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
+            Route::get('/categories/stats', [CategoryController::class, 'stats']);
+
+            // Events Approval API
+            Route::get('/events', [EventController::class, 'pendingEvents']);
+            Route::put('/events/{event}/approve', [EventController::class, 'approveEvent']);
+            Route::put('/events/{event}/reject', [EventController::class, 'rejectEvent']);
+
+            // Users API
+            Route::get('/users', [UserController::class, 'index']);
+            Route::post('/users', [UserController::class, 'store']);
+            Route::put('/users/{user}', [UserController::class, 'update']);
+            Route::delete('/users/{user}', [UserController::class, 'destroy']);
+        });
     });
 
     // === CHECKOUT & PAYMENT ===
