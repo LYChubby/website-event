@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                <i class="fas fa-history text-2xl text-white"></i>
-            </div>
-            <div>
-                <h2 class="font-semibold text-2xl text-white leading-tight">
-                    Riwayat
-                </h2>
-                <p class="text-sm text-purple-100">Kelola dan lihat semua riwayat transaksi tiket Anda</p>
-            </div>
+    <div class="flex items-center space-x-4 pb-6">
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+            <i class="fas fa-history text-2xl text-white"></i>
         </div>
-    </x-slot>
+        <div>
+            <h2 class="font-semibold text-2xl text-white leading-tight">
+                Riwayat
+            </h2>
+            <p class="text-sm text-purple-100">Kelola dan lihat semua riwayat transaksi tiket Anda</p>
+        </div>
+    </div>
+</x-slot>
 
     <style>
         :root {
@@ -62,7 +62,7 @@
         }
     </style>
 
-    <div class="py-6 px-4 max-w-7xl mx-auto -mt-10">
+    <div class="py-6 px-4 max-w-7xl mx-auto -mt-10 mt-6">
         <div class="glass-effect rounded-2xl shadow-xl overflow-hidden">
             <!-- Stats Cards -->
             <div class="py-10 px-6 border-b border-purple-100 bg-gradient-to-r from-purple-50 to-purple-100">
