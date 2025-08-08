@@ -70,7 +70,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-500 font-medium">Nama Pembeli</p>
-                                    <p class="text-lg font-semibold text-gray-800">{{ $transaction->user->name }}</p>
+                                    <p class="text-lg font-semibold text-gray-800">{{ $transaction->participant->nama ?? 'Nama tidak tersedia' }}</p>
                                 </div>
                             </div>
 

@@ -11,7 +11,7 @@ class TransactionDetailController extends Controller
 {
     public function index()
     {
-        $details = TransactionDetail::with(['transaction', 'ticket'])->latest()->get();
+        $details = TransactionDetail::with(['transaction.participant', 'ticket'])->latest()->get();
         return response()->json($details);
     }
 
@@ -31,7 +31,7 @@ class TransactionDetailController extends Controller
 
     public function show($id)
     {
-        $detail = TransactionDetail::with(['transaction', 'ticket'])->findOrFail($id);
+        $detail = TransactionDetail::with(['transaction.participant', 'ticket'])->findOrFail($id);
         return response()->json($detail);
     }
 

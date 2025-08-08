@@ -74,13 +74,14 @@ class CheckoutController extends Controller
 
             // 4. Simpan data peserta
             Participant::create([
-                'user_id' => Auth::id(),
-                'event_id' => $request->event_id,
-                'nama' => $request->nama,
-                'name_event' => $ticket->event->name_event,
-                'ticket_id' => $ticket->ticket_id,
-                'jenis_ticket' => $ticket->jenis_ticket,
-                'jumlah' => $request->quantity,
+                'transaction_id' => $transaction->transaction_id, // ini kuncinya
+                'user_id'        => Auth::id(),
+                'event_id'       => $request->event_id,
+                'nama'           => $request->nama,
+                'name_event'     => $ticket->event->name_event,
+                'ticket_id'      => $ticket->ticket_id,
+                'jenis_ticket'   => $ticket->jenis_ticket,
+                'jumlah'         => $request->quantity,
             ]);
 
             // 5. Siapkan invoice ke Xendit
@@ -93,7 +94,7 @@ class CheckoutController extends Controller
                     'given_names' => Auth::user()->name,
                     'email' => Auth::user()->email
                 ],
-                'success_redirect_url' => route('payment.success'),
+                'success_redirect_url' => route('history.index'),
                 'failure_redirect_url' => route('payment.failed'),
                 'items' => [
                     [
@@ -127,29 +128,30 @@ class CheckoutController extends Controller
 
 
     public function success()
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        $histories = Transaction::with(['event', 'user'])
-            ->where('user_id', $user->user_id)
-            ->latest()
-            ->get()
-            ->map(function ($transaction) {
-                return [
-                    'transaction_id'     => $transaction->transaction_id,
-                    'nama_pembeli'       => $transaction->user->name ?? '-',
-                    'nama_event'         => $transaction->event->name_event ?? '-',
-                    'tanggal_beli'       => $transaction->created_at,
-                    'status_pembayaran'  => $transaction->status_pembayaran ?? 'pending',
-                ];
-            });
-
-        // Kirim ke view history.index
-        return view('history.index', compact('histories'));
+{
+    $user = Auth::user();
+    if (!$user) {
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
+
+    $histories = Transaction::select(
+        'transactions.transaction_id',
+        'participants.nama as nama_peserta',
+        'events.name_event',
+        'events.venue_name',
+        'events.venue_address',
+        'transactions.created_at as tanggal_beli',
+        'transactions.status_pembayaran'
+    )
+    ->leftJoin('participants', 'transactions.transaction_id', '=', 'participants.transaction_id')
+    ->join('events', 'transactions.event_id', '=', 'events.event_id')
+    ->where('transactions.user_id', Auth::id())
+    ->latest('transactions.created_at')
+    ->get();
+
+    return view('history.index', compact('histories'));
+}
+
 
     public function failed()
     {

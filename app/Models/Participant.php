@@ -12,6 +12,7 @@ class Participant extends Model
     protected $primaryKey = 'participant_id';
 
     protected $fillable = [
+        'transaction_id',
         'nama',
         'user_id',
         'ticket_id',
@@ -39,4 +40,10 @@ class Participant extends Model
     {
         return $this->belongsTo(Event::class, 'event_id', 'event_id');
     }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'transaction_id', 'transaction_id');
+    }
+
 }
