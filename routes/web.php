@@ -199,7 +199,7 @@ Route::middleware('auth')->group(function () {
 
     // === CHECKOUT & PAYMENT ===
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-    Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
+    Route::get('/history', [CheckoutController::class, 'success'])->name('history.index');
     Route::get('/payment/failed', [CheckoutController::class, 'failed'])->name('payment.failed');
     Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });

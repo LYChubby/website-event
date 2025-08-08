@@ -128,7 +128,7 @@ class CheckoutController extends Controller
 
     public function success()
     {
-        return view('payment.success');
+        return view('history.index');
     }
 
     public function failed()
