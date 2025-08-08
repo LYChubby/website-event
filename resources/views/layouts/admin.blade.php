@@ -59,6 +59,9 @@
                 <a href="{{ route('admin.categories') }}" class="@if(Route::is('admin.categories')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
                     <i class="fas fa-tags mr-1"></i> Kategori
                 </a>
+                <a href="{{ route('admin.organizers') }}" class="@if(Route::is('admin.organizers-info')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
+                    <i class="fas fa-user-check mr-1"></i> Organizer Info
+                </a>
                 <a href="{{ route('admin.events-approval') }}" class="@if(Route::is('admin.events-approval')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
                     <i class="fas fa-calendar-check mr-1"></i> Persetujuan Event
                 </a>

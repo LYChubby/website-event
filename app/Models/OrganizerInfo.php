@@ -9,7 +9,7 @@ class OrganizerInfo extends Model
 {
     use HasFactory;
 
-    protected $table = 'organizers_infos'; // ✅ Tambahkan baris ini
+    protected $table = 'organizers_infos';
     protected $primaryKey = 'organizer_info_id';
 
     protected $fillable = [
@@ -24,5 +24,16 @@ class OrganizerInfo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($organizerInfo) {
+            if ($organizerInfo->isDirty('is_verified') && $organizerInfo->is_verified) {
+                $organizerInfo->disbursement_ready = true;
+            }
+        });
     }
 }

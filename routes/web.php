@@ -23,7 +23,8 @@ use App\Http\Controllers\{
     OrganizerDashboardController,
     EventDashboardController,
     AdminController,
-    UserController
+    UserController,
+    OrganizerVerificationController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -166,6 +167,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
+        Route::get('/organizers-info', [AdminController::class, 'organizers'])->name('organizers');
         Route::get('/events-approval', [AdminController::class, 'eventsApproval'])->name('events-approval');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
 
@@ -177,6 +179,10 @@ Route::middleware('auth')->group(function () {
             // Categories API
             Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
             Route::get('/categories/stats', [CategoryController::class, 'stats']);
+
+            // Organizer Verification API
+            Route::get('/organizers', [OrganizerInfoController::class, 'index']);
+            Route::put('/organizers/{id}/verification', [OrganizerInfoController::class, 'updateVerification']);
 
             // Events Approval API
             Route::get('/events', [EventController::class, 'pendingEvents']);

@@ -21,6 +21,11 @@ class AdminController extends Controller
         return view('admin.categories');
     }
 
+    public function organizers()
+    {
+        return view('admin.organizers-info');
+    }
+
     public function eventsApproval()
     {
         return view('admin.events-approval');

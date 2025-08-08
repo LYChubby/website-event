@@ -11,10 +11,48 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizerInfoController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request)
     {
-        $data = OrganizerInfo::with('user')->get();
-        return response()->json($data);
+        $query = OrganizerInfo::with(['user' => function ($q) {
+            $q->where('role', 'organizer'); // Hanya ambil user dengan role organizer
+        }])->whereHas('user', function ($q) {
+            $q->where('role', 'organizer');
+        })->latest();
+
+        if ($request->has('search')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('email', 'like', "%{$request->search}%");
+            });
+        }
+
+        $organizers = $query->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => $organizers, // Langsung return pagination object
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateVerification(Request $request, $id)
+    {
+        $request->validate([
+            'is_verified' => 'required|boolean'
+        ]);
+
+        $organizer = OrganizerInfo::findOrFail($id);
+
+        $organizer->update([
+            'is_verified' => $request->is_verified,
+            'disbursement_ready' => $request->is_verified // Set sama dengan is_verified
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status verifikasi berhasil diperbarui',
+            'data' => $organizer
+        ]);
     }
 
     public function create(XenditBankService $xenditBankService)
