@@ -1,7 +1,7 @@
 // resources/js/admin.js
 import { initDashboard } from "./admin/admin-dashboard";
 import { initCategories } from "./admin/categories";
-import { initOrganizerVerification } from "./admin/organizer-verification";
+import { initOrganizers } from "./admin/organizer-verification";
 import { initEventsApproval } from "./admin/events-approval";
 import { initUsers } from "./admin/users";
 
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (path.includes("/admin/categories")) {
         initCategories();
     } else if (path.includes("/admin/organizer-verification")) {
-        initOrganizerVerification();
+        initOrganizers();
     } else if (path.includes("/admin/events-approval")) {
         initEventsApproval();
     } else if (path.includes("/admin/users")) {

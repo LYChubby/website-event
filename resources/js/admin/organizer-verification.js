@@ -1,5 +1,5 @@
 // resources/js/admin/organizer-verification.js
-export function initOrganizerVerification() {
+export function initOrganizers() {
     loadOrganizers();
     initSearch();
 }
@@ -22,14 +22,70 @@ function loadOrganizers(page = 1, search = "") {
         })
         .then((data) => {
             if (data.success) {
-                renderOrganizers(data.data.data); // Sesuaikan dengan struktur response
-                renderPagination(data.data);
+                renderOrganizers(data.data.items);
+                renderPagination(data.data.meta);
+                updatePaginationInfo(data.data.meta);
             }
         })
         .catch((error) => {
             console.error("Error:", error);
             showToast("error", "Gagal memuat data organizer");
         });
+}
+
+function renderPagination(meta) {
+    const container = document.getElementById("organizerPagination");
+    container.innerHTML = "";
+
+    // Previous Button
+    const prevBtn = document.createElement("button");
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevBtn.className = `px-3 py-1 rounded-lg border ${
+        meta.current_page === 1
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "hover:bg-blue-50 text-blue-600"
+    }`;
+    prevBtn.disabled = meta.current_page === 1;
+    prevBtn.addEventListener("click", () => {
+        if (meta.current_page > 1) loadOrganizers(meta.current_page - 1);
+    });
+    container.appendChild(prevBtn);
+
+    // Page Numbers
+    for (let i = 1; i <= meta.last_page; i++) {
+        const pageBtn = document.createElement("button");
+        pageBtn.textContent = i;
+        pageBtn.className = `px-3 py-1 mx-1 rounded-lg ${
+            i === meta.current_page
+                ? "bg-blue-600 text-white"
+                : "hover:bg-blue-50 text-blue-600"
+        }`;
+        pageBtn.addEventListener("click", () => loadOrganizers(i));
+        container.appendChild(pageBtn);
+    }
+
+    // Next Button
+    const nextBtn = document.createElement("button");
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextBtn.className = `px-3 py-1 rounded-lg border ${
+        meta.current_page === meta.last_page
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "hover:bg-blue-50 text-blue-600"
+    }`;
+    nextBtn.disabled = meta.current_page === meta.last_page;
+    nextBtn.addEventListener("click", () => {
+        if (meta.current_page < meta.last_page)
+            loadOrganizers(meta.current_page + 1);
+    });
+    container.appendChild(nextBtn);
+}
+
+function updatePaginationInfo(meta) {
+    const start = (meta.current_page - 1) * meta.per_page + 1;
+    const end = Math.min(meta.current_page * meta.per_page, meta.total);
+    document.getElementById(
+        "organizerPaginationInfo"
+    ).textContent = `Menampilkan ${start}-${end} dari ${meta.total} data`;
 }
 
 function renderOrganizers(organizers) {
@@ -101,7 +157,7 @@ function renderOrganizers(organizers) {
     });
 }
 
-function toggleVerification(id, newStatus) {
+window.toggleVerification = function (id, newStatus) {
     if (
         confirm(
             `Anda yakin ingin ${
@@ -132,7 +188,7 @@ function toggleVerification(id, newStatus) {
                 }
             });
     }
-}
+};
 
 function initSearch() {
     const searchInput = document.getElementById("organizerSearch");

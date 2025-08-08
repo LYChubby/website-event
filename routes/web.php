@@ -23,8 +23,7 @@ use App\Http\Controllers\{
     OrganizerDashboardController,
     EventDashboardController,
     AdminController,
-    UserController,
-    OrganizerVerificationController
+    UserController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========

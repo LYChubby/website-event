@@ -14,7 +14,7 @@ class OrganizerInfoController extends Controller
     public function index(Request $request)
     {
         $query = OrganizerInfo::with(['user' => function ($q) {
-            $q->where('role', 'organizer'); // Hanya ambil user dengan role organizer
+            $q->where('role', 'organizer');
         }])->whereHas('user', function ($q) {
             $q->where('role', 'organizer');
         })->latest();
@@ -30,7 +30,15 @@ class OrganizerInfoController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $organizers, // Langsung return pagination object
+            'data' => [
+                'items' => $organizers->items(),      // Data koleksi
+                'meta' => [                          // Metadata pagination
+                    'current_page' => $organizers->currentPage(),
+                    'total' => $organizers->total(),
+                    'per_page' => $organizers->perPage(),
+                    'last_page' => $organizers->lastPage()
+                ]
+            ],
             'message' => 'Success'
         ]);
     }
