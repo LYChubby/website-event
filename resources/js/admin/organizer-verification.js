@@ -201,5 +201,3 @@ function initSearch() {
         }, 500);
     });
 }
-
-document.addEventListener("DOMContentLoaded", initOrganizers);
