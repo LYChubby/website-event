@@ -1,6 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
     <div class="flex items-center space-x-4 pb-6">
+        <button onclick="window.location.href='/dashboard'" 
+            class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+            <i class="fas fa-arrow-left text-white"></i>
+        </button>
         <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
             <i class="fas fa-history text-2xl text-white"></i>
         </div>
@@ -99,7 +103,7 @@
                     </div>
                     <div class="flex gap-3">
                         <select
-                            class="px-4 py-3 border border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-300 bg-white">
+                            class="px-8 py-3 border border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-300 bg-white">
                             <option>Semua Status</option>
                             <option>Paid</option>
                             <option>Unpaid</option>
@@ -124,62 +128,58 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-purple-100">
-    @foreach ($histories as $history)
-    <tr class="hover-lift hover:bg-purple-50">
-        <td class="py-4 px-6 flex items-center">
-            <div
-                class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                {{ strtoupper(substr($history->nama_peserta, 0, 2)) }}
-            </div>
-            <span class="font-medium text-gray-800">{{ $history->nama_peserta }}</span>
-        </td>
-        <td class="py-4 px-6">
-            <p class="font-medium text-gray-800">{{ $history->name_event }}</p>
-            <p class="text-sm text-gray-500">{{ $history->venue_name }} - {{ $history->venue_address }}</p>
-        </td>
-        <td class="py-4 px-6 text-gray-600">
-            {{ \Carbon\Carbon::parse($history->tanggal_beli)->format('d M Y') }}
-        </td>
-        <td class="py-4 px-6">
-            <span
-                class="px-4 py-2 rounded-full text-white text-sm font-medium {{ $history->status_pembayaran === 'paid' ? 'status-paid' : 'status-unpaid' }}">
-                {{ $history->status_pembayaran === 'paid' ? '✅ Paid' : '⏳ Unpaid' }}
-            </span>
-        </td>
-        <td class="py-4 px-6">
-            <button onclick="showTransactionDetail(`{{ $history->transaction_id }}`)"
-                class="btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">
-                Lihat Detail
-            </button>
-        </td>
-    </tr>
-    @endforeach
-</tbody>
-
+                    @foreach ($histories as $history)
+                    <tr class="hover-lift hover:bg-purple-50">
+                        <td class="py-4 px-6 flex items-center">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                                {{ strtoupper(substr($history->nama_peserta, 0, 2)) }}
+                            </div>
+                            <span class="font-medium text-gray-800">{{ $history->nama_peserta }}</span>
+                        </td>
+                        <td class="py-4 px-6">
+                            <p class="font-medium text-gray-800">{{ $history->name_event }}</p>
+                            <p class="text-sm text-gray-500">{{ $history->venue_name }} - {{ $history->venue_address }}</p>
+                        </td>
+                        <td class="py-4 px-6 text-gray-600">
+                            {{ \Carbon\Carbon::parse($history->tanggal_beli)->format('d M Y') }}
+                        </td>
+                        <td class="py-4 px-6">
+                            <span
+                                class="px-4 py-2 rounded-full text-white text-sm font-medium {{ $history->status_pembayaran === 'paid' ? 'status-paid' : 'status-unpaid' }}">
+                                {{ $history->status_pembayaran === 'paid' ? '✅ Paid' : '⏳ Unpaid' }}
+                            </span>
+                        </td>
+                        <td class="py-4 px-6">
+                            <button onclick="showTransactionDetail(`{{ $history->transaction_id }}`)"
+                                class="btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">
+                                Lihat Detail
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- Enhanced Modal - Mempertahankan struktur asli dengan styling baru -->
+
+    <!-- Modal -->
     <div id="transactionModal" class="fixed inset-0 z-50 hidden modal-backdrop items-center justify-center">
         <div class="glass-effect rounded-2xl shadow-2xl p-6 w-full max-w-4xl animate-fade-in">
-            <!-- Modal Header -->
             <div class="flex justify-between items-center mb-6 pb-4 border-b border-blue-200">
                 <div>
                     <h3 class="text-2xl font-bold text-gray-800">Detail Transaksi</h3>
                     <p class="text-blue-600 mt-1">Informasi lengkap pembelian tiket</p>
                 </div>
-                <button onclick="closeModal()"
-                    class="bg-red-100 hover:bg-red-200 rounded-full p-2 transition-colors">
+                <button onclick="closeModal()" class="bg-red-100 hover:bg-red-200 rounded-full p-2 transition-colors">
                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
-            <!-- Modal Content - Area tempat konten akan dimuat -->
             <div id="modalContent">
-                <!-- Detail akan dimuat via JavaScript - mempertahankan fungsi asli -->
                 <div class="text-center py-8">
                     <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
                     <p class="mt-4 text-gray-600">Memuat detail transaksi...</p>
@@ -191,7 +191,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         function showTransactionDetail(transactionId) {
-            // Menampilkan modal
             const modal = document.getElementById('transactionModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -231,8 +230,12 @@
                                     QR Code & Invoice
                                 </h4>
                                 <p class="text-sm text-gray-600 mb-3"><strong>No. Invoice:</strong></p>
-                                <div id="qrcode" class="flex justify-center mb-3"></div>
-                                <p class="text-xs text-gray-500 font-mono">${data.no_invoice}</p>
+                                ${
+                                    data.status_pembayaran === 'paid'
+                                    ? `<div id="qrcode" class="flex justify-center mb-3"></div>
+                                       <p class="text-xs text-gray-500 font-mono">${data.no_invoice}</p>`
+                                    : `<p class="text-gray-500 italic">QR Code akan muncul setelah pembayaran berhasil</p>`
+                                }
                             </div>
                         </div>
                         
@@ -273,15 +276,17 @@
 
                         document.getElementById('modalContent').innerHTML = html;
 
-                        // Generate QR Code dengan warna theme
-                        new QRCode(document.getElementById("qrcode"), {
-                            text: `${window.location.origin}/tiket/${data.no_invoice}`,
-                            width: 128,
-                            height: 128,
-                            colorDark: "#63A7F4",
-                            colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.H
-                        });
+                        // QR Code cuma muncul kalau statusnya paid
+                        if (data.status_pembayaran === 'paid') {
+                            new QRCode(document.getElementById("qrcode"), {
+                                text: `${window.location.origin}/tiket/${data.no_invoice}`,
+                                width: 128,
+                                height: 128,
+                                colorDark: "#63A7F4",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
 
                     } else {
                         document.getElementById('modalContent').innerHTML = `
@@ -306,7 +311,6 @@
             modal.classList.remove('flex');
         }
 
-        // Close modal when clicking outside
         document.getElementById('transactionModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
