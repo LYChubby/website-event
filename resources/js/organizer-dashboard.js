@@ -167,40 +167,53 @@ function filterEvents(categoryId) {
 // ========== Load Kategori ==========
 function loadCategories() {
     fetch("/categories")
-        .then((res) => res.json())
-        .then((categories) => {
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+        })
+        .then((response) => {
             const select = document.getElementById("category_id");
             const filter = document.getElementById("categoryFilter");
 
             // Clear existing options
             select.innerHTML = '<option value="">Pilih Kategori</option>';
-            filter.innerHTML = ""; // ← clear filter button
+            filter.innerHTML =
+                '<button class="filter-btn active" data-category="all" onclick="filterEvents(\'all\')"><i class="fas fa-th-large"></i> Semua</button>';
 
-            // ✅ Tambahkan kembali tombol SEMUA
-            const allBtn = document.createElement("button");
-            allBtn.className = "filter-btn active"; // bisa diubah tergantung kondisi aktif
-            allBtn.setAttribute("data-category", "all");
-            allBtn.innerHTML = '<i class="fas fa-th-large"></i> Semua';
-            allBtn.onclick = () => filterEvents("all");
-            filter.appendChild(allBtn);
+            // Pastikan kita mengakses data yang benar dari response
+            const categories = response.data || response; // Handle kedua format response
 
-            // Tambahkan kategori lain dari response
+            // Tambahkan kategori
             categories.forEach((cat) => {
+                // Untuk dropdown form
                 const option = document.createElement("option");
-                option.value = cat.category_id;
+                option.value = cat.category_id; // Fallback ke id jika category_id tidak ada
                 option.textContent = cat.name;
                 select.appendChild(option);
 
+                // Untuk filter horizontal
                 const btn = document.createElement("button");
                 btn.className = "filter-btn";
                 btn.setAttribute("data-category", cat.category_id);
-                btn.textContent = cat.name;
-                btn.onclick = () => filterEvents(cat.category_id);
+                btn.innerHTML = `<i class="fas fa-tag"></i> ${cat.name}`;
+                btn.onclick = () => {
+                    // Update active state
+                    document.querySelectorAll(".filter-btn").forEach((btn) => {
+                        btn.classList.remove("active");
+                    });
+                    btn.classList.add("active");
+                    filterEvents(cat.category_id || cat.id);
+                };
                 filter.appendChild(btn);
             });
         })
         .catch((error) => {
             console.error("Error loading categories:", error);
+            // Tampilkan pesan error ke user jika diperlukan
+            document.getElementById("categoryFilter").innerHTML =
+                '<p class="text-red-500">Gagal memuat kategori</p>';
         });
 }
 

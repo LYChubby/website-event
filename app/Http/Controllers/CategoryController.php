@@ -12,18 +12,24 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request  $request)
     {
-        $query = Category::withCount('events');
+        $query = Category::query();
 
-        // Search
+        // Jika request dari filter event (tidak perlu pagination)
+        if ($request->has('for') && $request->for === 'filter') {
+            return $query->orderBy('name')->get(['category_id', 'name']);
+        }
+
+        // Default untuk halaman admin (dengan pagination)
+        $query->withCount('events');
+
         if ($request->has('search') && $request->search) {
             $query->where('name', 'like', "%{$request->search}%");
         }
 
-        // Pagination
         $perPage = $request->per_page ?? 10;
-        $categories = $query->orderBy('name')->paginate($perPage); // atau kolom lain yang ada
+        $categories = $query->orderBy('name')->paginate($perPage);
 
         return response()->json([
             'data' => $categories->items(),
