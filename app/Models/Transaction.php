@@ -41,7 +41,7 @@ class Transaction extends Model
     public function participant()
     {
         return $this->hasOne(Participant::class, 'event_id', 'event_id')
-                    ->whereColumn('user_id', 'transactions.user_id');
+            ->whereColumn('user_id', 'transactions.user_id');
     }
 
     public function transactionDetails()

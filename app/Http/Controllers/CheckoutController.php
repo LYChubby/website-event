@@ -128,12 +128,24 @@ class CheckoutController extends Controller
 
     public function success()
     {
-    // Ambil semua riwayat transaksi user yang login
-        $histories = Transaction::with('participant')
-    ->where('user_id', Auth::id())
-    // ->where('status_pembayaran', 'paid')
-    ->latest()
-    ->get();
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $histories = Transaction::with(['event', 'user'])
+            ->where('user_id', $user->user_id)
+            ->latest()
+            ->get()
+            ->map(function ($transaction) {
+                return [
+                    'transaction_id'     => $transaction->transaction_id,
+                    'nama_pembeli'       => $transaction->user->name ?? '-',
+                    'nama_event'         => $transaction->event->name_event ?? '-',
+                    'tanggal_beli'       => $transaction->created_at,
+                    'status_pembayaran'  => $transaction->status_pembayaran ?? 'pending',
+                ];
+            });
 
         // Kirim ke view history.index
         return view('history.index', compact('histories'));
