@@ -30,16 +30,12 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
 
-        <!-- Page Heading -->
         @isset($header)
-        <header class="bg-white dark:bg-[#684597] shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
+        <x-page-header class="gradient-header text-white">
+            {{ $header }}
+        </x-page-header>
         @endisset
 
-        <!-- Page Content -->
         <main class="w-full min-h-screen bg-white overflow-hidden">
             {{ $slot }}
         </main>
