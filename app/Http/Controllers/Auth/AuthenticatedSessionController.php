@@ -60,6 +60,7 @@ class AuthenticatedSessionController extends Controller
         return match ($role) {
             'admin' => redirect()->route('admin.dashboard'),
             'user' => redirect()->route('dashboard'),
+            'organizer' => redirect()->route('organizer.dashboard'),
             default => redirect('/'),
         };
     }
