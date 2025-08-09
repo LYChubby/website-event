@@ -8,17 +8,19 @@ function updateStats() {
     fetch("/admin/api/stats")
         .then((res) => res.json())
         .then((data) => {
-            document.getElementById("totalCategories").textContent =
-                data.categories_count || "0";
-            document.getElementById("approvedEvents").textContent =
-                data.approved_events_count || "0";
-            document.getElementById("pendingEvents").textContent =
-                data.pending_events_count || "0";
-            document.getElementById("totalUsers").textContent =
-                data.users_count || "0";
+            // Add smooth counting animation to numbers
+            animateCounter("totalCategories", data.categories_count || 0);
+            animateCounter("approvedEvents", data.approved_events_count || 0);
+            animateCounter("pendingEvents", data.pending_events_count || 0);
+            animateCounter("totalUsers", data.users_count || 0);
         })
         .catch((error) => {
             console.error("Error loading stats:", error);
+            // Set fallback values
+            document.getElementById("totalCategories").textContent = "0";
+            document.getElementById("approvedEvents").textContent = "0";
+            document.getElementById("pendingEvents").textContent = "0";
+            document.getElementById("totalUsers").textContent = "0";
         });
 }
 
@@ -31,38 +33,43 @@ function loadActivities() {
 
             if (activities.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-info-circle text-3xl mb-2"></i>
-                        <p>Tidak ada aktivitas terbaru</p>
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-info-circle text-2xl text-gray-400"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-600 mb-1">Tidak ada aktivitas</h3>
+                        <p class="text-sm text-gray-400">Tidak ada aktivitas terbaru</p>
                     </div>
                 `;
                 return;
             }
 
-            activities.forEach((activity) => {
+            activities.forEach((activity, index) => {
                 const activityEl = document.createElement("div");
-                activityEl.className =
-                    "flex items-start p-4 bg-gray-50 rounded-lg";
+                activityEl.className = "activity-item";
+                activityEl.style.animationDelay = `${index * 0.1}s`;
                 activityEl.innerHTML = `
-                    <div class="flex-shrink-0 mt-1">
-                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <div class="flex items-start space-x-4">
+                        <div class="activity-icon activity-icon-${
+                            activity.type
+                        }">
                             <i class="fas fa-${getActivityIcon(
                                 activity.type
-                            )} text-blue-500"></i>
+                            )} text-sm"></i>
                         </div>
-                    </div>
-                    <div class="ml-4 flex-1">
-                        <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">${
-                                activity.title
-                            }</p>
-                            <p class="text-xs text-gray-500">${
-                                activity.time
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-base font-semibold text-gray-800 truncate">${
+                                    activity.title
+                                }</h4>
+                                <span class="text-xs font-medium text-gray-500 whitespace-nowrap">${
+                                    activity.time
+                                }</span>
+                            </div>
+                            <p class="text-sm text-gray-600">${
+                                activity.description
                             }</p>
                         </div>
-                        <p class="text-sm text-gray-500">${
-                            activity.description
-                        }</p>
                     </div>
                 `;
                 container.appendChild(activityEl);
@@ -70,6 +77,16 @@ function loadActivities() {
         })
         .catch((error) => {
             console.error("Error loading activities:", error);
+            const container = document.getElementById("activitiesList");
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-2xl text-red-500"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-600 mb-1">Gagal memuat aktivitas</h3>
+                    <p class="text-sm text-gray-400">Terjadi kesalahan saat memuat data</p>
+                </div>
+            `;
         });
 }
 
@@ -82,4 +99,34 @@ function getActivityIcon(type) {
         default: "bell",
     };
     return icons[type] || icons.default;
+}
+
+function animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const startValue = 0;
+    const duration = 1000; // 1 second (reduced from 1.5s for faster feel)
+    const startTime = performance.now();
+
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Use easing function for smooth animation
+        const easeOutQuad = progress * (2 - progress);
+        const currentValue = Math.floor(
+            startValue + (targetValue - startValue) * easeOutQuad
+        );
+
+        element.textContent = currentValue.toString();
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = targetValue.toString();
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
 }
