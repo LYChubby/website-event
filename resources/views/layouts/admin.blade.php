@@ -1,32 +1,52 @@
 <!-- resources/views/layouts/admin.blade.php -->
 <x-app-layout>
-    <x-slot name="header">
+
+    <!-- Header dalam nav -->
+    <nav class="bg-gradient-to-r from-[#5C6AD0] to-[#684597] px-6 py-4 shadow-lg">
         <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-cog text-2xl text-white"></i>
+            <!-- Logo & Judul -->
+            <div class="flex items-center space-x-5">
+                <!-- Ikon dengan gradient & glow -->
+                <div
+                    class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg 
+               bg-gradient-to-br from-[#5C6AD0] to-[#684597] relative overflow-hidden">
+                    <div class="absolute inset-0 bg-white/10 blur-md"></div>
+                    <i class="fas fa-cog text-2xl text-white drop-shadow-md"></i>
                 </div>
+
+                <!-- Teks Judul -->
                 <div>
-                    <h2 class="font-semibold text-2xl text-white leading-tight">
-                        Dashboard Admin
-                    </h2>
-                    <p class="text-sm text-blue-100">Kelola sistem secara menyeluruh</p>
+                    <h1 class="text-3xl font-extrabold text-white tracking-wide drop-shadow-sm">
+                        Dashboard <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#AFCBFF] to-white">Admin</span>
+                    </h1>
+                    <p class="text-sm text-white/80 mt-1 font-medium">
+                        🚀 Kelola sistem secara menyeluruh dengan mudah
+                    </p>
                 </div>
             </div>
 
+
+            <!-- Profil Dropdown -->
             <div class="hidden sm:flex items-center space-x-4">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20">
+                        <button
+                            class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20">
                             <div class="flex items-center space-x-2">
-                                <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                                <div
+                                    class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center shadow-sm">
                                     <i class="fas fa-user text-xs text-white"></i>
                                 </div>
                                 <span>{{ Auth::user()->name }}</span>
                             </div>
                             <div class="ml-2">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 
+                                        1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 
+                                        010-1.414z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -47,31 +67,40 @@
                 </x-dropdown>
             </div>
         </div>
-    </x-slot>
+    </nav>
 
+    <!-- Konten -->
     <div class="py-8 px-4 sm:px-8 bg-gray-50 min-h-screen">
-        <!-- Navigation -->
-        <div class="mb-8">
-            <nav class="flex space-x-4" aria-label="Tabs">
-                <a href="{{ route('admin.dashboard') }}" class="@if(Route::is('admin.dashboard')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
-                    <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
+
+        <!-- Navigation Tabs -->
+        <div class="mb-8 animate-fade-in">
+            <nav class="flex space-x-2 bg-white shadow-md rounded-xl p-2 w-fit mx-auto">
+                @php
+                $tabs = [
+                ['route' => 'admin.dashboard', 'icon' => 'fas fa-tachometer-alt', 'label' => 'Dashboard'],
+                ['route' => 'admin.categories', 'icon' => 'fas fa-tags', 'label' => 'Kategori'],
+                ['route' => 'admin.organizers', 'icon' => 'fas fa-user-check', 'label' => 'Organizer Info'],
+                ['route' => 'admin.events-approval', 'icon' => 'fas fa-calendar-check', 'label' => 'Persetujuan Event'],
+                ['route' => 'admin.users', 'icon' => 'fas fa-users', 'label' => 'Manajemen User'],
+                ];
+                @endphp
+
+                @foreach($tabs as $tab)
+                <a href="{{ route($tab['route']) }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300
+                        {{ Route::is($tab['route']) 
+                            ? 'bg-gradient-to-r from-[#5C6AD0] to-[#684597] text-white shadow-md scale-105' 
+                            : 'text-gray-600 hover:text-[#5C6AD0] hover:bg-gray-100' }}">
+                    <i class="{{ $tab['icon'] }} mr-2"></i> {{ $tab['label'] }}
                 </a>
-                <a href="{{ route('admin.categories') }}" class="@if(Route::is('admin.categories')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
-                    <i class="fas fa-tags mr-1"></i> Kategori
-                </a>
-                <a href="{{ route('admin.organizers') }}" class="@if(Route::is('admin.organizers-info')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
-                    <i class="fas fa-user-check mr-1"></i> Organizer Info
-                </a>
-                <a href="{{ route('admin.events-approval') }}" class="@if(Route::is('admin.events-approval')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
-                    <i class="fas fa-calendar-check mr-1"></i> Persetujuan Event
-                </a>
-                <a href="{{ route('admin.users') }}" class="@if(Route::is('admin.users')) bg-white text-blue-600 @else text-gray-500 hover:text-gray-700 @endif px-3 py-2 font-medium text-sm rounded-md">
-                    <i class="fas fa-users mr-1"></i> Manajemen User
-                </a>
+                @endforeach
             </nav>
         </div>
 
-        {{ $slot }}
+        <!-- Slot Konten Halaman -->
+        <div class="animate-fade-in">
+            {{ $slot }}
+        </div>
     </div>
 
     @stack('modals')
@@ -79,92 +108,19 @@
 </x-app-layout>
 
 <style>
-    .gradient-bg {
-        background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
-    }
-
-    .card-hover {
-        transition: all 0.3s ease;
-    }
-
-    .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(99, 167, 244, 0.2);
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(99, 167, 244, 0.3);
-    }
-
-    .btn-white {
-        background: white;
-        color: #4A90E2;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-white:hover {
-        background: #f8fafc;
-        transform: translateY(-2px);
-    }
-
-    .glass-effect {
-        backdrop-filter: blur(10px);
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
     .animate-fade-in {
-        animation: fadeIn 0.6s ease-out;
+        animation: fadeIn 0.5s ease-out;
     }
 
     @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(10px);
         }
 
         to {
             opacity: 1;
             transform: translateY(0);
         }
-    }
-
-    .status-badge {
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-
-    .status-pending {
-        background: #FEF3C7;
-        color: #92400E;
-    }
-
-    .status-approved {
-        background: #D1FAE5;
-        color: #065F46;
-    }
-
-    .status-rejected {
-        background: #FEE2E2;
-        color: #991B1B;
-    }
-
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
     }
 </style>
