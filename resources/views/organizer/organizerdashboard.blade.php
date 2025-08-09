@@ -1,216 +1,461 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white bg-opacity-20  rounded-xl flex items-center justify-center">
-                    <i class="fas fa-cog text-2xl text-white"></i>
+    <nav class="custom-navbar">
+    <div class="flex items-center justify-between px-6">
+        
+        <!-- Left: Brand + Search -->
+        <div class="flex items-center space-x-6">
+            <!-- Brand -->
+            <a href="#" class="navbar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-calendar-star text-white text-xl"></i>
                 </div>
-                <div>
-                    <h2 class="font-semibold text-2xl text-white leading-tight">
-                        Dashboard Organizer
-                    </h2>
-                    <p class="text-sm text-blue-100">Kelola Event Dan Tiket Dengan Mudah</p>
+                <div class="brand-text">
+                    <h1>Dashboard Organizer</h1>
                 </div>
-            </div>
-            <div class="hidden sm:flex items-center space-x-4">
-                <div class="hidden sm:flex sm:items-center">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20">
-                                <div class="flex items-center space-x-2">
-                                    <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-xs text-white"></i>
-                                    </div>
-                                    <span>{{ Auth::user()->name }}</span>
-                                </div>
-                                <div class="ml-2">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
+            </a>
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                <i class="fas fa-user-edit mr-2"></i>{{ __('Profile') }}
-                            </x-dropdown-link>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault(); this.closest('form').submit();"
-                                    class="text-red-600 hover:bg-red-50">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
+            <!-- Search -->
+            <div class="nav-search">
+                <i class="fas fa-search nav-search-icon"></i>
+                <input type="text" placeholder="Cari event, kategori..." />
             </div>
         </div>
-    </x-slot>
+
+        <!-- Right: User Dropdown -->
+        <div class="hidden sm:flex items-center space-x-4">
+            <x-dropdown align="right" width="48">
+                <x-slot name="trigger">
+                    <button
+                        class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20"
+                    >
+                        <div class="flex items-center space-x-2">
+                            <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-xs text-white"></i>
+                            </div>
+                            <span>{{ Auth::user()->name }}</span>
+                        </div>
+                        <div class="ml-2">
+                            <svg
+                                class="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 
+                                       10.586l3.293-3.293a1 1 0 111.414 
+                                       1.414l-4 4a1 1 0 01-1.414 
+                                       0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                    </button>
+                </x-slot>
+
+                <x-slot name="content">
+                    <x-dropdown-link :href="route('profile.edit')">
+                        <i class="fas fa-user-edit mr-2"></i>{{ __('Profile') }}
+                    </x-dropdown-link>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link
+                            :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();"
+                            class="text-red-600 hover:bg-red-50"
+                        >
+                            <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                </x-slot>
+            </x-dropdown>
+        </div>
+    </div>
+</nav>
 
     {{-- Custom Styles --}}
     <style>
         :root {
-            --primary-color: #63A7F4;
-            --primary-dark: #4A90E2;
-            --secondary-color: #FF6B6B;
-            --secondary-dark: #FF4757;
+            --primary-color: #5C6AD0;
+            --primary-dark: #4A5BC4;
+            --secondary-color: #684597;
+            --secondary-dark: #5A3A85;
+            --accent-color: #9C6ADE;
+            --gradient-main: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
+            --gradient-card: linear-gradient(145deg, #684597 0%, #5C6AD0 100%);
+            --gradient-hover: linear-gradient(135deg, #5A3A85 0%, #4A5BC4 100%);
         }
 
         body {
             overflow-x: hidden;
-            /* biar nggak scroll kanan */
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            min-height: 100vh;
         }
 
-        .dashboard-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+        /* Navbar Styles */
+        .custom-navbar {
+            background: var(--gradient-main);
             backdrop-filter: blur(20px);
-            min-height: calc(100vh - 64px);
-            border-radius: 0;
-            padding: 0;
-            margin: 0;
+            border: none;
+            box-shadow: 0 8px 32px rgba(104, 69, 151, 0.3);
+            padding: 1rem 0;
         }
 
-        .gradient-bg {
-            background: linear-gradient(135deg, #63A7F4 0%, #4A90E2 100%);
-        }
-
-        .main-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 2rem;
-            margin: -1.5rem -1.5rem 0 -1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
+        .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .header-left {
+        .navbar-brand {
             display: flex;
             align-items: center;
             gap: 1rem;
+            text-decoration: none;
         }
 
-        .back-btn {
+        .brand-icon {
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 0.75rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .brand-text h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .header-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .brand-text p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
             margin: 0;
         }
 
-        .header-controls {
+        .navbar-actions {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1.5rem;
         }
 
-        .search-box {
+        .nav-search {
             position: relative;
         }
 
-        .search-input {
-            padding: 0.75rem 1rem 0.75rem 3rem;
+        .nav-search input {
+            padding: 0.7rem 1rem 0.7rem 2.5rem;
             border-radius: 25px;
             border: none;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            width: 300px;
+            width: 280px;
+            color: white;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .search-input:focus {
+        .nav-search input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-search input:focus {
             outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .user-trigger:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stats-card {
             background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(104, 69, 151, 0.1);
+            border: 1px solid rgba(104, 69, 151, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-main);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(104, 69, 151, 0.2);
+        }
+
+        .stats-card-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            position: relative;
+        }
+
+        .stats-icon.events {
+            background: var(--gradient-main);
+        }
+
+        .stats-icon.tickets {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .stats-icon.revenue {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+
+        .stats-info h3 {
+            color: #64748B;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-info .stats-number {
+            color: #1E293B;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* Management Section */
+        .management-section {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(104, 69, 151, 0.1);
+            border: 1px solid rgba(104, 69, 151, 0.05);
+        }
+
+        .management-header {
+            background: var(--gradient-main);
+            padding: 2.5rem 2rem;
+            color: white;
+        }
+
+        .management-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .management-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .management-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .management-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .management-title p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0.5rem 0 0 0;
+            font-size: 1rem;
+        }
+
+        .management-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box-header {
+            position: relative;
+        }
+
+        .search-box-header input {
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            border-radius: 20px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            width: 280px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box-header input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box-header input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
-        .search-icon {
+        .search-box-header .search-icon {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .add-btn {
-            background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+        .add-event-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .add-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        .add-event-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
-        .main-content {
-            padding: 2rem 1.5rem;
-        }
-
+        /* Filter Section */
         .filter-section {
-            margin-bottom: 2rem;
+            padding: 2rem;
+            border-bottom: 1px solid #E2E8F0;
         }
 
         .filter-container {
             display: flex;
-            gap: 0.75rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.7rem 1.5rem;
             border-radius: 20px;
-            border: 2px solid #E5E7EB;
+            border: 2px solid #E2E8F0;
             background: white;
-            color: #6B7280;
+            color: #64748B;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            background: var(--gradient-main);
             color: white;
             border-color: var(--primary-color);
-            box-shadow: 0 4px 15px rgba(99, 167, 244, 0.3);
+            box-shadow: 0 4px 15px rgba(104, 69, 151, 0.3);
         }
 
         .filter-btn:hover:not(.active) {
@@ -219,9 +464,14 @@
             transform: translateY(-2px);
         }
 
+        /* Events Grid */
+        .events-content {
+            padding: 2rem;
+        }
+
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 2rem;
         }
 
@@ -229,19 +479,20 @@
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(104, 69, 151, 0.1);
             transition: all 0.4s ease;
             position: relative;
+            border: 1px solid rgba(104, 69, 151, 0.05);
         }
 
         .event-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 60px rgba(104, 69, 151, 0.2);
         }
 
         .event-image {
-            height: 200px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            height: 220px;
+            background: var(--gradient-main);
             position: relative;
             overflow: hidden;
         }
@@ -259,73 +510,76 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(99, 167, 244, 0.8), rgba(74, 144, 226, 0.8));
+            background: var(--gradient-hover);
             opacity: 0;
             transition: all 0.3s ease;
         }
 
         .event-card:hover .event-image::before {
-            opacity: 1;
+            opacity: 0.8;
         }
 
         .event-image-placeholder {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: white;
             height: 100%;
         }
 
         .event-content {
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .event-title {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: #1F2937;
-            margin-bottom: 0.5rem;
+            color: #1E293B;
+            margin-bottom: 0.75rem;
             line-height: 1.3;
         }
 
         .event-date {
-            color: #6B7280;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            color: #64748B;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 500;
         }
 
         .divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, #E5E7EB, transparent);
-            margin: 1rem 0;
+            background: linear-gradient(90deg, transparent, #E2E8F0, transparent);
+            margin: 1.5rem 0;
         }
 
         .organizer-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .organizer-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-main);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .organizer-name {
             font-weight: 600;
             color: #374151;
+            font-size: 1rem;
         }
 
         .card-actions {
@@ -334,52 +588,50 @@
             gap: 1rem;
         }
 
-        .opacity-50 {
-            opacity: 0.5;
-        }
-
-        .cursor-not-allowed {
-            cursor: not-allowed;
-        }
-
         .action-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
             border: none;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .edit-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            background: var(--gradient-main);
             color: white;
         }
 
         .edit-btn:hover {
+            background: var(--gradient-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(99, 167, 244, 0.3);
+            box-shadow: 0 4px 15px rgba(104, 69, 151, 0.3);
         }
 
         .delete-btn {
-            background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+            background: linear-gradient(135deg, #EF4444, #DC2626);
             color: white;
         }
 
         .delete-btn:hover {
+            background: linear-gradient(135deg, #DC2626, #B91C1C);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .detail-btn {
-            background: linear-gradient(135deg, #4CAF50, #45A049);
+            background: linear-gradient(135deg, #10B981, #059669);
             color: white;
         }
 
         .detail-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(72, 201, 176, 0.3);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
         /* Modal Styles */
@@ -387,7 +639,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -404,15 +656,16 @@
 
         .modal-content {
             background: white;
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 3rem;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
             max-height: 90vh;
             overflow-y: auto;
             transform: scale(0.9);
             transition: all 0.3s ease;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 80px rgba(104, 69, 151, 0.3);
+            border: 1px solid rgba(104, 69, 151, 0.1);
         }
 
         .modal.show .modal-content {
@@ -420,36 +673,42 @@
         }
 
         .modal-header {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
         }
 
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: #1F2937;
+            color: #1E293B;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
             color: #374151;
+            font-size: 0.95rem;
         }
 
         .form-input,
         .form-select,
         .form-textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            padding: 1rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 16px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            background: white;
+            background: #F8FAFC;
         }
 
         .form-input:focus,
@@ -457,12 +716,13 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 167, 244, 0.1);
+            box-shadow: 0 0 0 4px rgba(92, 106, 208, 0.1);
+            background: white;
         }
 
         .form-row {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .form-row .form-group {
@@ -471,107 +731,107 @@
 
         .modal-actions {
             display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 2rem;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
         }
 
         .btn-cancel {
-            padding: 0.75rem 1.5rem;
-            background: #F3F4F6;
-            color: #6B7280;
+            padding: 1rem 2rem;
+            background: #F1F5F9;
+            color: #64748B;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .btn-cancel:hover {
-            background: #E5E7EB;
+            background: #E2E8F0;
+            transform: translateY(-2px);
         }
 
         .btn-primary {
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            padding: 1rem 2rem;
+            background: var(--gradient-main);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
+            background: var(--gradient-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(99, 167, 244, 0.3);
+            box-shadow: 0 8px 25px rgba(104, 69, 151, 0.3);
         }
 
         /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
+        .stats-card,
         .event-card {
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .event-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
+        .stats-card:nth-child(1) { animation-delay: 0.1s; }
+        .stats-card:nth-child(2) { animation-delay: 0.2s; }
+        .stats-card:nth-child(3) { animation-delay: 0.3s; }
 
-        .event-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
+        .event-card:nth-child(1) { animation-delay: 0.1s; }
+        .event-card:nth-child(2) { animation-delay: 0.2s; }
+        .event-card:nth-child(3) { animation-delay: 0.3s; }
+        .event-card:nth-child(4) { animation-delay: 0.4s; }
 
-        .event-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .event-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .event-card:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .event-card:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
+            .navbar-content {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0 1rem;
             }
 
-            .header-controls {
+            .navbar-actions {
                 width: 100%;
                 justify-content: center;
             }
 
-            .search-input {
-                width: 250px;
+            .nav-search input {
+                width: 200px;
+            }
+
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .management-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .management-header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box-header input {
+                width: 200px;
             }
 
             .events-grid {
@@ -582,13 +842,23 @@
                 flex-direction: column;
             }
 
-            .main-header {
-                margin: -1rem -1rem 0 -1rem;
-                padding: 1.5rem 1rem;
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-text h1 {
+                font-size: 1.4rem;
             }
 
-            .main-content {
-                padding: 1.5rem 1rem;
+            .management-title h2 {
+                font-size: 1.6rem;
+            }
+
+            .stats-number {
+                font-size: 2rem !important;
             }
         }
     </style>
@@ -637,7 +907,7 @@
 
         <div class="dashboard-container">
             {{-- Main Header --}}
-            <div class="gradient-bg px-8 py-6 rounded-2xl">
+            <div class="custom-navbar px-8 py-6 rounded-2xl">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <!-- Title Section -->
                     <div class="flex items-center space-x-4 mt-4 sm:mt-0">
