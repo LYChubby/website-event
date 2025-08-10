@@ -107,13 +107,13 @@
 
             <!-- Content Section -->
             <div class="p-6">
-                <!-- Filter and Search -->
+                <!-- Search Input -->
                 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div class="relative w-full md:w-80">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-search text-gray-400"></i>
                         </div>
-                        <input type="text" id="userSearch" placeholder="Cari user..."
+                        <input type="text" id="searchInput" placeholder="Cari organizer..."
                             class="search-input pl-10 pr-4 py-2.5 w-full border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#5C6AD0] focus:border-[#5C6AD0]">
                     </div>
                 </div>
@@ -132,22 +132,23 @@
                             </tr>
                         </thead>
                         <tbody id="userTableBody" class="bg-white divide-y divide-gray-100">
-                            <!-- Data akan diisi via JavaScript -->
+                            <!-- Data will be loaded via JavaScript -->
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
                 <div class="mt-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                    <div class="text-sm text-gray-500" id="userPaginationInfo">
+                    <div class="text-sm text-gray-500" id="paginationInfo">
                         Menampilkan 0 dari 0 data
                     </div>
-                    <div class="flex space-x-2" id="userPagination">
-                        <!-- Pagination akan diisi di sini -->
+                    <div class="flex space-x-2" id="paginationControls">
+                        <!-- Pagination will be loaded here -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     @vite(['resources/js/organizer-list.js'])
 </x-app-layout>
