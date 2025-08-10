@@ -61,6 +61,8 @@ Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 // ========== USER DASHBOARD ==========
 Route::middleware(['auth', 'role:user'])->get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
+Route::middleware(['auth', 'role:user'])->get('/dashboard/organizer-list', [UserController::class, 'organizer'])->name('organizer-list');
+
 // ========== ORGANIZER DASHBOARD ==========
 Route::middleware(['auth', 'role:organizer'])->get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])->name('organizer.dashboard');
 

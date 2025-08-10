@@ -15,7 +15,7 @@
                             <p class="text-4xl font-bold bg-gradient-to-r from-[#5C6AD0] to-[#684597] bg-clip-text text-transparent" id="totalCategories">0</p>
                         </div>
                     </div>
-                    <div class="pulse-dot bg-green-400"></div>
+                    <div class="pulse-dot bg-blue-800"></div>
                 </div>
                 <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
                     <i class="fas fa-tags text-6xl text-[#5C6AD0]"></i>
@@ -35,7 +35,7 @@
                             <p class="text-4xl font-bold bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent" id="approvedEvents">0</p>
                         </div>
                     </div>
-                    <div class="pulse-dot bg-blue-400"></div>
+                    <div class="pulse-dot bg-green-400"></div>
                 </div>
                 <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
                     <i class="fas fa-calendar-check text-6xl text-emerald-500"></i>

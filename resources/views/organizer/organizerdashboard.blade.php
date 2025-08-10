@@ -1,13 +1,13 @@
 <x-app-layout>
     <nav class="custom-navbar">
         <div class="flex items-center justify-between px-6">
-            
+
             <!-- Left: Brand + Search -->
             <div class="flex items-center space-x-6">
                 <!-- Brand -->
                 <a href="#" class="navbar-brand">
                     <div class="brand-icon">
-                        <i class="fas fa-calendar-star text-white text-xl"></i>
+                        <i class="fa-solid fa-gears text-white text-xl"></i>
                     </div>
                     <div class="brand-text">
                         <h1>Dashboard Organizer</h1>
@@ -26,8 +26,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20"
-                        >
+                            class="inline-flex items-center px-4 py-2 text-sm leading-4 font-medium rounded-full text-white bg-white/20 hover:bg-white/30 focus:outline-none transition-all duration-300 backdrop-blur-sm border border-white/20">
                             <div class="flex items-center space-x-2">
                                 <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
                                     <i class="fas fa-user text-xs text-white"></i>
@@ -38,16 +37,14 @@
                                 <svg
                                     class="fill-current h-4 w-4"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                >
+                                    viewBox="0 0 20 20">
                                     <path
                                         fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 
                                            10.586l3.293-3.293a1 1 0 111.414 
                                            1.414l-4 4a1 1 0 01-1.414 
                                            0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd"
-                                    />
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -63,8 +60,7 @@
                             <x-dropdown-link
                                 :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="text-red-600 hover:bg-red-50"
-                            >
+                                class="text-red-600 hover:bg-red-50">
                                 <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -197,7 +193,7 @@
             transition: color 0.3s ease;
         }
 
-        .nav-search input:focus + .nav-search-icon {
+        .nav-search input:focus+.nav-search-icon {
             color: rgba(255, 255, 255, 0.9);
         }
 
@@ -327,14 +323,24 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
         }
 
         .management-header-content {
@@ -873,8 +879,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .loading-text {
@@ -889,6 +900,7 @@
                 opacity: 0;
                 transform: translateY(40px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -900,14 +912,33 @@
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .stats-card:nth-child(1) { animation-delay: 0.1s; }
-        .stats-card:nth-child(2) { animation-delay: 0.2s; }
-        .stats-card:nth-child(3) { animation-delay: 0.3s; }
+        .stats-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
 
-        .event-card:nth-child(1) { animation-delay: 0.1s; }
-        .event-card:nth-child(2) { animation-delay: 0.2s; }
-        .event-card:nth-child(3) { animation-delay: 0.3s; }
-        .event-card:nth-child(4) { animation-delay: 0.4s; }
+        .stats-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stats-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .event-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .event-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .event-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .event-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
 
         /* ========== RESPONSIVE DESIGN ========== */
         @media (max-width: 1200px) {
@@ -915,12 +946,12 @@
                 max-width: 1200px;
                 padding: 0 1.5rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 1.5rem;
             }
-            
+
             .events-grid {
                 grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
                 gap: 2rem;
@@ -931,7 +962,7 @@
             .custom-navbar {
                 padding: 1rem 0;
             }
-            
+
             .custom-navbar .flex {
                 flex-direction: column;
                 gap: 1rem;
@@ -951,11 +982,11 @@
                 gap: 1.5rem;
                 margin-bottom: 2rem;
             }
-            
+
             .stats-card {
                 padding: 1.5rem;
             }
-            
+
             .stats-number {
                 font-size: 2rem !important;
             }
@@ -969,7 +1000,7 @@
                 align-items: flex-start;
                 gap: 1.5rem;
             }
-            
+
             .management-title h2 {
                 font-size: 1.8rem;
             }
@@ -986,12 +1017,12 @@
             .filter-section {
                 padding: 2rem 1.5rem;
             }
-            
+
             .filter-container {
                 justify-content: flex-start;
                 gap: 0.75rem;
             }
-            
+
             .filter-btn {
                 padding: 0.625rem 1.25rem;
                 font-size: 0.85rem;
@@ -1005,16 +1036,16 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-            
+
             .event-content {
                 padding: 1.75rem;
             }
-            
+
             .card-actions {
                 flex-direction: column;
                 gap: 0.5rem;
             }
-            
+
             .action-btn {
                 justify-content: center;
                 width: 100%;
@@ -1025,21 +1056,21 @@
                 margin: 1rem;
                 max-width: calc(100vw - 2rem);
             }
-            
+
             .modal-title {
                 font-size: 1.75rem;
             }
-            
+
             .form-row {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
+
             .modal-actions {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .btn-cancel,
             .btn-primary {
                 width: 100%;
@@ -1059,7 +1090,7 @@
             .stats-card-content {
                 gap: 1rem;
             }
-            
+
             .stats-icon {
                 width: 55px;
                 height: 55px;
@@ -1069,12 +1100,12 @@
             .management-title {
                 gap: 1rem;
             }
-            
+
             .management-icon {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .management-title h2 {
                 font-size: 1.6rem;
             }
@@ -1082,7 +1113,7 @@
             .search-box-header input {
                 width: 180px;
             }
-            
+
             .add-event-btn {
                 padding: 0.75rem 1.25rem;
                 font-size: 0.9rem;
@@ -1091,7 +1122,7 @@
             .event-title {
                 font-size: 1.25rem;
             }
-            
+
             .organizer-avatar {
                 width: 40px;
                 height: 40px;
@@ -1101,7 +1132,7 @@
             .modal-content {
                 padding: 1.5rem;
             }
-            
+
             .form-input,
             .form-select,
             .form-textarea {
@@ -1114,23 +1145,23 @@
             .dashboard-container {
                 padding: 0 0.75rem;
             }
-            
+
             .stats-card {
                 padding: 1.25rem;
             }
-            
+
             .management-header {
                 padding: 1.5rem 1rem;
             }
-            
+
             .events-content {
                 padding: 1.5rem 1rem;
             }
-            
+
             .event-content {
                 padding: 1.5rem;
             }
-            
+
             .filter-section {
                 padding: 1.5rem 1rem;
             }
@@ -1138,6 +1169,7 @@
 
         /* ========== PRINT STYLES ========== */
         @media print {
+
             .custom-navbar,
             .management-actions,
             .filter-section,
@@ -1145,11 +1177,11 @@
             .modal {
                 display: none !important;
             }
-            
+
             body {
                 background: white !important;
             }
-            
+
             .stats-card,
             .event-card,
             .management-section {
@@ -1258,7 +1290,7 @@
                                     <p>Kelola Event Dengan Mudah</p>
                                 </div>
                             </div>
-                            
+
                             <div class="management-actions">
                                 <!-- Search Box -->
                                 <div class="search-box-header">
@@ -1360,9 +1392,6 @@
             </form>
         </div>
     </div>
-
-    {{-- Load Font Awesome --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
     @vite(['resources/js/organizer-dashboard.js']) {{-- file JS khusus organizer --}}
 </x-app-layout>

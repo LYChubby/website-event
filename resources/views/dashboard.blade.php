@@ -25,23 +25,28 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
+
         .gradient-primary {
             background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
         }
+
         .gradient-secondary {
             background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
         }
+
         .gradient-text {
             background: linear-gradient(135deg, #684597, #5C6AD0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .glass-effect {
             backdrop-filter: blur(20px);
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -90,19 +95,30 @@
             box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);
             /* Optional: if you want to remove shadow on focus too */
         }
+
         .animate-float {
             animation: float 6s ease-in-out infinite;
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
+
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
         .search-glow {
             transition: all 0.3s ease;
         }
@@ -129,27 +145,36 @@
                 box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
             }
         }
+
         .card-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .card-hover:hover {
             transform: translateY(-8px) scale(1.02);
         }
+
         .shimmer {
-            background: linear-gradient(45deg, transparent 30%,rgba(209, 211, 227, 0.6) 50%, transparent 70%);
+            background: linear-gradient(45deg, transparent 30%, rgba(209, 211, 227, 0.6) 50%, transparent 70%);
             background-size: 200% 100%;
             animation: shimmer 3s infinite;
             color: #684597;
         }
+
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
     </style>
 
     <!-- Background with Enhanced Gradient -->
     <div class="min-h-screen bg-white">
-        
+
         <!-- Enhanced Navbar -->
         <nav class="bg-white shadow-2xl sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -162,15 +187,22 @@
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}" class="relative">
-                                <div class="hidden md:block">
-                                    <input type="text" placeholder="Cari event impian Anda..."
-                                        class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
-                                </div>
+                            <div class="hidden md:block">
+                                <input type="text" placeholder="Cari event impian Anda..."
+                                    class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
+                            </div>
                         </form>
                     </div>
 
                     <!-- Navigation Menu -->
                     <div class="flex items-center space-x-4">
+
+                        <!-- List Organizer -->
+                        <a href="{{ route('organizer-list') }}"
+                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
+                            <i class="fa-solid fa-users mr-2"></i>Daftar Organizer
+                        </a>
+
                         <!-- History Button -->
                         <a href="{{ route('history.index') }}"
                             class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
@@ -217,16 +249,16 @@
         <!-- Enhanced Banner Section -->
         @php
         $banners = [
-            ['image' => 'storage/banner1.jpg', 'title' => 'Temukan Event Terbaik', 'subtitle' => 'Jelajahi berbagai acara menarik di sekitar Anda'],
-            ['image' => 'storage/banner2.jpg', 'title' => 'Bergabung dalam Komunitas', 'subtitle' => 'Ikuti event favorit Anda sekarang juga'],
-            ['image' => 'storage/banner3.jpg', 'title' => 'Eksplorasi Acara Lokal', 'subtitle' => 'Dari seminar, konser hingga workshop'],
+        ['image' => 'storage/banner1.jpg', 'title' => 'Temukan Event Terbaik', 'subtitle' => 'Jelajahi berbagai acara menarik di sekitar Anda'],
+        ['image' => 'storage/banner2.jpg', 'title' => 'Bergabung dalam Komunitas', 'subtitle' => 'Ikuti event favorit Anda sekarang juga'],
+        ['image' => 'storage/banner3.jpg', 'title' => 'Eksplorasi Acara Lokal', 'subtitle' => 'Dari seminar, konser hingga workshop'],
         ];
         @endphp
 
         <section class="relative px-4 sm:px-6 lg:px-8 mt-8">
             <div class="max-w-7xl mx-auto">
                 <div x-data="{ activeSlide: 0, total: {{ count($banners) }} }" class="relative rounded-3xl overflow-hidden shadow-2xl pulse-border hover-lift glass-card">
-                    
+
                     <!-- Slides -->
                     <template x-for="(banner, index) in {{ json_encode($banners) }}" :key="index">
                         <div x-show="activeSlide === index" class="relative w-full h-72 sm:h-96 transition-all duration-1000 ease-in-out">
@@ -424,72 +456,72 @@
         </section>
 
         <!-- Footer -->
-    <footer class="bg-gray-900 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                <!-- Company Info -->
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
-                        <span class="text-xl font-bold">NEO.Vibe</span>
-                    </div>
-                    <p class="text-white/80 text-sm leading-relaxed">
-                        Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-semibold mb-4">Link Cepat</h4>
-                    <div class="space-y-2">
-                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                            <i class="fas fa-info-circle mr-2"></i>Tentang Kami
-                        </a>
-                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                            <i class="fas fa-fire mr-2"></i>Event Populer
-                        </a>
-                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                            <i class="fas fa-envelope mr-2"></i>Kontak Kami
-                        </a>
-                        <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                            <i class="fas fa-question-circle mr-2"></i>FAQ
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Social Media -->
-                <div>
-                    <h4 class="font-semibold mb-4">Ikuti Kami</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                    </div>
-                    <div class="mt-4">
-                        <p class="text-white/60 text-xs">
-                            <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+        <footer class="bg-gray-900 mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                    <!-- Company Info -->
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                            <span class="text-xl font-bold">NEO.Vibe</span>
+                        </div>
+                        <p class="text-white/80 text-sm leading-relaxed">
+                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
                         </p>
                     </div>
+
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Link Cepat</h4>
+                        <div class="space-y-2">
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-fire mr-2"></i>Event Populer
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                            </a>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-question-circle mr-2"></i>FAQ
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-white/60 text-xs">
+                                <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                    <p class="text-white text-sm">
+                        © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
+                    </p>
                 </div>
             </div>
-
-            <!-- Copyright -->
-            <div class="border-t border-white/20 mt-8 pt-8 text-center">
-                <p class="text-white text-sm">
-                    © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
-                </p>
-            </div>
-        </div>
-    </footer>
+        </footer>
     </div>
 
     <script>
@@ -508,19 +540,19 @@
                         btn.classList.remove('active', 'gradient-primary', 'text-white', 'shimmer');
                         btn.classList.add('bg-white/60', 'text-gray-700');
                     });
-                    
+
                     this.classList.remove('bg-white/60', 'text-gray-700');
                     this.classList.add('active', 'gradient-primary', 'text-white', 'shimmer');
 
                     // Show/hide cards with animation
                     eventCards.forEach(card => {
                         const cardCategory = card.getAttribute('data-category');
-                        
+
                         if (selectedCategory === 'all' || selectedCategory === cardCategory) {
                             card.style.opacity = '0';
                             card.style.transform = 'translateY(20px)';
                             card.style.display = 'block';
-                            
+
                             setTimeout(() => {
                                 card.style.opacity = '1';
                                 card.style.transform = 'translateY(0)';
@@ -538,7 +570,7 @@
 
             // Add smooth scroll behavior for better UX
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {

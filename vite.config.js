@@ -10,6 +10,7 @@ export default defineConfig({
                 "resources/js/admin.js",
                 "resources/js/organizer-dashboard.js",
                 "resources/js/organizer-dashboard-events.js",
+                "resources/js/organizer-list.js",
             ],
             refresh: true,
         }),

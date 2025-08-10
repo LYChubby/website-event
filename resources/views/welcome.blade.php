@@ -319,6 +319,42 @@
         </div>
     </section>
 
+    <!-- Features Section -->
+    <section class="py-20 ">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-bold text-4xl gradient-text mb-4">Mengapa Memilih NEO.Vibe?</h2>
+                <p class="text-xl text-gray-600">Fitur terdepan untuk pengalaman event yang sempurna</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center hover-lift">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Keamanan Terjamin</h3>
+                    <p class="text-gray-600">Sistem pembayaran dan data yang aman dengan enkripsi tingkat tinggi</p>
+                </div>
+
+                <div class="text-center hover-lift">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Real-time Updates</h3>
+                    <p class="text-gray-600">Dapatkan notifikasi instant untuk setiap update event favorit Anda</p>
+                </div>
+
+                <div class="text-center hover-lift">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Komunitas Aktif</h3>
+                    <p class="text-gray-600">Bergabung dengan ribuan event enthusiast di seluruh Indonesia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Stats Section -->
     <section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <div class="container mx-auto px-6">
@@ -465,42 +501,6 @@
                             <span class="text-gray-600 font-semibold">Rp 300.000</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="font-bold text-4xl gradient-text mb-4">Mengapa Memilih NEO.Vibe?</h2>
-                <p class="text-xl text-gray-600">Fitur terdepan untuk pengalaman event yang sempurna</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center hover-lift">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Keamanan Terjamin</h3>
-                    <p class="text-gray-600">Sistem pembayaran dan data yang aman dengan enkripsi tingkat tinggi</p>
-                </div>
-
-                <div class="text-center hover-lift">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Real-time Updates</h3>
-                    <p class="text-gray-600">Dapatkan notifikasi instant untuk setiap update event favorit Anda</p>
-                </div>
-
-                <div class="text-center hover-lift">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Komunitas Aktif</h3>
-                    <p class="text-gray-600">Bergabung dengan ribuan event enthusiast di seluruh Indonesia</p>
                 </div>
             </div>
         </div>
