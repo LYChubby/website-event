@@ -1,5 +1,6 @@
 let currentPage = 1;
 const perPage = 10;
+let totalUsers = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
@@ -302,3 +303,4 @@ window.initSearchAndFilter = initSearchAndFilter;
 window.getSearchQuery = getSearchQuery;
 window.currentPage = currentPage;
 window.perPage = perPage;
+window.totalUsers = totalUsers;

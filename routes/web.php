@@ -58,10 +58,19 @@ Route::post('/choose-role', function (Request $request) {
 Route::get('/', fn() => view('welcome'));
 Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 
-// ========== USER DASHBOARD ==========
-Route::middleware(['auth', 'role:user'])->get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+// ========== USER DASHBOARD ROUTES ==========
+Route::middleware(['auth', 'role:user'])->prefix('dashboard')->group(function () {
+    // Main dashboard
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
-Route::middleware(['auth', 'role:user'])->get('/dashboard/organizer-list', [UserController::class, 'organizer'])->name('organizer-list');
+    // Organizer views
+    Route::get('/organizer-list', [HomeController::class, 'organizer'])->name('organizer-list');
+
+    // API routes
+    Route::prefix('api')->group(function () {
+        Route::get('/organizer-list', [UserController::class, 'organizer']);
+    });
+});
 
 // ========== ORGANIZER DASHBOARD ==========
 Route::middleware(['auth', 'role:organizer'])->get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])->name('organizer.dashboard');

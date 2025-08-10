@@ -43,20 +43,10 @@ class UserController extends Controller
 
     public function organizer(Request $request)
     {
-        // Dapatkan user yang sedang login
-        $currentUser = Auth::user();
+        $query = User::query()->where('role', 'organizer');
 
-        // Validasi: hanya user dengan role 'user' yang bisa akses
-        if ($currentUser->role !== 'user') {
-            return $request->expectsJson()
-                ? response()->json(['error' => 'Unauthorized'], 403)
-                : abort(403);
-        }
-
-        // Query untuk mendapatkan organizer
-        $query = User::where('role', 'organizer');
-
-        if ($request->filled('search')) {
+        // Search
+        if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -64,24 +54,16 @@ class UserController extends Controller
             });
         }
 
+        // Pagination
         $perPage = $request->per_page ?? 10;
-        $organizers = $query->latest()->paginate($perPage);
+        $users = $query->latest()->paginate($perPage);
 
-        // Response JSON untuk API
-        if ($request->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'organizers' => $organizers->items(),
-                'meta' => [
-                    'total' => $organizers->total(),
-                    'current_page' => $organizers->currentPage(),
-                    'per_page' => $organizers->perPage()
-                ]
-            ]);
-        }
-
-        // Response untuk Web
-        return view('organizer-list', compact('organizers'));
+        return response()->json([
+            'data' => $users->items(),
+            'total' => $users->total(),
+            'current_page' => $users->currentPage(),
+            'per_page' => $users->perPage(),
+        ]);
     }
 
     public function store(Request $request)

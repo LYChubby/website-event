@@ -47,4 +47,9 @@ class HomeController extends Controller
             'currentCategory' => $kategoriId ?? 'all'
         ]);
     }
+
+    public function organizer()
+    {
+        return view('organizer-list');
+    }
 }
