@@ -43,26 +43,31 @@ class UserController extends Controller
 
     public function organizer(Request $request)
     {
-        $query = User::query()->where('role', 'organizer');
+        $perPage = $request->get('per_page', 10);
+        $search = $request->get('search', '');
 
-        // Search
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
+        $query = User::where('role', 'organizer')
+            ->withCount('events');
+
+        if (!empty($search)) {
+            $query->where('name', 'like', "%$search%");
         }
 
-        // Pagination
-        $perPage = $request->per_page ?? 10;
-        $users = $query->latest()->paginate($perPage);
+        $data = $query->paginate($perPage);
+
+        // Mapping ke format yang dibutuhkan frontend
+        $data->getCollection()->transform(function ($item) {
+            return [
+                'user_id' => $item->id,
+                'name' => $item->name,
+                'status' => $item->status,
+                'total_events' => $item->events_count
+            ];
+        });
 
         return response()->json([
-            'data' => $users->items(),
-            'total' => $users->total(),
-            'current_page' => $users->currentPage(),
-            'per_page' => $users->perPage(),
+            'total' => $data->total(),
+            'data' => $data->items()
         ]);
     }
 

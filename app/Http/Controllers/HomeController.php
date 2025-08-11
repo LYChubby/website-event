@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
 use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,6 +51,21 @@ class HomeController extends Controller
 
     public function organizer()
     {
-        return view('organizer-list');
+        // Hitung jumlah organizer (role: organizer)
+        $totalOrganizer = User::where('role', 'organizer')->count();
+
+        // Hitung jumlah organizer aktif
+        $activeOrganizer = User::where('role', 'organizer')
+            ->where('status', 'Aktif')
+            ->count();
+
+        // Hitung total event
+        $totalEvent = Event::count();
+
+        return view('organizer-list', [
+            'totalOrganizer' => $totalOrganizer,
+            'activeOrganizer' => $activeOrganizer,
+            'totalEvent' => $totalEvent
+        ]);
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center space-x-4 pb-6">
-            <button onclick="window.location.href='/dashboard'" 
+            <button onclick="window.location.href='/dashboard'"
                 class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
                 <i class="fas fa-arrow-left text-white"></i>
             </button>
@@ -9,7 +9,7 @@
                 <i class="fas fa-users text-xl text-white"></i>
             </div>
             <div>
-                    <h3 class="text-2xl font-bold text-white">Daftar Organizer</h3>
+                <h3 class="text-2xl font-bold text-white">Daftar Organizer</h3>
                 <p class="text-blue-100 opacity-90">Lihat Organizermu</p>
             </div>
         </div>
@@ -104,6 +104,7 @@
                 opacity: 0;
                 transform: scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -119,6 +120,7 @@
                 opacity: 1;
                 transform: scale(1);
             }
+
             to {
                 opacity: 0;
                 transform: scale(0.95);
@@ -137,13 +139,20 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-            50% { transform: translate(-30%, -70%) rotate(180deg); }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-30%, -70%) rotate(180deg);
+            }
         }
 
         .stats-card {
@@ -168,8 +177,15 @@
         }
 
         @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .icon-glow {
@@ -186,7 +202,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-semibold text-gray-600 mb-2">Total Organizer</p>
-                            <p class="text-3xl font-bold text-shimmer">156</p>
+                            <p class="text-3xl font-bold text-shimmer">{{ $totalOrganizer }}</p>
                         </div>
                         <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center icon-glow">
                             <i class="fas fa-users text-white text-2xl"></i>
@@ -199,7 +215,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-semibold text-gray-600 mb-2">Organizer Aktif</p>
-                            <p class="text-3xl font-bold text-green-600">142</p>
+                            <p class="text-3xl font-bold text-green-600">{{ $activeOrganizer }}</p>
                         </div>
                         <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl flex items-center justify-center icon-glow">
                             <i class="fas fa-check-circle text-white text-2xl"></i>
@@ -212,7 +228,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-semibold text-gray-600 mb-2">Total Event</p>
-                            <p class="text-3xl font-bold text-orange-600">1,234</p>
+                            <p class="text-3xl font-bold text-orange-600">{{ $totalEvent }}</p>
                         </div>
                         <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center icon-glow">
                             <i class="fas fa-calendar-alt text-white text-2xl"></i>
@@ -226,7 +242,7 @@
                 <!-- Header Section -->
                 <div class="gradient-bg px-6 py-4 floating-header">
                     <div class="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between relative z-10">
-                        
+
                         <!-- Left: Title -->
                         <div class="flex items-center space-x-4">
                             <div>
