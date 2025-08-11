@@ -162,6 +162,45 @@ class EventController extends Controller
         ], 201);
     }
 
+    public function events($id)
+    {
+        $organizer = User::where('role', 'organizer')->findOrFail($id);
+        $events = Event::where('user_id', $id)->latest()->get();
+
+        return view('event-list', compact('organizer', 'events'));
+    }
+
+    public function eventListView($id)
+    {
+        $organizer = User::where('role', 'organizer')->findOrFail($id);
+        $events = Event::where('user_id', $id)
+            ->with('category')
+            ->latest()
+            ->get();
+
+        return view('event-list', compact('organizer', 'events'));
+    }
+
+    // API daftar event milik organizer
+    public function getByOrganizer($userId)
+    {
+        // Cari organizer berdasarkan kolom role langsung
+        $organizer = User::where('user_id', $userId)
+            ->where('role', 'organizer')
+            ->firstOrFail();
+
+        // Ambil semua event milik organizer ini
+        $events = Event::with(['category', 'organizer'])
+            ->where('user_id', $organizer->user_id)
+            ->orderBy('start_date', 'desc')
+            ->get();
+
+        return response()->json([
+            'data' => $events
+        ]);
+    }
+
+
     public function show($id)
     {
         $event = Event::with(['category', 'organizer'])->findOrFail($id);
