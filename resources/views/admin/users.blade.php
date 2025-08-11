@@ -267,13 +267,13 @@
                 <div class="flex mb-4 space-x-3">
                     <button type="button" onclick="closeUserModal()"
                         class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300 font-semibold">
-                        <i class="fas fa-times mr-2"></i>
-                        Batal
+                        <i class="fas fa-times group-hover:rotate-90 transition-transform duration-300"></i>
+                        <span>Batal</span>
                     </button>
                     <button type="submit"
                         class="flex-1 bg-gradient-to-r from-[#5C6AD0] to-[#684597] text-white rounded-xl font-semibold px-4 py-3 hover:opacity-90 transition-opacity">
-                        <i class="fas fa-save mr-2"></i>
-                        Simpan
+                        <i class="fas fa-times group-hover:rotate-90 transition-transform duration-300"></i>
+                        <span>Simpan</span>
                     </button>
                 </div>
             </form>
