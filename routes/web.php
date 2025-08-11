@@ -216,8 +216,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::get('/history', [CheckoutController::class, 'success'])->name('history.index');
     Route::get('/payment/failed', [CheckoutController::class, 'failed'])->name('payment.failed');
-    Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 });
+
+Route::post('/webhook/xendit', [XenditWebhookController::class, 'handle']);
 
 // ========== AUTH ROUTES ==========
 require __DIR__ . '/auth.php';
