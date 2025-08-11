@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-    <div class="flex items-center space-x-4 pb-6">
-        <button onclick="window.location.href='/dashboard'" 
-            class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
-            <i class="fas fa-arrow-left text-white"></i>
-        </button>
-        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-            <i class="fas fa-history text-2xl text-white"></i>
+        <div class="flex items-center space-x-4 pb-6">
+            <button onclick="window.location.href='/dashboard'" 
+                class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+                <i class="fas fa-arrow-left text-white"></i>
+            </button>
+            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+                <i class="fas fa-history text-2xl text-white"></i>
+            </div>
+            <div>
+                <h2 class="font-semibold text-2xl text-white leading-tight">
+                    Riwayat
+                </h2>
+                <p class="text-sm text-purple-100">Kelola dan lihat semua riwayat transaksi tiket Anda</p>
+            </div>
         </div>
-        <div>
-            <h2 class="font-semibold text-2xl text-white leading-tight">
-                Riwayat
-            </h2>
-            <p class="text-sm text-purple-100">Kelola dan lihat semua riwayat transaksi tiket Anda</p>
-        </div>
-    </div>
-</x-slot>
+    </x-slot>
 
     <style>
         :root {
