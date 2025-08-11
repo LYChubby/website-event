@@ -13,6 +13,7 @@
                         <h1>Dashboard Organizer</h1>
                     </div>
                 </a>
+            </div>
 
             <!-- Right: User Dropdown -->
             <div class="hidden sm:flex items-center space-x-4">
