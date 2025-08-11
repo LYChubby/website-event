@@ -21,9 +21,12 @@ class EventDashboardController extends Controller
         $soldTickets = $event->tickets->sum('quantity_sold');
 
         $totalRevenue = Participant::where('event_id', $id)
+            ->whereNotNull('transaction_id') // Hanya yang punya transaction_id
             ->with('ticket')
             ->get()
-            ->sum(fn($participant) => $participant->ticket->price ?? 0);
+            ->sum(function ($participant) {
+                return ($participant->ticket->price ?? 0) * ($participant->jumlah ?? 1);
+            });
 
         // Hitung persentase sold tiket
         $soldPercentage = $totalTickets > 0 ? round(($soldTickets / $totalTickets) * 100) : 0;
