@@ -182,30 +182,36 @@
                             <span>Status Kategori</span>
                         </div>
                     </label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="is_active" value="1" checked class="sr-only">
-                            <div class="status-card active bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-emerald-200 rounded-xl p-4 transition-all duration-300 hover:shadow-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-4 h-4 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-check text-xs text-white"></i>
-                                    </div>
-                                    <span class="font-semibold text-gray-700">Aktif</span>
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                    <!-- Aktif -->
+                    <label class="cursor-pointer">
+                        <input type="radio" name="is_active" value="1" checked class="peer hidden">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-4 transition-all duration-300
+                                    hover:border-emerald-300 hover:shadow-lg peer-checked:border-emerald-500 peer-checked:bg-emerald-50 relative">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center mb-2 transition-colors duration-300
+                                            peer-checked:bg-emerald-200">
+                                    <i class="fas fa-check-circle text-emerald-600 text-base"></i>
                                 </div>
+                                <h3 class="font-semibold text-gray-800 text-sm">Aktif</h3>
                             </div>
-                        </label>
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="is_active" value="0" class="sr-only">
-                            <div class="status-card bg-gray-50 border-2 border-gray-200 rounded-xl p-4 transition-all duration-300 hover:shadow-lg">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-4 h-4 bg-gray-400 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-times text-xs text-white"></i>
-                                    </div>
-                                    <span class="font-semibold text-gray-700">Nonaktif</span>
+                        </div>
+                    </label>
+
+                    <!-- Non-aktif -->
+                    <label class="cursor-pointer">
+                        <input type="radio" name="is_active" value="0" class="peer hidden">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-4 transition-all duration-300
+                                    hover:border-red-300 hover:shadow-lg peer-checked:border-red-500 peer-checked:bg-red-50 relative">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mb-2 transition-colors duration-300
+                                            peer-checked:bg-red-200">
+                                    <i class="fas fa-ban text-red-600 text-base"></i>
                                 </div>
+                                <h3 class="font-semibold text-gray-800 text-sm">Non-aktif</h3>
                             </div>
-                        </label>
-                    </div>
+                        </div>
+                    </label>
                 </div>
 
                 <!-- Action Buttons -->
@@ -216,7 +222,7 @@
                         <span>Batal</span>
                     </button>
                     <button type="submit"
-                        class="flex-1 px-6 py-4 bg-gradient-to-r from-[#5C6AD0] to-[#684597] hover:from-[#4A5BC4] to-[#5A3D8A] text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl hover:scale-105 group">
+                        class="flex-1 px-6 py-4 bg-gradient-to-r from-[#5C6AD0] to-[#684597] text-white rounded-xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl hover:scale-105 group">
                         <i class="fas fa-save group-hover:scale-110 transition-transform duration-300"></i>
                         <span>Simpan</span>
                     </button>
