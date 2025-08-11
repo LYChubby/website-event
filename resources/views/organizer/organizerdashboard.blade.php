@@ -14,13 +14,6 @@
                     </div>
                 </a>
 
-                <!-- Search -->
-                <div class="nav-search">
-                    <i class="fas fa-search nav-search-icon"></i>
-                    <input type="text" placeholder="Cari event, kategori..." />
-                </div>
-            </div>
-
             <!-- Right: User Dropdown -->
             <div class="hidden sm:flex items-center space-x-4">
                 <x-dropdown align="right" width="48">
