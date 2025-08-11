@@ -226,8 +226,8 @@
 
         .sparkle {
             position: absolute;
-            width: 4px;
-            height: 4px;
+            width: 12px;
+            height: 12px;
             background: #667eea;
             border-radius: 50%;
             animation: sparkle 2s infinite;
@@ -317,9 +317,38 @@
                 </div>
             </div>
         </div>
+    
+        <!-- Stats Section -->
+        <div class="container py-6 mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Event Terselenggara -->
+                <div class="hover-lift text-center">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
+                </div>
+
+                <!-- Peserta Aktif -->
+                <div class="hover-lift text-center">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
+                </div>
+
+                <!-- Organizer Terpercaya -->
+                <div class="hover-lift text-center">
+                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
+                </div>
+
+                <!-- Kepuasan Pengguna -->
+                <div class="hover-lift text-center">
+                    <div class="stats-counter" data-target="99" data-unit="percent">0%</div>
+                    <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Features Section -->
+     <!-- Features Section -->
     <section class="py-20 ">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
@@ -350,37 +379,6 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-3">Komunitas Aktif</h3>
                     <p class="text-gray-600">Bergabung dengan ribuan event enthusiast di seluruh Indonesia</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Event Terselenggara -->
-                <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
-                </div>
-
-                <!-- Peserta Aktif -->
-                <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
-                </div>
-
-                <!-- Organizer Terpercaya -->
-                <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
-                    <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
-                </div>
-
-                <!-- Kepuasan Pengguna -->
-                <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="99" data-unit="percent">0%</div>
-                    <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
                 </div>
             </div>
         </div>
