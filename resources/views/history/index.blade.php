@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center space-x-4 pb-6">
-            <button onclick="window.location.href='/dashboard'" 
+            <button onclick="window.location.href='/dashboard'"
                 class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
                 <i class="fas fa-arrow-left text-white"></i>
             </button>
@@ -128,37 +128,37 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-purple-100">
-                    @foreach ($histories as $history)
-                    <tr class="hover-lift hover:bg-purple-50">
-                        <td class="py-4 px-6 flex items-center">
-                            <div
-                                class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                                {{ strtoupper(substr($history->nama_peserta, 0, 2)) }}
-                            </div>
-                            <span class="font-medium text-gray-800">{{ $history->nama_peserta }}</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <p class="font-medium text-gray-800">{{ $history->name_event }}</p>
-                            <p class="text-sm text-gray-500">{{ $history->venue_name }} - {{ $history->venue_address }}</p>
-                        </td>
-                        <td class="py-4 px-6 text-gray-600">
-                            {{ \Carbon\Carbon::parse($history->tanggal_beli)->format('d M Y') }}
-                        </td>
-                        <td class="py-4 px-6">
-                            <span
-                                class="px-4 py-2 rounded-full text-white text-sm font-medium {{ $history->status_pembayaran === 'paid' ? 'status-paid' : 'status-unpaid' }}">
-                                {{ $history->status_pembayaran === 'paid' ? '✅ Paid' : '⏳ Unpaid' }}
-                            </span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <button onclick="showTransactionDetail(`{{ $history->transaction_id }}`)"
-                                class="btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">
-                                Lihat Detail
-                            </button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+                        @foreach ($histories as $history)
+                        <tr class="hover-lift hover:bg-purple-50">
+                            <td class="py-4 px-6 flex items-center">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                                    {{ strtoupper(substr($history->nama_peserta, 0, 2)) }}
+                                </div>
+                                <span class="font-medium text-gray-800">{{ $history->nama_peserta }}</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <p class="font-medium text-gray-800">{{ $history->name_event }}</p>
+                                <p class="text-sm text-gray-500">{{ $history->venue_name }} - {{ $history->venue_address }}</p>
+                            </td>
+                            <td class="py-4 px-6 text-gray-600">
+                                {{ \Carbon\Carbon::parse($history->tanggal_beli)->format('d M Y') }}
+                            </td>
+                            <td class="py-4 px-6">
+                                <span
+                                    class="px-4 py-2 rounded-full text-white text-sm font-medium {{ $history->status_pembayaran === 'paid' ? 'status-paid' : 'status-unpaid' }}">
+                                    {{ $history->status_pembayaran === 'paid' ? '✅ Paid' : '⏳ Unpaid' }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <button onclick="showTransactionDetail(`{{ $history->transaction_id }}`)"
+                                    class="btn-primary text-white py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">
+                                    Lihat Detail
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
