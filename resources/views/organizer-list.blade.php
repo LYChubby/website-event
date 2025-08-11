@@ -94,6 +94,10 @@
             <div class="gradient-bg px-8 py-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center space-x-4">
+                        <button onclick="history.back()"
+                            class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
+                            <i class="fas fa-arrow-left text-white"></i>
+                        </button>
                         <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/20">
                             <i class="fas fa-users text-xl text-white"></i>
                         </div>
