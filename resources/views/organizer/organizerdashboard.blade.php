@@ -1237,7 +1237,7 @@
                         </div>
                         <div class="stats-info">
                             <h3>Total Event</h3>
-                            <p class="stats-number" id="totalEvents">0</p>
+                            <p class="stats-number" id="totalEvents">{{ $totalEvent }}</p>
                         </div>
                     </div>
                 </div>
@@ -1250,7 +1250,7 @@
                         </div>
                         <div class="stats-info">
                             <h3>Total Tiket Terjual</h3>
-                            <p class="stats-number" id="totalTicketsSold">0</p>
+                            <p class="stats-number" id="totalTicketsSold">{{ $totalTickets }}</p>
                         </div>
                     </div>
                 </div>
@@ -1263,7 +1263,7 @@
                         </div>
                         <div class="stats-info">
                             <h3>Total Pendapatan</h3>
-                            <p class="stats-number" id="totalRevenue">Rp 0</p>
+                            <p class="stats-number" id="totalRevenue">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>

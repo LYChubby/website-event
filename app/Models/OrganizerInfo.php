@@ -26,6 +26,11 @@ class OrganizerInfo extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'user_id', 'user_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
