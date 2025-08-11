@@ -65,10 +65,14 @@ Route::middleware(['auth', 'role:user'])->prefix('dashboard')->group(function ()
 
     // Organizer views
     Route::get('/organizer-list', [HomeController::class, 'organizer'])->name('organizer-list');
+    Route::get('/organizer-list/{id}/events', [EventController::class, 'eventListView'])
+        ->name('event-list');
 
     // API routes
     Route::prefix('api')->group(function () {
         Route::get('/organizer-list', [UserController::class, 'organizer']);
+        Route::get('/organizer-list/{id}/events', [EventController::class, 'getByOrganizer'])
+            ->name('event-list.api');
     });
 });
 
