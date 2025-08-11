@@ -58,7 +58,7 @@ class UserController extends Controller
         // Mapping ke format yang dibutuhkan frontend
         $data->getCollection()->transform(function ($item) {
             return [
-                'user_id' => $item->id,
+                'user_id' => $item->user_id,
                 'name' => $item->name,
                 'status' => $item->status,
                 'total_events' => $item->events_count

@@ -103,7 +103,9 @@ function renderOrganizers(organizers) {
         .map(
             (organizer, index) => `
         <tr class="hover:bg-[#5C6AD0]/5 transition-colors duration-200 cursor-pointer"
-        onclick="window.location.href='/dashboard/organizer-list/${organizer.user_id}/events'">
+        onclick="window.location.href='/dashboard/organizer-list/${
+            organizer.user_id
+        }/events'">
             <!-- No -->
             <td class="py-5 px-6 text-gray-600 font-medium">
                 ${(currentPage - 1) * itemsPerPage + index + 1}
@@ -143,7 +145,6 @@ function renderOrganizers(organizers) {
         )
         .join("");
 }
-
 
 function renderPagination() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
