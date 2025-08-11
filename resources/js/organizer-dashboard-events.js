@@ -13,52 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadTicketStatistics() {
-    const eventId = document.getElementById("eventId").value;
+    const soldPercentageElement = document.getElementById("soldPercentage");
+    const soldPercentage = parseInt(soldPercentageElement.textContent);
 
-    fetch(`/events/${eventId}/tickets`)
-        .then((res) => res.json())
-        .then((response) => {
-            const tickets = response.data;
-
-            let totalTickets = 0;
-            let availableTickets = 0;
-            let soldTickets = 0;
-
-            tickets.forEach((ticket) => {
-                totalTickets +=
-                    parseInt(ticket.quantity_available) +
-                    parseInt(ticket.quantity_sold);
-                availableTickets += parseInt(ticket.quantity_available);
-                soldTickets += parseInt(ticket.quantity_sold);
-            });
-
-            const soldPercentage =
-                totalTickets > 0
-                    ? Math.round((soldTickets / totalTickets) * 100)
-                    : 0;
-
-            document.getElementById("totalTickets").textContent =
-                totalTickets.toLocaleString();
-            document.getElementById("availableTickets").textContent =
-                availableTickets.toLocaleString();
-            document.getElementById("soldTickets").textContent =
-                soldTickets.toLocaleString();
-            document.getElementById(
-                "soldPercentage"
-            ).textContent = `${soldPercentage}%`;
-
-            const percentageElement = document.getElementById("soldPercentage");
-            if (soldPercentage >= 80) {
-                percentageElement.classList.add("text-red-600");
-                percentageElement.classList.remove("text-purple-600");
-            } else {
-                percentageElement.classList.add("text-purple-600");
-                percentageElement.classList.remove("text-red-600");
-            }
-        })
-        .catch((error) => {
-            console.error("Error loading ticket statistics:", error);
-        });
+    if (soldPercentage >= 80) {
+        soldPercentageElement.classList.add("text-red-600");
+        soldPercentageElement.classList.remove("text-purple-600");
+    } else {
+        soldPercentageElement.classList.add("text-purple-600");
+        soldPercentageElement.classList.remove("text-red-600");
+    }
 }
 
 function loadTickets() {

@@ -272,28 +272,28 @@
                         <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                             <i class="fas fa-ticket-alt text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold text-blue-600 mb-1" id="totalTickets">0</div>
+                        <div class="text-3xl font-bold text-blue-600 mb-1" id="totalTickets">{{ number_format($totalTickets) }}</div>
                         <div class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Total Tiket</div>
                     </div>
                     <div class="group glass bg-white/90 p-6 rounded-2xl border border-white/50 text-center shadow-lg hover-lift hover:bg-white transition-all duration-300">
                         <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                             <i class="fas fa-check-circle text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold text-green-600 mb-1" id="availableTickets">0</div>
+                        <div class="text-3xl font-bold text-green-600 mb-1" id="availableTickets">{{ number_format($availableTickets) }}</div>
                         <div class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Tersedia</div>
                     </div>
                     <div class="group glass bg-white/90 p-6 rounded-2xl border border-white/50 text-center shadow-lg hover-lift hover:bg-white transition-all duration-300">
                         <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                             <i class="fas fa-shopping-cart text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold text-orange-600 mb-1" id="soldTickets">0</div>
+                        <div class="text-3xl font-bold text-orange-600 mb-1" id="soldTickets">{{ number_format($soldTickets) }}</div>
                         <div class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Terjual</div>
                     </div>
                     <div class="group glass bg-white/90 p-6 rounded-2xl border border-white/50 text-center shadow-lg hover-lift hover:bg-white transition-all duration-300">
                         <div class="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                             <i class="fas fa-chart-pie text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold text-purple-600 mb-1" id="soldPercentage">0%</div>
+                        <div class="text-3xl font-bold {{ $soldPercentageClass }} mb-1" id="soldPercentage">{{ $soldPercentage }}%</div>
                         <div class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Sold Out</div>
                     </div>
                     <!-- Card Full Width: Total Pendapatan -->
@@ -306,7 +306,9 @@
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-semibold text-gray-600 uppercase tracking-wide">Total Pendapatan</h3>
-                                    <p class="text-3xl font-bold text-yellow-600" id="totalRevenue">Rp 0</p>
+                                    <p class="text-3xl font-bold text-yellow-600" id="totalRevenue">
+                                        Rp {{ number_format($totalRevenue, 0, ',', '.') }}
+                                    </p>
                                 </div>
                             </div>
                             <!-- Optional: Persentase atau info tambahan -->
@@ -346,7 +348,7 @@
     {{-- MODAL TIKET --}}
     <div id="ticketModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div id="modalContent" class="bg-white/95 backdrop-blur-md p-8 rounded-3xl w-full max-w-5xl shadow-2xl border border-white/50 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">
-            
+
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h3 id="ticketModalTitle" class="text-3xl font-bold text-gray-800 flex items-center gap-4">
@@ -373,7 +375,7 @@
                         </div>
                         <span>Informasi Dasar Tiket</span>
                     </h4>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Kode Tiket -->
                         <div class="relative group">
@@ -385,11 +387,11 @@
                                     </div>
                                     <span>Kode Tiket</span>
                                 </label>
-                                <input type="text" 
-                                    id="ticketCodePrefix" 
-                                    name="ticket_code_prefix" 
-                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10" 
-                                    placeholder="Contoh: VVIP-001" 
+                                <input type="text"
+                                    id="ticketCodePrefix"
+                                    name="ticket_code_prefix"
+                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10"
+                                    placeholder="Contoh: VVIP-001"
                                     required>
                             </div>
                         </div>
@@ -405,10 +407,10 @@
                                     <span>Jenis Tiket</span>
                                 </label>
                                 <div class="relative">
-                                    <select id="jenisTicket" 
-                                            name="jenis_ticket" 
-                                            class="w-full px-6 py-4 pr-12 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10 appearance-none cursor-pointer" 
-                                            required>
+                                    <select id="jenisTicket"
+                                        name="jenis_ticket"
+                                        class="w-full px-6 py-4 pr-12 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10 appearance-none cursor-pointer"
+                                        required>
                                         <option value="">Pilih Jenis Tiket</option>
                                         <option value="VVIP">🌟 VVIP - Very Very Important Person</option>
                                         <option value="VIP">⭐ VIP - Very Important Person</option>
@@ -432,7 +434,7 @@
                         </div>
                         <span>Harga & Ketersediaan</span>
                     </h4>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Harga -->
                         <div class="relative group">
@@ -446,12 +448,12 @@
                                 </label>
                                 <div class="relative">
                                     <span class="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold z-10">Rp</span>
-                                    <input type="number" 
-                                        id="price" 
-                                        name="price" 
-                                        min="0" 
-                                        class="w-full pl-12 pr-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10" 
-                                        placeholder="100.000" 
+                                    <input type="number"
+                                        id="price"
+                                        name="price"
+                                        min="0"
+                                        class="w-full pl-12 pr-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10"
+                                        placeholder="100.000"
                                         required>
                                 </div>
                             </div>
@@ -468,12 +470,12 @@
                                     <span>Jumlah Tiket Tersedia</span>
                                 </label>
                                 <div class="relative">
-                                    <input type="number" 
-                                        id="quantityAvailable" 
-                                        name="quantity_available" 
-                                        min="1" 
-                                        class="w-full px-6 pr-12 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10" 
-                                        placeholder="100" 
+                                    <input type="number"
+                                        id="quantityAvailable"
+                                        name="quantity_available"
+                                        min="1"
+                                        class="w-full px-6 pr-12 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10"
+                                        placeholder="100"
                                         required>
                                     <span class="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm font-medium">pcs</span>
                                 </div>
@@ -490,7 +492,7 @@
                         </div>
                         <span>Periode Pemesanan Tiket</span>
                     </h4>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Tanggal Mulai -->
                         <div class="relative group">
@@ -502,10 +504,10 @@
                                     </div>
                                     <span>Mulai Pemesanan</span>
                                 </label>
-                                <input type="datetime-local" 
-                                    id="startPesan" 
-                                    name="start_pesan" 
-                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10" 
+                                <input type="datetime-local"
+                                    id="startPesan"
+                                    name="start_pesan"
+                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10"
                                     required>
                             </div>
                         </div>
@@ -520,36 +522,36 @@
                                     </div>
                                     <span>Selesai Pemesanan</span>
                                 </label>
-                                <input type="datetime-local" 
-                                    id="endPesan" 
-                                    name="end_pesan" 
-                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10" 
+                                <input type="datetime-local"
+                                    id="endPesan"
+                                    name="end_pesan"
+                                    class="w-full px-6 py-4 bg-white/80 border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-400 transition-all duration-300 backdrop-blur-sm shadow-lg hover:border-gray-300 hover:bg-white/90 hover:-translate-y-0.5 focus:outline-none focus:border-purple-400 focus:bg-white/95 focus:-translate-y-0.5 focus:shadow-xl focus:shadow-purple-500/10"
                                     required>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Info Helper -->
                     <div class="mt-6 p-4 bg-blue-50/80 backdrop-blur-sm rounded-2xl border-l-4 border-blue-400">
                         <p class="text-sm text-blue-700 flex items-center gap-3">
-                            <div class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-info text-blue-600 text-xs"></i>
-                            </div>
-                            <span>Pastikan periode pemesanan sesuai dengan waktu pelaksanaan event Anda</span>
+                        <div class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-info text-blue-600 text-xs"></i>
+                        </div>
+                        <span>Pastikan periode pemesanan sesuai dengan waktu pelaksanaan event Anda</span>
                         </p>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row justify-end gap-4 pt-8 border-t-2 border-gray-100">
-                    <button type="button" 
-                            onclick="closeTicketModal()" 
-                            class="group px-8 py-4 border-2 border-gray-300 rounded-2xl text-gray-700 font-bold hover:bg-gray-50 hover:border-gray-400 hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl">
+                    <button type="button"
+                        onclick="closeTicketModal()"
+                        class="group px-8 py-4 border-2 border-gray-300 rounded-2xl text-gray-700 font-bold hover:bg-gray-50 hover:border-gray-400 hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl">
                         <i class="fas fa-times group-hover:rotate-90 transition-transform duration-200"></i>
                         <span>Batal</span>
                     </button>
-                    <button type="submit" 
-                            class="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-2xl hover:from-purple-700 hover:to-indigo-700 hover:-translate-y-1 hover:scale-105 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-2xl">
+                    <button type="submit"
+                        class="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-2xl hover:from-purple-700 hover:to-indigo-700 hover:-translate-y-1 hover:scale-105 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-2xl">
                         <i class="fas fa-save"></i>
                         <span>Simpan Tiket</span>
                     </button>

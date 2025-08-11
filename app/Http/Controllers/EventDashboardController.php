@@ -8,33 +8,37 @@ use App\Models\Participant;
 
 class EventDashboardController extends Controller
 {
+    // controller: EventDashboardController.php
     public function show($id)
     {
-        // Ambil event beserta tiket
         $event = Event::with('tickets')->findOrFail($id);
 
-        // Hitung total event
-        $totalEvents = Event::count();
+        $totalTickets = $event->tickets->sum(function ($ticket) {
+            return $ticket->quantity_available + $ticket->quantity_sold;
+        });
 
-        // Hitung total tiket untuk event ini
-        $totalTickets = $event->tickets->sum('quota');
+        $availableTickets = $event->tickets->sum('quantity_available');
+        $soldTickets = $event->tickets->sum('quantity_sold');
 
-        // Hitung total pendapatan dari event ini
-        // Misalnya: semua participant pada event ini dikalikan harga tiket masing-masing
-        // $totalRevenue = Participant::where('event_id', $event->id)
-        //     ->with('ticket') // pastikan relasi ticket dimuat
-        //     ->get()
-        //     ->sum(function ($participant) {
-        //         return $participant->ticket->price ?? 0;
-        //     });
-
-        $totalRevenue = Participant::where('event_id', $event->id)
+        $totalRevenue = Participant::where('event_id', $id)
             ->with('ticket')
             ->get()
-            ->sum(function ($participant) {
-                return optional($participant->ticket)->price ?? 0;
-            });
+            ->sum(fn($participant) => $participant->ticket->price ?? 0);
 
-        return view('events.dashboard', compact('event', 'totalEvents', 'totalTickets', 'totalRevenue'));
+        // Hitung persentase sold tiket
+        $soldPercentage = $totalTickets > 0 ? round(($soldTickets / $totalTickets) * 100) : 0;
+
+        // Tentukan class warna berdasarkan persentase
+        $soldPercentageClass = $soldPercentage >= 80 ? 'text-red-600' : 'text-purple-600';
+
+        return view('events.dashboard', compact(
+            'event',
+            'totalTickets',
+            'availableTickets',
+            'soldTickets',
+            'totalRevenue',
+            'soldPercentage',
+            'soldPercentageClass'
+        ));
     }
 }
