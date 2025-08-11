@@ -71,7 +71,7 @@
         }
 
         .modal-exit {
-            animation: modalExit 0.2s ease-in forwards;
+            animation: modalExit ease-in forwards;
         }
 
         @keyframes modalExit {
@@ -164,8 +164,9 @@
         </div>
     </div>
 
-    <!-- User Modal -->
-    <div id="userModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center p-4">
+</x-admin-layout>
+<!-- User Modal -->
+    <div id="userModal" class="fixed inset-0 z-50 bg-black backdrop-blur-sm bg-opacity-50 hidden items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden modal-enter" id="userModalContent">
             <div class="gradient-bg px-6 py-4">
                 <h2 class="text-xl font-bold text-white flex items-center" id="userModalTitle">
@@ -229,27 +230,41 @@
                         <i class="fas fa-toggle-on mr-2 text-[#5C6AD0]"></i>
                         Status Kategori
                     </label>
-                    <div class="flex items-center space-x-6">
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="is_active" value="1"
-                                class="form-radio h-5 w-5 text-[#5C6AD0] focus:ring-[#5C6AD0] border-gray-300">
-                            <span class="flex items-center px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 border border-emerald-200">
-                                <i class="fas fa-check-circle mr-2 text-emerald-500"></i>
-                                Aktif
-                            </span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="radio" name="is_active" value="0"
-                                class="form-radio h-5 w-5 text-[#5C6AD0] focus:ring-[#5C6AD0] border-gray-300">
-                            <span class="flex items-center px-4 py-2 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 border border-gray-300">
-                                <i class="fas fa-times-circle mr-2 text-gray-500"></i>
-                                Nonaktif
-                            </span>
-                        </label>
-                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                    <!-- Option Aktif -->
+                    <label class="cursor-pointer">
+                        <input type="radio" name="status" value="Aktif"
+                            class="peer hidden">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-2 transition-all duration-300
+                                    hover:border-emerald-300 hover:shadow-lg peer-checked:border-emerald-500 peer-checked:bg-emerald-50 relative">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center mb-2 transition-colors duration-300
+                                            peer-checked:bg-emerald-200">
+                                    <i class="fas fa-check-circle text-emerald-600 text-base"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-800 text-sm">Aktif</h3>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Option Non-aktif -->
+                    <label class="cursor-pointer">
+                        <input type="radio" name="status" value="Non-Aktif"
+                            class="peer hidden">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-2 transition-all duration-300
+                                    hover:border-red-300 hover:shadow-lg peer-checked:border-red-500 peer-checked:bg-red-50 relative">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mb-2 transition-colors duration-300
+                                            peer-checked:bg-red-200">
+                                    <i class="fas fa-ban text-red-600 text-base"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-800 text-sm">Non-aktif</h3>
+                            </div>
+                        </div>
+                    </label>
                 </div>
 
-                <div class="flex space-x-3">
+                <div class="flex mb-4 space-x-3">
                     <button type="button" onclick="closeUserModal()"
                         class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300 font-semibold">
                         <i class="fas fa-times mr-2"></i>
@@ -264,4 +279,3 @@
             </form>
         </div>
     </div>
-</x-admin-layout>

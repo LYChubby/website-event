@@ -353,9 +353,13 @@ window.editUser = function (id, status) {
     document.getElementById("createFields").style.display = "none";
 
     // Uncheck all status first
-    document.querySelectorAll('input[name="status"]').forEach((radio) => {
-        radio.checked = false;
-    });
+    const statusRadio = document.querySelector(`input[name="status"][value="${status}"]`);
+    if (statusRadio) {
+        statusRadio.checked = true;
+    } else {
+        console.warn(`Radio dengan value "${status}" nggak ketemu`);
+    }
+
 
     // Set status value
     document.querySelector(
@@ -470,15 +474,17 @@ window.deleteUser = function (id) {
         confirmButtonText: "Ya, Hapus!",
         cancelButtonText: "Batal",
         background: "white",
-        backdrop: "rgba(92, 106, 208, 0.1)",
+        backdrop: `rgba(0,0,0,0.5)`,
+        customClass: {
+            container: 'backdrop-blur-sm', // ⬅ ini yang bikin blur
+            popup: 'rounded-2xl'
+        },
         showLoaderOnConfirm: true,
         preConfirm: () => {
             return fetch(`/admin/api/users/${id}`, {
                 method: "DELETE",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
                     Accept: "application/json",
                 },
             })
@@ -493,29 +499,6 @@ window.deleteUser = function (id) {
                 });
         },
         allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-        if (result.isConfirmed) {
-            if (result.value.success) {
-                loadUsers(currentPage, getSearchQuery(), getRoleFilter());
-                Swal.fire({
-                    title: "Berhasil!",
-                    text: "User berhasil dihapus",
-                    icon: "success",
-                    confirmButtonColor: "#5C6AD0",
-                    timer: 2000,
-                    timerProgressBar: true,
-                    background: "white",
-                });
-            } else {
-                Swal.fire({
-                    title: "Gagal!",
-                    text: result.value.message || "Gagal menghapus user",
-                    icon: "error",
-                    confirmButtonColor: "#5C6AD0",
-                    background: "white",
-                });
-            }
-        }
     });
 };
 
