@@ -88,7 +88,7 @@ function renderOrganizers(organizers) {
     if (!organizers || organizers.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="py-12 text-center">
+                <td colspan="4" class="py-12 text-center">
                     <div class="inline-flex items-center justify-center w-16 h-16 bg-[#5C6AD0]/10 rounded-full mb-4">
                         <i class="fas fa-user-slash text-2xl text-[#5C6AD0]"></i>
                     </div>
@@ -103,46 +103,27 @@ function renderOrganizers(organizers) {
         .map(
             (organizer, index) => `
         <tr class="hover:bg-[#5C6AD0]/5 transition-colors duration-200 cursor-pointer"
-        onclick="window.location.href='/dashboard/organizer-list/${
-            organizer.user_id
-        }/events'">
-            <td class="py-5 px-6 text-gray-600 font-medium">${
-                (currentPage - 1) * itemsPerPage + index + 1
-            }</td>
+        onclick="window.location.href='/dashboard/organizer-list/${organizer.user_id}/events'">
+            <!-- No -->
+            <td class="py-5 px-6 text-gray-600 font-medium">
+                ${(currentPage - 1) * itemsPerPage + index + 1}
+            </td>
+
+            <!-- Nama -->
             <td class="py-5 px-6">
                 <div class="flex items-center">
                     <div class="w-10 h-10 bg-gradient-to-r from-[#5C6AD0]/10 to-[#684597]/10 rounded-full flex items-center justify-center mr-4">
                         <i class="fas fa-user text-[#5C6AD0]"></i>
                     </div>
                     <div>
-                        <span class="block font-medium text-gray-800">${
-                            organizer.name || "-"
-                        }</span>
-                        <span class="block text-xs text-gray-500 mt-1">ID: ${
-                            organizer.user_id || "-"
-                        }</span>
+                        <span class="block font-medium text-gray-800">
+                            ${organizer.name || "-"}
+                        </span>
                     </div>
                 </div>
             </td>
-            <td class="py-5 px-6 text-gray-600">${organizer.email || "-"}</td>
-            <td class="py-5 px-6">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                    organizer.role === "organizer"
-                        ? "bg-[#684597]/10 text-[#684597]"
-                        : "bg-gray-100 text-gray-800"
-                }">
-                    ${organizer.role || "-"}
-                </span>
-            </td>
-            <td class="py-5 px-6 text-gray-600">
-                ${
-                    organizer.created_at
-                        ? new Date(organizer.created_at).toLocaleDateString(
-                              "id-ID"
-                          )
-                        : "-"
-                }
-            </td>
+
+            <!-- Status -->
             <td class="py-5 px-6">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
                     organizer.status === "Aktif"
@@ -152,11 +133,17 @@ function renderOrganizers(organizers) {
                     ${organizer.status || "-"}
                 </span>
             </td>
+
+            <!-- Jumlah Event -->
+            <td class="py-5 px-6 text-gray-600 font-medium">
+                ${organizer.total_events ?? 0}
+            </td>
         </tr>
     `
         )
         .join("");
 }
+
 
 function renderPagination() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
