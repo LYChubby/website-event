@@ -192,6 +192,7 @@ class EventController extends Controller
         // Ambil semua event milik organizer ini
         $events = Event::with(['category', 'organizer'])
             ->where('user_id', $organizer->user_id)
+            ->where('status_approval', 'approved')
             ->orderBy('start_date', 'desc')
             ->get();
 
