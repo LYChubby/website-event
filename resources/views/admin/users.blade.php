@@ -226,10 +226,6 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-3">
-                        <i class="fas fa-toggle-on mr-2 text-[#5C6AD0]"></i>
-                        Status Kategori
-                    </label>
                     <div class="grid grid-cols-2 gap-3 mb-6">
                     <!-- Option Aktif -->
                     <label class="cursor-pointer">
@@ -272,7 +268,7 @@
                     </button>
                     <button type="submit"
                         class="flex-1 bg-gradient-to-r from-[#5C6AD0] to-[#684597] text-white rounded-xl font-semibold px-4 py-3 hover:opacity-90 transition-opacity">
-                        <i class="fas fa-times group-hover:rotate-90 transition-transform duration-300"></i>
+                        <i class="fas fa-save group-hover:rotate-90 transition-transform duration-300"></i>
                         <span>Simpan</span>
                     </button>
                 </div>
