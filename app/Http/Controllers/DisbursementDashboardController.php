@@ -5,54 +5,42 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 
 class DisbursementDashboardController extends Controller
 {
-    public function revenueReport()
+    public function index()
     {
-        // Ambil semua transaksi sukses
-        $transactions = Transaction::where('status_pembayaran', 'paid')->get();
+        // Ambil total pemasukan (total transaksi paid)
+        $totalPemasukan = DB::table('transactions')
+            ->where('status_pembayaran', 'paid')
+            ->sum('total_price');
 
-        $totalGross = $transactions->sum('total_price');
-        $totalFee = $totalGross * 0.1;
-        $totalRevenue = $totalGross - $totalFee;
+        // Hitung fee (misal 10%)
+        $totalFee = $totalPemasukan * 0.10;
 
-        // Hitung revenue per organizer
-        $organizers = User::where('role', 'organizer')
-            ->with(['events.tickets.participants.transaction' => function ($q) {
-                $q->where('status_pembayaran', 'paid');
-            }])
-            ->get()
-            ->map(function ($organizer) {
-                $totalGross = 0;
+        // Total Bersih (pemasukan - fee)
+        $totalBersih = $totalPemasukan - $totalFee;
 
-                foreach ($organizer->events as $event) {
-                    foreach ($event->tickets as $ticket) {
-                        foreach ($ticket->participants as $participant) {
-                            if ($participant->transaction) {
-                                $totalGross += $ticket->price * $participant->quantity;
-                            }
-                        }
-                    }
-                }
+        // Ambil daftar organizer + total pendapatan masing-masing
+        $organizerList = DB::table('transactions')
+            ->join('events', 'transactions.event_id', '=', 'events.event_id')
+            ->join('users', 'events.user_id', '=', 'users.user_id')
+            ->select(
+                'users.name as organizer_name',
+                DB::raw('SUM(transactions.total_price) as total_pemasukan'),
+                DB::raw('SUM(transactions.total_price) * 0.10 as fee'),
+                DB::raw('SUM(transactions.total_price) - (SUM(transactions.total_price) * 0.10) as pendapatan_organizer')
+            )
+            ->where('transactions.status_pembayaran', 'paid')
+            ->groupBy('users.user_id', 'users.name')
+            ->get();
 
-                return [
-                    'id' => $organizer->user_id,
-                    'name' => $organizer->name,
-                    'email' => $organizer->email,
-                    'total_gross' => $totalGross,
-                    'total_fee' => $totalGross * 0.1,
-                    'total_revenue' => $totalGross * 0.9,
-                ];
-            })
-            ->sortByDesc('total_gross')
-            ->values();
-
-        return response()->json([
-            'totalGross' => $totalGross,
+        return view('admin.disbursement', [
+            'totalPemasukan' => $totalPemasukan,
             'totalFee' => $totalFee,
-            'totalRevenue' => $totalRevenue,
-            'organizers' => $organizers
+            'totalBersih' => $totalBersih,
+            'organizerList' => $organizerList
         ]);
     }
 }

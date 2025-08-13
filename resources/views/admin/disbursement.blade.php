@@ -14,7 +14,7 @@
                 </div>
                 <div class="ml-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-1">Total Pemasukan</h3>
-                    <p id="totalRevenue" class="text-4xl font-bold bg-gradient-to-r from-[#5C6AD0] to-[#684597] bg-clip-text text-transparent">Rp0</p>
+                    <p id="totalRevenue" class="text-4xl font-bold bg-gradient-to-r from-[#5C6AD0] to-[#684597] bg-clip-text text-transparent">{{ number_format($totalPemasukan, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="ml-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-1">Total Fee</h3>
-                    <p id="totalFee" class="text-4xl font-bold bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent">Rp0</p>
+                    <p id="totalFee" class="text-4xl font-bold bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent">{{ number_format($totalFee, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
@@ -47,8 +47,8 @@
                     <i class="fas fa-coins text-2xl text-white"></i>
                 </div>
                 <div class="ml-6">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-1">Total Kotor</h3>
-                    <p id="totalGross" class="text-4xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">Rp0</p>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-1">Total Bersih</h3>
+                    <p id="totalGross" class="text-4xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">{{ number_format($totalFee, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
@@ -66,67 +66,40 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Organizer</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pemasukan</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee (10%)</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pendapatan Organizer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Organizer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Pemasukan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fee (10%)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pendapatan Organizer</th>
                     </tr>
                 </thead>
-                <tbody id="organizersBody" class="bg-white divide-y divide-gray-200">
-                    <!-- Data dari JS -->
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse($organizerList as $org)
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-[#5C6AD0] to-[#684597] flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr($org->organizer_name, 0, 1)) }}
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">{{ $org->organizer_name }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Rp{{ number_format($org->total_pemasukan, 0, ',', '.') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Rp{{ number_format($org->fee, 0, ',', '.') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Rp{{ number_format($org->pendapatan_organizer, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center text-gray-500 py-4">Tidak ada data organizer</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-
-    @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/admin/api/disbursement')
-                .then(response => response.json())
-                .then(data => {
-                    // Update stats cards
-                    document.getElementById('totalRevenue').textContent = 'Rp' + formatNumber(data.totalRevenue ?? 0);
-                    document.getElementById('totalFee').textContent = 'Rp' + formatNumber(data.totalFee ?? 0);
-                    document.getElementById('totalGross').textContent = 'Rp' + formatNumber(data.totalGross ?? 0);
-
-                    // Update organizers table
-                    const tbody = document.getElementById('organizersBody');
-                    if (data.organizers && data.organizers.length > 0) {
-                        tbody.innerHTML = data.organizers.map(organizer => `
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-[#5C6AD0] to-[#684597] flex items-center justify-center text-white font-bold">
-                                        ${organizer.name ? organizer.name.charAt(0) : '-'}
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">${organizer.name || '-'}</div>
-                                        <div class="text-sm text-gray-500">${organizer.email || '-'}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                Rp${formatNumber(organizer.total_gross ?? 0)}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                Rp${formatNumber(organizer.total_fee ?? 0)}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                Rp${formatNumber(organizer.total_revenue ?? 0)}
-                            </td>
-                        </tr>
-                    `).join('');
-                    } else {
-                        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-500 py-4">Tidak ada data organizer</td></tr>`;
-                    }
-                });
-        });
-
-        function formatNumber(num) {
-            return new Intl.NumberFormat('id-ID').format(num);
-        }
-    </script>
-    @endpush
-
 </x-admin-layout>
