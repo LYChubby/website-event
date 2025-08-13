@@ -1,108 +1,59 @@
-<head>
-    <title>
-        dashboard
-    </title>
-</head>
 <x-app-layout>
     <style>
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #5a6fd8, #6a4190);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #ffffff;
-            border: 2px solid #6a4190;
-            color: #6a4190;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: #6a4190;
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
+        /* Custom Gradient Styles */
         .gradient-primary {
             background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
         }
 
         .gradient-secondary {
-            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
+            background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #684597, #5C6AD0);
+            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .glass-effect {
-            backdrop-filter: blur(20px);
             background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .hover-lift {
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 16px;
-            background-color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            outline: none;
-            border: 1px solid rgba(238, 242, 255, 0.8);
-            position: relative;
-            overflow: hidden;
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(92, 106, 208, 0.4);
+        }
+
+        .pulse-border {
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(92, 106, 208, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(104, 69, 151, 0.4);
+            }
         }
 
         .hover-lift:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.2);
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-
-        .hover-lift::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .hover-lift:hover::before {
-            opacity: 1;
-        }
-
-        /* Remove outline on focus (e.g. on click) */
-        .hover-lift:focus,
-        .hover-lift:focus-visible {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.4);
-            /* Optional: if you want to remove shadow on focus too */
+            transform: translateY(-5px);
         }
 
         .animate-float {
-            animation: float 6s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
@@ -117,132 +68,137 @@
             }
         }
 
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .search-glow:focus {
+            box-shadow: 0 0 20px rgba(92, 106, 208, 0.3);
+            border-color: #5C6AD0;
         }
 
-        .search-glow {
+        .event-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
-        .search-glow:focus {
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-            border-color: #667eea;
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(92, 106, 208, 0.2);
         }
 
-        .pulse-border {
-            animation: pulse-border 3s infinite;
+        .category-card {
+            background: linear-gradient(135deg, rgba(92, 106, 208, 0.1) 0%, rgba(104, 69, 151, 0.1) 100%);
+            border: 1px solid rgba(92, 106, 208, 0.2);
+            transition: all 0.3s ease;
         }
 
-        @keyframes pulse-border {
-
-            0%,
-            100% {
-                border-color: rgba(102, 126, 234, 0.3);
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
-            }
-
-            50% {
-                border-color: rgba(102, 126, 234, 0.6);
-                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
-            }
+        .category-card:hover {
+            background: linear-gradient(135deg, rgba(92, 106, 208, 0.2) 0%, rgba(104, 69, 151, 0.2) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(92, 106, 208, 0.15);
         }
 
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .btn-primary {
+            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
+            transition: all 0.3s ease;
         }
 
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4A5BC4 0%, #5A3C85 100%);
+            transform: translateY(-2px);
         }
 
-        .shimmer {
-            background: linear-gradient(45deg, transparent 30%, rgba(209, 211, 227, 0.6) 50%, transparent 70%);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite;
-            color: #684597;
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(92, 106, 208, 0.1) 0%, rgba(104, 69, 151, 0.1) 100%);
+            border: 1px solid rgba(92, 106, 208, 0.3);
+            transition: all 0.3s ease;
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
+            color: white !important;
+        }
 
-            100% {
-                background-position: 200% 0;
-            }
+        .banner-overlay {
+            background: linear-gradient(135deg, rgba(92, 106, 208, 0.8) 0%, rgba(104, 69, 151, 0.8) 100%);
+        }
+
+        .section-bg {
+            background: linear-gradient(135deg, rgba(92, 106, 208, 0.02) 0%, rgba(104, 69, 151, 0.02) 100%);
         }
     </style>
 
-    <!-- Background with Enhanced Gradient -->
-    <div class="min-h-screen bg-white">
-
-        <!-- Enhanced Navbar -->
-        <nav class="bg-white shadow-2xl sticky top-0 z-50">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <!-- Enhanced Navigation -->
+        <nav class="bg-white/80 backdrop-filter backdrop-blur-lg shadow-lg sticky top-0 z-50 border-b border-white/20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <!-- Logo & Search Section -->
                     <div class="flex items-center space-x-8">
-                        <div class="flex items-center space-x-3">
-                            <img src="/images/logo.png" alt="Logo" class="h-10 w-auto transition-transform hover:scale-105" />
-                            <span class="gradient-text font-bold text-2xl">NEO.Vibe</span>
+                        <div class="flex items-center space-x-3 group">
+                            <div class="relative">
+                                <img src="/images/logo.png" alt="Logo" class="h-12 w-auto transition-all duration-300 group-hover:scale-110" />
+                                <div class="absolute -inset-1 gradient-primary rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-300 blur-sm"></div>
+                            </div>
+                            <span class="gradient-text font-bold text-3xl tracking-wide">NEO.Vibe</span>
                         </div>
 
                         <form method="GET" action="{{ route('dashboard') }}" class="relative">
                             <div class="hidden md:block">
-                                <input type="text" placeholder="Cari event impian Anda..."
-                                    class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
+                                <div class="relative">
+                                    <input type="text" placeholder="Cari event impian Anda..."
+                                        class="search-glow w-80 px-6 py-3 pl-12 rounded-2xl border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400 bg-white/70 backdrop-blur-sm transition-all duration-300" />
+                                    <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                        <i class="fas fa-search text-gray-400"></i>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Navigation Menu -->
+                    <!-- Enhanced Navigation Menu -->
                     <div class="flex items-center space-x-4">
-
                         <!-- List Organizer -->
                         <a href="{{ route('organizer-list') }}"
-                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
+                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-lg">
                             <i class="fa-solid fa-users mr-2"></i>Daftar Organizer
                         </a>
 
                         <!-- History Button -->
                         <a href="{{ route('history.index') }}"
-                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center">
+                            class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-lg">
                             <i class="fas fa-history mr-2"></i>Riwayat
                         </a>
 
-                        <!-- User Dropdown -->
+                        <!-- Enhanced User Dropdown -->
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="btn-secondary text-[#6a4190] px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center gap-3 group">
-                                        <div class="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
-                                            <i class="fas fa-user text-xs transition-colors duration-300 group-hover:text-white text-[#6a4190]"></i>
+                                    <button class="btn-secondary text-[#5C6AD0] px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center gap-3 group shadow-md">
+                                        <div class="w-8 h-8 gradient-primary rounded-full flex items-center justify-center shadow-sm">
+                                            <i class="fas fa-user text-xs text-white"></i>
                                         </div>
-                                        <span class="transition-colors duration-300 group-hover:text-white text-[#6a4190] truncate max-w-[120px]">
+                                        <span class="transition-colors duration-300 group-hover:text-white text-[#5C6AD0] truncate max-w-[120px] font-semibold">
                                             {{ Auth::user()->name }}
                                         </span>
-                                        <svg class="fill-current h-4 w-4 text-[#6a4190] transition-colors duration-300 group-hover:text-white ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <svg class="fill-current h-4 w-4 text-[#5C6AD0] transition-all duration-300 group-hover:text-white group-hover:rotate-180 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link :href="route('profile.edit')">
-                                        <i class="fas fa-user-edit mr-2 text-purple-600"></i>{{ __('Profile') }}
-                                    </x-dropdown-link>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault(); this.closest('form').submit();"
-                                            class="text-red-600 hover:bg-red-50">
-                                            <i class="fas fa-sign-out-alt mr-2"></i>{{ __('Log Out') }}
+                                    <div class="glass-effect rounded-lg border-0 shadow-xl">
+                                        <x-dropdown-link :href="route('profile.edit')" class="hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50">
+                                            <i class="fas fa-user-edit mr-3 text-purple-600"></i>{{ __('Profile') }}
                                         </x-dropdown-link>
-                                    </form>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                                class="text-red-600 hover:bg-red-50">
+                                                <i class="fas fa-sign-out-alt mr-3"></i>{{ __('Log Out') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </div>
                                 </x-slot>
                             </x-dropdown>
                         </div>
@@ -264,39 +220,58 @@
             <div class="max-w-7xl mx-auto">
                 <div x-data="{ activeSlide: 0, total: {{ count($banners) }} }" class="relative rounded-3xl overflow-hidden shadow-2xl pulse-border hover-lift glass-card">
 
-                    <!-- Slides -->
+                    <!-- Enhanced Slides -->
                     <template x-for="(banner, index) in {{ json_encode($banners) }}" :key="index">
-                        <div x-show="activeSlide === index" class="relative w-full h-72 sm:h-96 transition-all duration-1000 ease-in-out">
+                        <div x-show="activeSlide === index" class="relative w-full h-80 sm:h-[500px] transition-all duration-1000 ease-in-out">
                             <img :src="banner.image" class="absolute inset-0 w-full h-full object-cover" alt="" />
-                            <div class="absolute inset-0 opacity-80"></div>
-                            <div class="absolute inset-0 bg-black/20"></div>
+                            <div class="absolute inset-0 banner-overlay"></div>
 
-                            <!-- Banner Content Overlay -->
+                            <!-- Animated Particles -->
+                            <div class="absolute inset-0 overflow-hidden">
+                                <div class="absolute top-10 left-10 w-2 h-2 bg-white/30 rounded-full animate-ping"></div>
+                                <div class="absolute top-20 right-20 w-1 h-1 bg-white/40 rounded-full animate-pulse"></div>
+                                <div class="absolute bottom-20 left-20 w-3 h-3 bg-white/20 rounded-full animate-bounce"></div>
+                            </div>
+
+                            <!-- Enhanced Banner Content -->
                             <div class="absolute inset-0 flex items-center justify-center text-center px-8">
-                                <div class="text-white animate-float">
-                                    <h1 class="text-4xl sm:text-6xl font-bold mb-6 tracking-wide" x-text="banner.title"></h1>
-                                    <p class="text-lg sm:text-2xl opacity-95 font-medium" x-text="banner.subtitle"></p>
+                                <div class="text-white animate-float max-w-4xl">
+                                    <div class="mb-6">
+                                        <div class="inline-block p-3 rounded-full glass-effect mb-4">
+                                            <i class="fas fa-star text-2xl"></i>
+                                        </div>
+                                    </div>
+                                    <h1 class="text-4xl sm:text-7xl font-bold mb-8 tracking-wide leading-tight drop-shadow-2xl" x-text="banner.title"></h1>
+                                    <p class="text-lg sm:text-2xl opacity-95 font-medium mb-8 drop-shadow-lg" x-text="banner.subtitle"></p>
+                                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                                        <button class="btn-primary text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-xl">
+                                            <i class="fas fa-calendar-alt mr-2"></i>Jelajahi Event
+                                        </button>
+                                        <button class="glass-effect text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105">
+                                            <i class="fas fa-play mr-2"></i>Lihat Demo
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </template>
 
-                    <!-- Navigation Arrows -->
+                    <!-- Enhanced Navigation Arrows -->
                     <button @click="activeSlide = (activeSlide === 0) ? total - 1 : activeSlide - 1"
-                        class="absolute left-6 top-1/2 transform -translate-y-1/2 glass-effect hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 hover:scale-125">
+                        class="absolute left-6 top-1/2 transform -translate-y-1/2 glass-effect hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 hover:scale-125 shadow-xl">
                         <i class="fas fa-chevron-left text-xl"></i>
                     </button>
                     <button @click="activeSlide = (activeSlide === total - 1) ? 0 : activeSlide + 1"
-                        class="absolute right-6 top-1/2 transform -translate-y-1/2 glass-effect hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 hover:scale-125">
+                        class="absolute right-6 top-1/2 transform -translate-y-1/2 glass-effect hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 hover:scale-125 shadow-xl">
                         <i class="fas fa-chevron-right text-xl"></i>
                     </button>
 
-                    <!-- Carousel Indicator -->
-                    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                    <!-- Enhanced Carousel Indicators -->
+                    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
                         <template x-for="index in total" :key="index">
                             <button @click="activeSlide = index - 1" :class="{
                                 'w-12 h-3 rounded-full bg-white shadow-lg': activeSlide === index - 1,
-                                'w-3 h-3 rounded-full bg-white/50': activeSlide !== index - 1
+                                'w-3 h-3 rounded-full bg-white/50 hover:bg-white/70': activeSlide !== index - 1
                             }" class="transition-all duration-300"></button>
                         </template>
                     </div>
@@ -304,288 +279,184 @@
             </div>
         </section>
 
-        <!-- Enhanced Featured Events Section -->
-        <section class="px-4 sm:px-6 lg:px-8 mt-16">
-            <div class="max-w-7xl mx-auto">
-                <div class="flex items-center justify-between mb-10">
-                    <h2 class="text-4xl font-bold text-gray-800 flex items-center">
-                        <div class="w-2 h-12 gradient-primary rounded-full mr-6 animate-pulse"></div>
-                        <span class="gradient-text">Featured Events</span>
-                    </h2>
-                    <a href="#" class="btn-primary text-white px-6 py-3 rounded-2xl font-medium flex items-center transition-all hover:scale-105 hover-glow">
-                        Lihat Semua <i class="fas fa-arrow-right ml-3"></i>
+        <!-- Enhanced Content Sections -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <!-- Featured Events Section -->
+            <div class="section-bg rounded-3xl p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-4xl font-bold gradient-text mb-2">Featured Events</h2>
+                        <p class="text-gray-600">Acara pilihan terbaik untuk Anda</p>
+                    </div>
+                    <a href="{{ route('events.index', ['scope' => 'featured']) }}"
+                        class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 hover-glow shadow-lg">
+                        <i class="fas fa-arrow-right mr-2"></i>Lihat Semua
                     </a>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    @forelse ($featuredEvents as $event)
-                    <div class="group bg-white/80 backdrop-blur-lg rounded-3xl overflow-hidden shadow-xl card-hover hover-glow border border-white/20">
-                        <a href="{{ route('events.show', $event->event_id) }}" class="block">
-                            <div class="relative overflow-hidden">
-                                <img src="{{ asset('storage/' . $event->event_image) }}"
-                                    class="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-700" />
-                                <div class="absolute top-4 left-4">
-                                    <span class="gradient-primary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                                        {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
-                                    </span>
-                                </div>
-                                <div class="absolute top-4 right-4">
-                                    <button class="w-10 h-10 glass-effect rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($featuredEvents as $event)
+                    <div class="event-card rounded-2xl overflow-hidden shadow-xl border border-white/20">
+                        <div class="relative overflow-hidden">
+                            <img src="{{ asset('storage/'.$event->event_image) }}" alt="{{ $event->name }}" class="w-full h-56 object-cover transition-transform duration-500 hover:scale-110">
+                            <div class="absolute top-4 left-4">
+                                <span class="glass-effect text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                    <i class="fas fa-star mr-1"></i>Featured
+                                </span>
                             </div>
-
-                            <div class="p-6">
-                                <div class="flex items-center text-sm mb-3 font-medium">
-                                    <i class="fas fa-calendar-alt mr-2"></i>
-                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
-                                </div>
-
-                                <h3 class="font-bold text-gray-800 mb-4 line-clamp-2 text-lg">
-                                    {{ $event->name_event }}
-                                </h3>
-
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center text-sm text-gray-600">
-                                        <div class="w-8 h-8 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-lg">
-                                            <i class="fas fa-user text-white text-xs"></i>
-                                        </div>
-                                        <span class="truncate font-medium">{{ $event->organizer->name ?? 'Unknown' }}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-xs text-gray-500">
-                                            <i class="fas fa-users mr-1"></i>120+
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    @empty
-                    <div class="col-span-full text-center py-16">
-                        <div class="w-32 h-32 gradient-primary rounded-full flex items-center justify-center mx-auto mb-6 animate-float">
-                            <i class="fas fa-calendar-times text-4xl text-white"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Belum Ada Event</h3>
-                        <p class="text-gray-600 text-lg">Tidak ada event yang akan berlangsung dalam waktu dekat.</p>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2">{{ $event->name }}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ Str::limit($event->description, 120) }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2 text-sm text-gray-500">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>{{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}</span>
+                                </div>
+                                <a href="{{ route('events.show', $event->event_id) }}"
+                                    class="btn-primary text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105">
+                                    <i class="fas fa-eye mr-1"></i>Detail
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
-        <!-- Enhanced Category Filter -->
-        <section class="px-4 sm:px-6 lg:px-8 mt-20">
-            <div class="max-w-7xl mx-auto">
-                <!-- Title -->
-                <h3 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
-                    <div class="w-2 h-10 gradient-secondary rounded-full mr-6 animate-pulse"></div>
-                    <span class="gradient-text">Kategori Event</span>
-                </h3>
-
-                <!-- Filter Buttons -->
-                <div class="flex gap-4 mb-10 flex-wrap" id="categoryFilter">
-                    <button class="filter-btn active px-8 py-4 rounded-2xl text-sm font-bold gradient-primary text-white  shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 shimmer"
-                        data-category="all">
-                        <i class="fas fa-th-large mr-2"></i>Semua Kategori
-                    </button>
-                    @foreach ($categories as $category)
-                    <button class="filter-btn px-8 py-4 rounded-2xl text-sm font-bold bg-white/60 backdrop-blur-lg text-gray-700 hover:bg-white/80 transition-all duration-300 hover:shadow-xl hover:scale-105 border border-white/30"
-                        data-category="{{ $category->category_id }}">
-                        <i class="fas fa-tag mr-2"></i>{{ $category->name }}
-                    </button>
                     @endforeach
                 </div>
+            </div>
 
-                <!-- Event Grid -->
-                <div id="eventGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    @forelse ($filteredEvents as $event)
-                    <div class="event-card group bg-white/80 backdrop-blur-lg rounded-3xl overflow-hidden shadow-xl card-hover hover-glow border border-white/20"
-                        data-category="{{ $event->category_id }}">
-                        <a href="{{ route('events.show', $event->event_id) }}" class="block">
-                            <div class="relative overflow-hidden">
-                                <img src="{{ asset('storage/' . $event->event_image) }}"
-                                    class="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-700" />
-                                <div class="absolute top-4 left-4">
-                                    <span class="gradient-secondary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                                        {{ \Carbon\Carbon::parse($event->start_date)->format('d M') }}
-                                    </span>
-                                </div>
-                                <div class="absolute top-4 right-4">
-                                    <button class="w-10 h-10 glass-effect rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <!-- Categories Section -->
+            <div class="section-bg rounded-3xl p-8 mb-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold gradient-text mb-4">Kategori Event</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Temukan event sesuai minat dan passion Anda dari berbagai kategori menarik</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @foreach($categories as $category)
+                    <a href="{{ route('events.index', ['category' => $category->slug]) }}"
+                        class="category-card block rounded-2xl p-6 text-center font-semibold shadow-lg group">
+                        <div class="mb-4">
+                            <div class="w-16 h-16 mx-auto gradient-primary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-calendar text-white text-2xl"></i>
                             </div>
-
-                            <div class="p-6">
-                                <div class="flex items-center text-sm mb-3 font-medium">
-                                    <i class="fas fa-calendar-alt mr-2"></i>
-                                    {{ \Carbon\Carbon::parse($event->start_date)->format('d F Y') }}
-                                </div>
-
-                                <h3 class="font-bold text-gray-800 mb-4 transition-colors line-clamp-2 text-lg">
-                                    {{ $event->name_event }}
-                                </h3>
-
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center text-sm text-gray-600">
-                                        <div class="w-8 h-8 gradient-secondary rounded-full flex items-center justify-center mr-3 shadow-lg">
-                                            <i class="fas fa-user text-white text-xs"></i>
-                                        </div>
-                                        <span class="truncate font-medium">{{ $event->organizer->name ?? 'Unknown' }}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-xs text-gray-500">
-                                            <i class="fas fa-users mr-1"></i>{{ rand(50, 200) }}+
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    @empty
-                    <div class="col-span-full text-center py-16">
-                        <div class="w-32 h-32 gradient-secondary rounded-full flex items-center justify-center mx-auto mb-6 animate-float">
-                            <i class="fas fa-search text-4xl text-white"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Tidak Ada Event</h3>
-                        <p class="text-gray-600 text-lg">Coba pilih kategori lain atau periksa kembali nanti.</p>
-                    </div>
-                    @endforelse
+                        <span class="gradient-text text-lg">{{ $category->name }}</span>
+                        <div class="mt-2 text-sm text-gray-500">
+                            Jelajahi sekarang
+                        </div>
+                    </a>
+                    @endforeach
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Footer -->
-        <footer class="bg-gray-900 mt-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                    <!-- Company Info -->
+        <!-- Enhanced Footer -->
+        <footer class="gradient-primary mt-20 relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full"></div>
+                <div class="absolute top-20 right-20 w-32 h-32 bg-white rounded-full"></div>
+                <div class="absolute bottom-10 left-1/3 w-16 h-16 bg-white rounded-full"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-white">
+                    <!-- Enhanced Company Info -->
                     <div>
-                        <div class="flex items-center space-x-3 mb-4">
-                            <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
-                            <span class="text-xl font-bold">NEO.Vibe</span>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="relative">
+                                <img src="/images/logo.png" alt="Logo" class="h-16 w-auto" />
+                                <div class="absolute -inset-2 bg-white/20 rounded-full blur-sm"></div>
+                            </div>
+                            <span class="text-2xl font-bold">NEO.Vibe</span>
                         </div>
-                        <p class="text-white/80 text-sm leading-relaxed">
-                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
+                        <p class="text-white/90 text-base leading-relaxed mb-6">
+                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia. Bergabunglah dengan komunitas yang passionate!
                         </p>
+                        <div class="flex items-center space-x-2 text-white/80">
+                            <i class="fas fa-shield-alt"></i>
+                            <span class="text-sm">Keamanan dan privasi terjamin</span>
+                        </div>
                     </div>
 
-                    <!-- Quick Links -->
+                    <!-- Enhanced Quick Links -->
                     <div>
-                        <h4 class="font-semibold mb-4">Link Cepat</h4>
-                        <div class="space-y-2">
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                                <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                        <h4 class="font-bold text-xl mb-6">Link Cepat</h4>
+                        <div class="space-y-4">
+                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
+                                    <i class="fas fa-info-circle text-sm"></i>
+                                </div>
+                                <span>Tentang Kami</span>
                             </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                                <i class="fas fa-fire mr-2"></i>Event Populer
+                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
+                                    <i class="fas fa-fire text-sm"></i>
+                                </div>
+                                <span>Event Populer</span>
                             </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                                <i class="fas fa-envelope mr-2"></i>Kontak Kami
+                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
+                                    <i class="fas fa-envelope text-sm"></i>
+                                </div>
+                                <span>Kontak Kami</span>
                             </a>
-                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
-                                <i class="fas fa-question-circle mr-2"></i>FAQ
+                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
+                                    <i class="fas fa-question-circle text-sm"></i>
+                                </div>
+                                <span>FAQ</span>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Social Media -->
+                    <!-- Enhanced Social Media -->
                     <div>
-                        <h4 class="font-semibold mb-4">Ikuti Kami</h4>
-                        <div class="flex space-x-4">
-                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-instagram"></i>
+                        <h4 class="font-bold text-xl mb-6">Ikuti Kami</h4>
+                        <p class="text-white/90 mb-6">Dapatkan update terbaru tentang event-event menarik!</p>
+                        <div class="flex space-x-4 mb-8">
+                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+                                <i class="fab fa-instagram text-lg"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-youtube"></i>
+                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+                                <i class="fab fa-youtube text-lg"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-tiktok"></i>
+                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+                                <i class="fab fa-tiktok text-lg"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <i class="fab fa-facebook"></i>
+                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+                                <i class="fab fa-facebook text-lg"></i>
                             </a>
                         </div>
-                        <div class="mt-4">
-                            <p class="text-white/60 text-xs">
-                                <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
-                            </p>
+
+                        <!-- Newsletter Signup -->
+                        <div class="glass-effect rounded-2xl p-4">
+                            <h5 class="font-semibold mb-3">Newsletter</h5>
+                            <div class="flex">
+                                <input type="email" placeholder="Email Anda" class="flex-1 px-4 py-2 rounded-l-xl bg-white/20 border-0 placeholder-white/70 text-white text-sm focus:outline-none focus:bg-white/30">
+                                <button class="px-4 py-2 bg-white/30 hover:bg-white/40 rounded-r-xl transition-colors">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Copyright -->
-                <div class="border-t border-white/20 mt-8 pt-8 text-center">
-                    <p class="text-white text-sm">
-                        © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
-                    </p>
+                <!-- Enhanced Copyright -->
+                <div class="border-t border-white/20 mt-12 pt-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <p class="text-white/90 text-sm mb-4 md:mb-0">
+                            © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
+                        </p>
+                        <div class="flex space-x-6 text-sm text-white/80">
+                            <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+                            <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+                            <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let selectedCategory = "all";
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const eventCards = document.querySelectorAll('.event-card');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Get category from button
-                    selectedCategory = this.getAttribute('data-category');
-
-                    // Update active button with enhanced styling
-                    filterButtons.forEach(btn => {
-                        btn.classList.remove('active', 'gradient-primary', 'text-white', 'shimmer');
-                        btn.classList.add('bg-white/60', 'text-gray-700');
-                    });
-
-                    this.classList.remove('bg-white/60', 'text-gray-700');
-                    this.classList.add('active', 'gradient-primary', 'text-white', 'shimmer');
-
-                    // Show/hide cards with animation
-                    eventCards.forEach(card => {
-                        const cardCategory = card.getAttribute('data-category');
-
-                        if (selectedCategory === 'all' || selectedCategory === cardCategory) {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            card.style.display = 'block';
-
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, 100);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(-20px)';
-                            setTimeout(() => {
-                                card.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-            });
-
-            // Add smooth scroll behavior for better UX
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 </x-app-layout>

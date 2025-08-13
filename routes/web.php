@@ -25,6 +25,7 @@ use App\Http\Controllers\{
     AdminController,
     DisbursementDashboardController,
     UserController,
+    EventBrowseController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -76,6 +77,9 @@ Route::middleware(['auth', 'role:user'])->prefix('dashboard')->group(function ()
             ->name('event-list.api');
     });
 });
+
+Route::middleware(['auth', 'role:user'])->get('/events', [EventBrowseController::class, 'index'])->name('events.index');
+
 
 // ========== ORGANIZER DASHBOARD ==========
 Route::middleware(['auth', 'role:organizer'])->get('/dashboard/organizer', [OrganizerDashboardController::class, 'dashboard'])->name('organizer.dashboard');
