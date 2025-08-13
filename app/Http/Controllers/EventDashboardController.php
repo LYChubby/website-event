@@ -26,7 +26,7 @@ class EventDashboardController extends Controller
             ->get()
             ->sum(function ($participant) {
                 return ($participant->ticket->price ?? 0) * ($participant->jumlah ?? 1);
-            });
+            }) * 0.9;
 
         // Hitung persentase sold tiket
         $soldPercentage = $totalTickets > 0 ? round(($soldTickets / $totalTickets) * 100) : 0;

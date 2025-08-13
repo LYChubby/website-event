@@ -146,53 +146,95 @@
         </div>
 
         <div class="relative z-10 py-6 sm:py-8 px-4 sm:px-8">
-            <!-- Navigation Tabs - Fixed animation delay syntax -->
+            <!-- Navigation Tabs -->
             <div class="mb-8 animate-slide-up">
                 <div class="flex justify-center">
                     <nav class="inline-flex bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl p-2 
-                              border border-white/50 hover:shadow-3xl transition-all duration-500
-                              max-w-full overflow-x-auto scrollbar-hide">
+                      border border-white/50 hover:shadow-3xl transition-all duration-500
+                      max-w-full overflow-x-auto scrollbar-hide">
                         @php
                         $tabs = [
-                        ['route' => 'admin.dashboard', 'icon' => 'fas fa-tachometer-alt', 'label' => 'Dashboard', 'color' => 'from-blue-500 to-blue-600'],
-                        ['route' => 'admin.categories', 'icon' => 'fas fa-tags', 'label' => 'Kategori', 'color' => 'from-green-500 to-green-600'],
-                        ['route' => 'admin.organizers', 'icon' => 'fas fa-user-check', 'label' => 'Organizer', 'color' => 'from-purple-500 to-purple-600'],
-                        ['route' => 'admin.events-approval', 'icon' => 'fas fa-calendar-check', 'label' => 'Approval', 'color' => 'from-orange-500 to-orange-600'],
-                        ['route' => 'admin.users', 'icon' => 'fas fa-users', 'label' => 'Users', 'color' => 'from-pink-500 to-pink-600'],
+                        [
+                        'route' => 'admin.dashboard',
+                        'icon' => 'fas fa-tachometer-alt',
+                        'label' => 'Dashboard',
+                        'color' => 'from-blue-500 to-blue-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
+                        [
+                        'route' => 'admin.categories',
+                        'icon' => 'fas fa-tags',
+                        'label' => 'Kategori',
+                        'color' => 'from-green-500 to-green-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
+                        [
+                        'route' => 'admin.organizers',
+                        'icon' => 'fas fa-user-check',
+                        'label' => 'Organizer',
+                        'color' => 'from-purple-500 to-purple-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
+                        [
+                        'route' => 'admin.events-approval',
+                        'icon' => 'fas fa-calendar-check',
+                        'label' => 'Approval',
+                        'color' => 'from-orange-500 to-orange-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
+                        [
+                        'route' => 'admin.users',
+                        'icon' => 'fas fa-users',
+                        'label' => 'Users',
+                        'color' => 'from-pink-500 to-pink-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
+                        [
+                        'route' => 'admin.disbursement',
+                        'icon' => 'fas fa-money-bill-transfer',
+                        'label' => 'Disbursement',
+                        'color' => 'from-amber-500 to-amber-600',
+                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
+                        ],
                         ];
                         @endphp
 
-                        @foreach($tabs as $index => $tab)
+                        @foreach($tabs as $tab)
                         <a href="{{ route($tab['route']) }}"
                             class="group relative flex items-center px-4 sm:px-6 py-3 rounded-2xl font-semibold text-sm
-                                  transition-all duration-500 hover:scale-105 whitespace-nowrap
-                                  {{ Route::is($tab['route']) 
-                                      ? 'bg-gradient-to-r from-[#5C6AD0] to-[#684597] text-white shadow-xl scale-105 z-10' 
-                                      : 'text-gray-600 hover:text-[#5C6AD0] hover:bg-white/70' }}">
+                              transition-all duration-500 hover:scale-105 whitespace-nowrap
+                              {{ Route::is($tab['route']) 
+                                  ? 'bg-gradient-to-r ' . $tab['active_color'] . ' text-white shadow-xl scale-105 z-10' 
+                                  : 'text-gray-600 hover:text-[#5C6AD0] hover:bg-white/70' }}">
 
+                            <!-- Active tab glow effect -->
                             @if(Route::is($tab['route']))
-                            <div class="absolute inset-0 bg-gradient-to-r from-[#5C6AD0] to-[#684597] rounded-2xl 
-                                       blur-lg opacity-50 -z-10 animate-pulse"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r {{ $tab['active_color'] }} rounded-2xl 
+                                   blur-lg opacity-50 -z-10 animate-pulse"></div>
                             @endif
 
+                            <!-- Icon container -->
                             <div class="relative mr-2 sm:mr-3">
                                 <i class="{{ $tab['icon'] }} text-sm sm:text-base 
-                                         {{ Route::is($tab['route']) 
-                                             ? 'text-white drop-shadow-sm' 
-                                             : 'text-gray-500 group-hover:text-[#5C6AD0]' }}
-                                         group-hover:scale-110 transition-all duration-300"></i>
+                                     {{ Route::is($tab['route']) 
+                                         ? 'text-white drop-shadow-sm' 
+                                         : 'text-gray-500 group-hover:text-[#5C6AD0]' }}
+                                     group-hover:scale-110 transition-all duration-300"></i>
 
+                                <!-- Hover gradient effect -->
                                 @if(!Route::is($tab['route']))
                                 <div class="absolute inset-0 bg-gradient-to-r {{ $tab['color'] }} rounded-full 
-                                           opacity-0 group-hover:opacity-20 blur-sm transition-all duration-300"></div>
+                                       opacity-0 group-hover:opacity-20 blur-sm transition-all duration-300"></div>
                                 @endif
                             </div>
 
+                            <!-- Label (hidden on mobile) -->
                             <span class="hidden sm:inline font-medium tracking-wide">{{ $tab['label'] }}</span>
 
+                            <!-- Active indicator dot -->
                             @if(Route::is($tab['route']))
                             <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 
-                                       w-2 h-2 bg-white rounded-full shadow-sm animate-bounce"></div>
+                                   w-2 h-2 bg-white rounded-full shadow-sm animate-bounce"></div>
                             @endif
                         </a>
                         @endforeach

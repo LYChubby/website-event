@@ -36,8 +36,8 @@ class OrganizerDashboardController extends Controller
         $totalTickets = $ticketsQuery->sum('quantity_sold');
 
         // Total revenue = sum(price * quantity_sold)
-        $totalRevenue = $ticketsQuery->selectRaw('SUM(price * quantity_sold) as total')
-            ->value('total') ?? 0;
+        $totalRevenue = ($ticketsQuery->selectRaw('SUM(price * quantity_sold) as total')
+            ->value('total') ?? 0) * 0.9;
 
         return view('organizer.organizerdashboard', [
             'totalTickets' => $totalTickets,

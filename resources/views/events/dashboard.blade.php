@@ -313,6 +313,7 @@
                             </div>
                             <!-- Optional: Persentase atau info tambahan -->
                             <div class="text-right">
+                                <p class="text-sm text-gray-500">Sudah dipotong 10%</p>
                                 <p class="text-sm text-gray-500">Dari penjualan tiket</p>
                             </div>
                         </div>

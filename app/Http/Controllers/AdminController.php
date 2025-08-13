@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\User;
 use App\Models\Activity;
 use Carbon\Carbon;
+use App\Models\Ticket;
 
 class AdminController extends Controller
 {
@@ -34,6 +35,11 @@ class AdminController extends Controller
     public function users()
     {
         return view('admin.users');
+    }
+
+    public function disbursement()
+    {
+        return view('admin.disbursement');
     }
 
     public function getStats()

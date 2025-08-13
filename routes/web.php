@@ -23,7 +23,8 @@ use App\Http\Controllers\{
     OrganizerDashboardController,
     EventDashboardController,
     AdminController,
-    UserController
+    DisbursementDashboardController,
+    UserController,
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -184,6 +185,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/organizers-info', [AdminController::class, 'organizers'])->name('organizers');
         Route::get('/events-approval', [AdminController::class, 'eventsApproval'])->name('events-approval');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/disbursement', [AdminController::class, 'disbursement'])->name('disbursement');
 
         // API Endpoints
         Route::prefix('api')->group(function () {
@@ -209,6 +211,9 @@ Route::middleware('auth')->group(function () {
             Route::post('/users', [UserController::class, 'store']);
             Route::put('/users/{user}', [UserController::class, 'update']);
             Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+            // Disbursement API
+            Route::get('/disbursement', [DisbursementDashboardController::class, 'revenueReport']);
         });
     });
 
