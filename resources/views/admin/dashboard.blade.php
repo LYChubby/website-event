@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Dashboard
+    </title>
+</head>
 <x-admin-layout>
     <div class="space-y-6">
         <!-- Stats Cards -->

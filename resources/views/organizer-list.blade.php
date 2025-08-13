@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Daftar Organizer
+    </title>
+</head>
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center space-x-4 pb-6">

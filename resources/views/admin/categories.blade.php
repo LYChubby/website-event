@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Category
+    </title>
+</head>
 <!-- resources/views/admin/categories.blade.php -->
 <x-admin-layout>
     <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-6">

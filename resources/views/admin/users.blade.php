@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Users
+    </title>
+</head>
 <x-admin-layout>
     <style>
         .gradient-bg {

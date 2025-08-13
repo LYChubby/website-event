@@ -1,3 +1,6 @@
+<head>
+    <title>Masuk</title>
+</head>
 <x-login-layout>
 
     <!-- Background with Gradient and Floating Orbs -->

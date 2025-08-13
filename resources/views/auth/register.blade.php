@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Daftar
+    </title>
+</head>
 <x-login-layout>
 
     <!-- Background with Gradient and Floating Orbs -->

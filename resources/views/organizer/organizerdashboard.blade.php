@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Dashboard
+    </title>
+</head>
 <x-app-layout>
     <nav class="custom-navbar">
         <div class="flex items-center justify-between px-6">

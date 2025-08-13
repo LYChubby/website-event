@@ -1,3 +1,8 @@
+<head>
+    <title>
+        Approval
+    </title>
+</head>
 <!-- resources/views/admin/events-approval.blade.php -->
 <x-admin-layout>
     <div class="space-y-8">

@@ -1,3 +1,8 @@
+<head>
+    <title>
+        dashboard
+    </title>
+</head>
 <x-app-layout>
     <style>
         .btn-primary {
