@@ -37,11 +37,6 @@ class AdminController extends Controller
         return view('admin.users');
     }
 
-    public function disbursement()
-    {
-        return view('admin.disbursement');
-    }
-
     public function getStats()
     {
         return response()->json([
