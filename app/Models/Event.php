@@ -28,7 +28,7 @@ class Event extends Model
     // Relasi ke User (Organizer)
     public function organizer()
     {
-        return $this->belongsTo(User::class, 'organizer_id','user_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
     // Relasi ke Kategori
