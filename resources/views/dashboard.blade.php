@@ -243,14 +243,7 @@
                                     </div>
                                     <h1 class="text-4xl sm:text-7xl font-bold mb-8 tracking-wide leading-tight drop-shadow-2xl" x-text="banner.title"></h1>
                                     <p class="text-lg sm:text-2xl opacity-95 font-medium mb-8 drop-shadow-lg" x-text="banner.subtitle"></p>
-                                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                                        <button class="btn-primary text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-xl">
-                                            <i class="fas fa-calendar-alt mr-2"></i>Jelajahi Event
-                                        </button>
-                                        <button class="glass-effect text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105">
-                                            <i class="fas fa-play mr-2"></i>Lihat Demo
-                                        </button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
