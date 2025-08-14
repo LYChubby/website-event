@@ -210,6 +210,7 @@
                                 <select name="scope" class="select-input w-full px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white/70 backdrop-blur-sm transition-all duration-300">
                                     <option value="upcoming" {{ $scope==='upcoming' ? 'selected' : '' }}>🚀 Event Mendatang</option>
                                     <option value="featured" {{ $scope==='featured' ? 'selected' : '' }}>⭐ Featured (1 bulan)</option>
+                                    <option value="past" {{ $scope==='past' ? 'selected' : '' }}>📅 Event Selesai</option>
                                 </select>
                             </div>
 

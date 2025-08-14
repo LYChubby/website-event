@@ -294,6 +294,22 @@
                     </a>
                 </div>
 
+                @if($featuredEvents->isEmpty())
+                <!-- Empty State -->
+                <div class="text-center py-16">
+                    <div class="max-w-md mx-auto">
+                        <div class="w-32 h-32 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-purple-100 to-blue-100 rounded-full">
+                            <i class="fas fa-calendar-times text-5xl gradient-text"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Tidak Ada Featured Event Saat Ini</h3>
+                        <p class="text-gray-600 mb-6">Maaf, saat ini tidak ada featured event yang tersedia. Silakan cek kembali nanti atau jelajahi event lainnya.</p>
+                        <a href="{{ route('events.index') }}"
+                            class="btn-primary text-white px-6 py-3 rounded-2xl font-semibold inline-flex items-center transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-search mr-2"></i>Jelajahi Semua Event
+                        </a>
+                    </div>
+                </div>
+                @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($featuredEvents as $event)
                     <div class="event-card rounded-2xl overflow-hidden shadow-xl border border-white/20">
@@ -323,6 +339,7 @@
                     </div>
                     @endforeach
                 </div>
+                @endif
             </div>
 
             <!-- Categories Section -->

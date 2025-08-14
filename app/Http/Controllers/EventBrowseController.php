@@ -26,6 +26,9 @@ class EventBrowseController extends Controller
         if ($scope === 'featured') {
             // Event terdekat dalam 1 bulan
             $query->whereBetween('start_date', [$today, $oneMonthLater]);
+        } elseif ($scope === 'past') {
+            // Event yang sudah selesai (end_date sebelum hari ini)
+            $query->where('end_date', '<', $today);
         } else {
             // Default: upcoming
             $query->where('start_date', '>=', $today);
@@ -51,6 +54,8 @@ class EventBrowseController extends Controller
         // Judul dinamis
         if ($scope === 'featured') {
             $pageTitle = 'Featured Events (1 bulan ke depan)';
+        } elseif ($scope === 'past') {
+            $pageTitle = 'Event Selesai';
         } elseif ($activeCategory) {
             $pageTitle = 'Kategori: ' . $activeCategory->name;
         } else {
