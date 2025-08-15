@@ -52,6 +52,21 @@
             box-shadow: 0 10px 25px rgba(92, 106, 208, 0.3);
         }
 
+        .btn-back {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            border: 2px solid rgba(92, 106, 208, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(92, 106, 208, 0.3);
+        }
+
         .filter-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
             backdrop-filter: blur(10px);
@@ -162,17 +177,40 @@
         .no-events-bg {
             background: linear-gradient(135deg, rgba(92, 106, 208, 0.05) 0%, rgba(104, 69, 151, 0.05) 100%);
         }
+
+        .breadcrumb-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(92, 106, 208, 0.1);
+        }
     </style>
 
     <div class="page-background">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <!-- Enhanced Header -->
-            <div class="text-center mb-12">
-                <div class="inline-block p-3 rounded-full glass-effect mb-4">
-                    <i class="fas fa-calendar-alt text-2xl gradient-text"></i>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Back Button & Breadcrumb -->
+            <div class="breadcrumb-container rounded-2xl p-4 mb-8 shadow-lg bg-white/70 backdrop-blur-md">
+                <!-- Back Button -->
+                <div class="flex items-center mb-4">
+                    <button onclick="window.location.href=`{{ route('dashboard') }}`" 
+                        class="btn-back flex items-center px-4 py-2 rounded-xl font-semibold text-gray-700 bg-white hover:bg-indigo-500 hover:text-white transition-all duration-300 shadow-md">
+                        <i class="fas fa-arrow-left mr-2"></i>Kembali
+                    </button>
                 </div>
-                <h1 class="text-4xl sm:text-5xl font-bold gradient-text mb-4">Jelajahi Event</h1>
-                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Temukan pengalaman tak terlupakan melalui berbagai acara menarik yang telah kami kurasi khusus untuk Anda</p>
+
+                <!-- Enhanced Header -->
+                <div class="text-center">
+                    <div class="flex items-center justify-center mb-2 space-x-3">
+                        <div class="p-3 rounded-full gradient-text text-white shadow-lg">
+                            <i class="fas fa-calendar-alt text-xl"></i>
+                        </div>
+                        <h1 class="text-3xl sm:text-4xl font-bold gradient-text bg-clip-text text-transparent">
+                            Jelajahi Event
+                        </h1>
+                    </div>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-base">
+                        Temukan pengalaman tak terlupakan melalui berbagai acara menarik yang telah kami kurasi khusus untuk Anda
+                    </p>
+                </div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -409,109 +447,70 @@
                 </main>
             </div>
         </div>
-        <footer class="gradient-primary mt-20 relative overflow-hidden">
-            <!-- Decorative Elements -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full"></div>
-                <div class="absolute top-20 right-20 w-32 h-32 bg-white rounded-full"></div>
-                <div class="absolute bottom-10 left-1/3 w-16 h-16 bg-white rounded-full"></div>
-            </div>
-
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-white">
-                    <!-- Enhanced Company Info -->
+        <!-- Footer -->
+        <footer class="bg-gray-900 mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                    <!-- Company Info -->
                     <div>
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="relative">
-                                <img src="/images/logo.png" alt="Logo" class="h-16 w-auto" />
-                                <div class="absolute -inset-2 bg-white/20 rounded-full blur-sm"></div>
-                            </div>
-                            <span class="text-2xl font-bold">NEO.Vibe</span>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                            <span class="text-xl font-bold">NEO.Vibe</span>
                         </div>
-                        <p class="text-white/90 text-base leading-relaxed mb-6">
-                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia. Bergabunglah dengan komunitas yang passionate!
+                        <p class="text-white/80 text-sm leading-relaxed">
+                            Platform terpercaya untuk menemukan dan menghadiri berbagai event menarik di Indonesia.
                         </p>
-                        <div class="flex items-center space-x-2 text-white/80">
-                            <i class="fas fa-shield-alt"></i>
-                            <span class="text-sm">Keamanan dan privasi terjamin</span>
-                        </div>
                     </div>
 
-                    <!-- Enhanced Quick Links -->
+                    <!-- Quick Links -->
                     <div>
-                        <h4 class="font-bold text-xl mb-6">Link Cepat</h4>
-                        <div class="space-y-4">
-                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
-                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
-                                    <i class="fas fa-info-circle text-sm"></i>
-                                </div>
-                                <span>Tentang Kami</span>
+                        <h4 class="font-semibold mb-4">Link Cepat</h4>
+                        <div class="space-y-2">
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>Tentang Kami
                             </a>
-                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
-                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
-                                    <i class="fas fa-fire text-sm"></i>
-                                </div>
-                                <span>Event Populer</span>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-fire mr-2"></i>Event Populer
                             </a>
-                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
-                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
-                                    <i class="fas fa-envelope text-sm"></i>
-                                </div>
-                                <span>Kontak Kami</span>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Kontak Kami
                             </a>
-                            <a href="#" class="flex items-center text-white/90 hover:text-white transition-colors group">
-                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-white/30 transition-colors">
-                                    <i class="fas fa-question-circle text-sm"></i>
-                                </div>
-                                <span>FAQ</span>
+                            <a href="#" class="block text-white/80 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-question-circle mr-2"></i>FAQ
                             </a>
                         </div>
                     </div>
 
-                    <!-- Enhanced Social Media -->
+                    <!-- Social Media -->
                     <div>
-                        <h4 class="font-bold text-xl mb-6">Ikuti Kami</h4>
-                        <p class="text-white/90 mb-6">Dapatkan update terbaru tentang event-event menarik!</p>
-                        <div class="flex space-x-4 mb-8">
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-instagram text-lg"></i>
+                        <h4 class="font-semibold mb-4">Ikuti Kami</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-youtube text-lg"></i>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-youtube"></i>
                             </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-tiktok text-lg"></i>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-tiktok"></i>
                             </a>
-                            <a href="#" class="w-12 h-12 glass-effect hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-                                <i class="fab fa-facebook text-lg"></i>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-facebook"></i>
                             </a>
                         </div>
-
-                        <!-- Newsletter Signup -->
-                        <div class="glass-effect rounded-2xl p-4">
-                            <h5 class="font-semibold mb-3">Newsletter</h5>
-                            <div class="flex">
-                                <input type="email" placeholder="Email Anda" class="flex-1 px-4 py-2 rounded-l-xl bg-white/20 border-0 placeholder-white/70 text-white text-sm focus:outline-none focus:bg-white/30">
-                                <button class="px-4 py-2 bg-white/30 hover:bg-white/40 rounded-r-xl transition-colors">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
+                        <div class="mt-4">
+                            <p class="text-white/60 text-xs">
+                                <i class="fas fa-shield-alt mr-2"></i>Keamanan dan privasi terjamin
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Enhanced Copyright -->
-                <div class="border-t border-white/20 mt-12 pt-8">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <p class="text-white/90 text-sm mb-4 md:mb-0">
-                            © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
-                        </p>
-                        <div class="flex space-x-6 text-sm text-white/80">
-                            <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
-                            <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
-                            <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
-                        </div>
-                    </div>
+                <!-- Copyright -->
+                <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                    <p class="text-white text-sm">
+                        © {{ date('Y') }} NEO.Vibe. Semua hak dilindungi undang-undang.
+                    </p>
                 </div>
             </div>
         </footer>
