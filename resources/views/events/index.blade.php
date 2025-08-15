@@ -188,28 +188,34 @@
     <div class="page-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Back Button & Breadcrumb -->
-            <div class="breadcrumb-container rounded-2xl p-4 mb-8 shadow-lg bg-white/70 backdrop-blur-md">
-                <!-- Back Button -->
-                <div class="flex items-center mb-4">
-                    <button onclick="window.location.href=`{{ route('dashboard') }}`" 
-                        class="btn-back flex items-center px-4 py-2 rounded-xl font-semibold text-gray-700 bg-white hover:bg-indigo-500 hover:text-white transition-all duration-300 shadow-md">
-                        <i class="fas fa-arrow-left mr-2"></i>Kembali
+            <div class="breadcrumb-container rounded-2xl p-6 mb-8 shadow-lg bg-white/80 backdrop-blur-md border border-opacity-20 border-indigo-100">
+                <!-- Back Button with improved positioning -->
+                <div class="flex items-center mb-6">
+                    <button onclick="window.location.href=`{{ route('dashboard') }}`"
+                        class="btn-back flex items-center px-4 py-2.5 rounded-xl font-medium text-indigo-600 bg-white hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-300 shadow-sm border border-indigo-100 hover:border-indigo-200 group">
+                        <i class="fas fa-arrow-left mr-2 text-indigo-500 group-hover:text-indigo-600 transition-all"></i>
+                        <span>Kembali</span>
                     </button>
                 </div>
 
-                <!-- Enhanced Header -->
-                <div class="text-center">
-                    <div class="flex items-center justify-center mb-2 space-x-3">
-                        <div class="p-3 rounded-full gradient-text text-white shadow-lg">
-                            <i class="fas fa-calendar-alt text-xl"></i>
+                <!-- Enhanced Header with better visual hierarchy -->
+                <div class="text-center px-4">
+                    <div class="flex flex-col items-center justify-center mb-4">
+                        <!-- Icon with gradient background -->
+                        <div class="p-4 mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md inline-flex">
+                            <i class="fas fa-calendar-alt text-2xl"></i>
                         </div>
-                        <h1 class="text-3xl sm:text-4xl font-bold gradient-text bg-clip-text text-transparent">
+
+                        <!-- Main title with improved gradient -->
+                        <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-500 bg-clip-text text-transparent mb-3">
                             Jelajahi Event
                         </h1>
+
+                        <!-- Subtitle with better typography -->
+                        <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                            Temukan pengalaman tak terlupakan melalui berbagai acara menarik<br class="hidden sm:block"> yang telah kami kurasi khusus untuk Anda
+                        </p>
                     </div>
-                    <p class="text-gray-600 max-w-2xl mx-auto text-base">
-                        Temukan pengalaman tak terlupakan melalui berbagai acara menarik yang telah kami kurasi khusus untuk Anda
-                    </p>
                 </div>
             </div>
 

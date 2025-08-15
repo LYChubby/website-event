@@ -344,7 +344,7 @@
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach($categories as $category)
-                    <a href="{{ route('events.index', ['category' => $category->slug]) }}"
+                    <a href="{{ route('events.index', ['category' => $category->category_id]) }}"
                         class="category-card block rounded-2xl p-6 text-center font-semibold shadow-lg group">
                         <div class="mb-4">
                             <div class="w-16 h-16 mx-auto gradient-primary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
