@@ -346,6 +346,57 @@
         </div>
     </div>
 
+    {{-- DAFTAR PARTICIPANT --}}
+    <div class="glass bg-white/90 rounded-3xl shadow-2xl border border-white/50 hover-lift mt-8">
+        <div class="px-8 py-6 border-b border-gray-200">
+            <h3 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                <i class="fas fa-users text-purple-500"></i> Daftar Participant
+            </h3>
+            <p class="text-gray-500 text-sm">Peserta yang telah membeli tiket event ini</p>
+        </div>
+
+        <div class="p-8 overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left bg-white rounded-2xl overflow-hidden">
+                <thead>
+                    <tr class="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 text-sm border-b-2 border-gray-200">
+                        <th class="py-4 px-6 font-bold">#</th>
+                        <th class="py-4 px-6 font-bold">Nama Peserta</th>
+                        <th class="py-4 px-6 font-bold">Jenis Tiket</th>
+                        <th class="py-4 px-6 font-bold">Jumlah</th>
+                        <th class="py-4 px-6 font-bold">Tanggal Beli</th>
+                        <th class="py-4 px-6 font-bold">Check-In</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm divide-y divide-gray-100">
+                    @forelse($participants as $index => $p)
+                    <tr>
+                        <td class="py-4 px-6">{{ $index + 1 }}</td>
+                        <td class="py-4 px-6 font-semibold">{{ $p->nama }}</td>
+                        <td class="py-4 px-6">{{ $p->jenis_ticket }}</td>
+                        <td class="py-4 px-6">{{ $p->jumlah }}</td>
+                        <td class="py-4 px-6">{{ $p->created_at->format('d M Y H:i') }}</td>
+                        <td class="py-4 px-6">
+                            @if($p->checkin_at)
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-600">
+                                {{ $p->checkin_at->format('d M Y H:i') }}
+                            </span>
+                            @else
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-600">
+                                Belum
+                            </span>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="py-6 px-6 text-center text-gray-500">Belum ada participant</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     {{-- MODAL TIKET --}}
     <div id="ticketModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div id="modalContent" class="bg-white/95 backdrop-blur-md p-8 rounded-3xl w-full max-w-5xl shadow-2xl border border-white/50 max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300">

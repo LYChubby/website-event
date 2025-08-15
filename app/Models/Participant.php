@@ -23,6 +23,10 @@ class Participant extends Model
         'checkin_at',
     ];
 
+    protected $casts = [
+        'checkin_at' => 'datetime',
+    ];
+
     // Relasi ke User
     public function user()
     {
@@ -45,5 +49,4 @@ class Participant extends Model
     {
         return $this->belongsTo(Transaction::class, 'transaction_id', 'transaction_id');
     }
-
 }

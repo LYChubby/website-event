@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Event;
+use App\Models\Participant;
 
 class EventDashboardController extends Controller
 {
@@ -37,6 +38,12 @@ class EventDashboardController extends Controller
             ? 'text-red-600'
             : 'text-purple-600';
 
+        // 🔹 Ambil daftar participant yang beli tiket event ini
+        $participants = Participant::with(['user', 'ticket'])
+            ->where('event_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('events.dashboard', compact(
             'event',
             'totalTickets',
@@ -44,7 +51,8 @@ class EventDashboardController extends Controller
             'soldTickets',
             'totalRevenue',
             'soldPercentage',
-            'soldPercentageClass'
+            'soldPercentageClass',
+            'participants'
         ));
     }
 }
