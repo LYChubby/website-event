@@ -28,21 +28,20 @@ class ParticipantSeeder extends Seeder
         foreach ($transactionDetails as $detail) {
             $isPastEvent = Carbon::parse($detail->start_date)->isPast();
 
-            for ($i = 0; $i < $detail->quantity; $i++) {
-                $participants[] = [
-                    'transaction_id' => $detail->transaction_id,
-                    'nama' => fake()->name(),
-                    'user_id' => $detail->user_id,
-                    'ticket_id' => $detail->ticket_id,
-                    'event_id' => $detail->event_id,
-                    'name_event' => $detail->name_event,
-                    'jenis_ticket' => $detail->jenis_ticket,
-                    'jumlah' => 1, // Each participant record is for 1 ticket
-                    'checkin_at' => $isPastEvent && rand(0, 1) ? Carbon::parse($detail->start_date)->addHours(rand(0, 3)) : null,
-                    'created_at' => $detail->created_at,
-                    'updated_at' => $detail->created_at,
-                ];
-            }
+            // Buat satu record participant dengan jumlah sesuai quantity
+            $participants[] = [
+                'transaction_id' => $detail->transaction_id,
+                'nama' => fake()->name(), // atau bisa digenerate nama untuk setiap quantity jika diperlukan
+                'user_id' => $detail->user_id,
+                'ticket_id' => $detail->ticket_id,
+                'event_id' => $detail->event_id,
+                'name_event' => $detail->name_event,
+                'jenis_ticket' => $detail->jenis_ticket,
+                'jumlah' => $detail->quantity, // Pertahankan jumlah asli dari transaction detail
+                'checkin_at' => $isPastEvent && rand(0, 1) ? Carbon::parse($detail->start_date)->addHours(rand(0, 3)) : null,
+                'created_at' => $detail->created_at,
+                'updated_at' => $detail->created_at,
+            ];
         }
 
         foreach (array_chunk($participants, 500) as $chunk) {

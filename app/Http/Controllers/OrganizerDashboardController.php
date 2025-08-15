@@ -4,44 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Models\Event;
-
 
 class OrganizerDashboardController extends Controller
 {
-
     public function dashboard()
     {
         $authUser = Auth::user();
 
-        // Ambil user + organizer info
+        // Ambil user + info organizer
         $user = User::with('OrganizerInfo')->find($authUser->user_id);
 
         if (!$user->OrganizerInfo) {
-            return redirect()->route('organizer.info.form')
+            return redirect()
+                ->route('organizer.info.form')
                 ->with('warning', 'Silakan isi dan verifikasi informasi rekening terlebih dahulu.');
         }
 
         // Total event milik organizer
         $totalEvent = $user->OrganizerInfo->events()->count();
 
-        // Total tiket terjual dan total pendapatan, lewat join tiket ke events milik organizer
-        $ticketsQuery = \App\Models\Ticket::query()
-            ->whereHas('event', function ($query) use ($authUser) {
-                $query->where('user_id', $authUser->user_id);
-            });
+        // Query transaksi paid milik event organizer ini
+        $transactions = DB::table('transactions')
+            ->join('events', 'transactions.event_id', '=', 'events.event_id')
+            ->where('events.user_id', $authUser->user_id)
+            ->where('transactions.status_pembayaran', 'paid');
 
-        // Total tiket terjual
-        $totalTickets = $ticketsQuery->sum('quantity_sold');
+        // Total pendapatan bersih (setelah potongan 10%)
+        $totalRevenue = $transactions->sum(DB::raw('total_price - (total_price * 0.10)'));
 
-        // Total revenue = sum(price * quantity_sold)
-        $totalRevenue = ($ticketsQuery->selectRaw('SUM(price * quantity_sold) as total')
-            ->value('total') ?? 0) * 0.9;
+        // Total tiket terjual dari transaksi paid
+        $totalTickets = DB::table('transaction_details')
+            ->join('transactions', 'transaction_details.transaction_id', '=', 'transactions.transaction_id')
+            ->join('events', 'transactions.event_id', '=', 'events.event_id')
+            ->where('events.user_id', $authUser->user_id)
+            ->where('transactions.status_pembayaran', 'paid')
+            ->sum('transaction_details.quantity');
 
         return view('organizer.organizerdashboard', [
             'totalTickets' => $totalTickets,
-            'totalEvent' => $totalEvent,
+            'totalEvent'   => $totalEvent,
             'totalRevenue' => $totalRevenue,
         ]);
     }
