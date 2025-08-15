@@ -12,18 +12,18 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // Buat 1 admin
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'role' => 'admin', // Pastikan ada kolom role di tabel users
-            'password' => Hash::make('admin123'), // Ganti password sesuai kebutuhan
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            OrganizerInfoSeeder::class,
+            EventSeeder::class,
+            TicketSeeder::class,
+            TransactionSeeder::class,
+            ParticipantSeeder::class,
+            FeedbackSeeder::class,
+            ActivitySeeder::class,
         ]);
-
-        
-
-        $this->call(NotificationSeeder::class);
     }
 }

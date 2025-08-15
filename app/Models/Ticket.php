@@ -28,6 +28,11 @@ class Ticket extends Model
         return $this->belongsTo(Event::class, 'event_id');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'ticket_id');
+    }
+
     public function transactionDetails()
     {
         return $this->hasMany(TransactionDetail::class, 'ticket_id');
