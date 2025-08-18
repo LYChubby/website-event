@@ -118,8 +118,8 @@
                                     <i class="fas fa-percentage text-white text-xs"></i>
                                 </div>
                                 <div>
-                                    <div class="text-sm font-bold text-gray-800 uppercase tracking-wide">Fee (10%)</div>
-                                    <div class="text-xs text-gray-500">Komisi Platform</div>
+                                    <div class="text-sm font-bold text-gray-800 uppercase tracking-wide">Disbursement</div>
+                                    <div class="text-xs text-gray-500">Pengeluaran</div>
                                 </div>
                             </div>
                         </th>
