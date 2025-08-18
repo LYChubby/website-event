@@ -128,29 +128,29 @@ class CheckoutController extends Controller
 
 
     public function success()
-{
-    $user = Auth::user();
-    if (!$user) {
-        return response()->json(['message' => 'Unauthorized'], 401);
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $histories = Transaction::select(
+            'transactions.transaction_id',
+            'participants.nama as nama_peserta',
+            'events.name_event',
+            'events.venue_name',
+            'events.venue_address',
+            'transactions.created_at as tanggal_beli',
+            'transactions.status_pembayaran'
+        )
+            ->leftJoin('participants', 'transactions.transaction_id', '=', 'participants.transaction_id')
+            ->join('events', 'transactions.event_id', '=', 'events.event_id')
+            ->where('transactions.user_id', Auth::id())
+            ->latest('transactions.created_at')
+            ->get();
+
+        return view('history.index', compact('histories'));
     }
-
-    $histories = Transaction::select(
-        'transactions.transaction_id',
-        'participants.nama as nama_peserta',
-        'events.name_event',
-        'events.venue_name',
-        'events.venue_address',
-        'transactions.created_at as tanggal_beli',
-        'transactions.status_pembayaran'
-    )
-    ->leftJoin('participants', 'transactions.transaction_id', '=', 'participants.transaction_id')
-    ->join('events', 'transactions.event_id', '=', 'events.event_id')
-    ->where('transactions.user_id', Auth::id())
-    ->latest('transactions.created_at')
-    ->get();
-
-    return view('history.index', compact('histories'));
-}
 
 
     public function failed()

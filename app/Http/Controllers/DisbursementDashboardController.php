@@ -19,20 +19,22 @@ class DisbursementDashboardController extends Controller
         // Hitung fee (misal 10%)
         $totalFee = $totalPemasukan * 0.10;
 
-        // Total Bersih (pemasukan - fee)
-        $totalBersih = $totalPemasukan - $totalFee;
+        // Total pemasukan (credit admin)
+        $totalBersih = DB::table('ledgers')
+            ->where('user_id', null) // admin
+            ->where('type', 'credit')
+            ->sum('amount');
 
         // Ambil daftar organizer + total pendapatan masing-masing
-        $organizerList = DB::table('transactions')
-            ->join('events', 'transactions.event_id', '=', 'events.event_id')
-            ->join('users', 'events.user_id', '=', 'users.user_id')
+        $organizerList = DB::table('ledgers')
+            ->join('users', 'ledgers.user_id', '=', 'users.user_id')
             ->select(
                 'users.name as organizer_name',
-                DB::raw('SUM(transactions.total_price) as total_pemasukan'),
-                DB::raw('SUM(transactions.total_price) * 0.10 as fee'),
-                DB::raw('SUM(transactions.total_price) - (SUM(transactions.total_price) * 0.10) as pendapatan_organizer')
+                DB::raw("SUM(CASE WHEN ledgers.type = 'credit' THEN ledgers.amount ELSE 0 END) as total_credit"),
+                DB::raw("SUM(CASE WHEN ledgers.type = 'debit' THEN ledgers.amount ELSE 0 END) as total_debit"),
+                DB::raw("SUM(CASE WHEN ledgers.type = 'credit' THEN ledgers.amount ELSE 0 END) - 
+                     SUM(CASE WHEN ledgers.type = 'debit' THEN ledgers.amount ELSE 0 END) as saldo")
             )
-            ->where('transactions.status_pembayaran', 'paid')
             ->groupBy('users.user_id', 'users.name')
             ->get();
 

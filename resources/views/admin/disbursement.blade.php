@@ -48,7 +48,7 @@
                 </div>
                 <div class="ml-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-1">Total Bersih</h3>
-                    <p id="totalGross" class="text-4xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">{{ number_format($totalFee, 0, ',', '.') }}</p>
+                    <p id="totalGross" class="text-4xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">{{ number_format($totalBersih, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="absolute top-4 right-4 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
@@ -65,7 +65,7 @@
                 <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
                 <div class="absolute bottom-0 right-0 w-24 h-24 bg-white rounded-full translate-x-12 translate-y-12"></div>
             </div>
-            
+
             <!-- Header Content -->
             <div class="relative flex items-center justify-between">
                 <div class="flex items-center space-x-4">
@@ -77,7 +77,7 @@
                         <p class="text-white/80 text-sm">Kelola dan pantau performa setiap organizer</p>
                     </div>
                 </div>
-                
+
                 <!-- Stats Badge -->
                 <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
                     <div class="text-white/80 text-xs uppercase tracking-wide">Total Organizer</div>
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="overflow-x-auto">
             <table class="min-w-full">
                 <thead>
@@ -150,21 +150,21 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-bold text-emerald-600">
-                                Rp{{ number_format($org->total_pemasukan, 0, ',', '.') }}
+                                Rp{{ number_format($org->total_credit, 0, ',', '.') }}
                             </div>
-                            <div class="text-xs text-gray-500">Gross Revenue</div>
+                            <div class="text-xs text-gray-500">Total Credit</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-bold text-red-600">
-                                Rp{{ number_format($org->fee, 0, ',', '.') }}
+                                Rp{{ number_format($org->total_debit, 0, ',', '.') }}
                             </div>
-                            <div class="text-xs text-gray-500">Platform Fee</div>
+                            <div class="text-xs text-gray-500">Total Debit</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-bold text-amber-600">
-                                Rp{{ number_format($org->pendapatan_organizer, 0, ',', '.') }}
+                                Rp{{ number_format($org->saldo, 0, ',', '.') }}
                             </div>
-                            <div class="text-xs text-gray-500">Net Income</div>
+                            <div class="text-xs text-gray-500">Current Balance</div>
                         </td>
                     </tr>
                     @empty
