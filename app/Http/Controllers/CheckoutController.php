@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\Ticket;
 use App\Models\Participant;
 use App\Models\TransactionDetail;
+use App\Models\Ledger;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,17 +75,17 @@ class CheckoutController extends Controller
 
             // 4. Simpan data peserta
             Participant::create([
-                'transaction_id' => $transaction->transaction_id, // ini kuncinya
-                'user_id'        => Auth::id(),
-                'event_id'       => $request->event_id,
-                'nama'           => $request->nama,
-                'name_event'     => $ticket->event->name_event,
-                'ticket_id'      => $ticket->ticket_id,
-                'jenis_ticket'   => $ticket->jenis_ticket,
-                'jumlah'         => $request->quantity,
+                'transaction_id' => $transaction->transaction_id,
+                'user_id' => Auth::id(),
+                'event_id' => $request->event_id,
+                'nama' => $request->nama,
+                'name_event' => $ticket->event->name_event,
+                'ticket_id' => $ticket->ticket_id,
+                'jenis_ticket' => $ticket->jenis_ticket,
+                'jumlah' => $request->quantity,
             ]);
 
-            // 5. Siapkan invoice ke Xendit
+            // 6. Siapkan invoice ke Xendit
             $invoiceData = [
                 'external_id' => $transaction->no_invoice,
                 'amount' => $amount,
@@ -107,7 +108,7 @@ class CheckoutController extends Controller
                 ]
             ];
 
-            // 6. Kirim ke Xendit
+            // 7. Kirim ke Xendit
             $invoice = $this->paymentService->createInvoice($invoiceData);
 
             DB::commit();
@@ -125,7 +126,6 @@ class CheckoutController extends Controller
             ], 500);
         }
     }
-
 
     public function success()
     {
@@ -151,7 +151,6 @@ class CheckoutController extends Controller
 
         return view('history.index', compact('histories'));
     }
-
 
     public function failed()
     {

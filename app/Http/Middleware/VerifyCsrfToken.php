@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+        '/webhook/xendit',
         'webhook/xendit',  // tambahkan route webhook di sini
     ];
 }
