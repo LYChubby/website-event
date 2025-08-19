@@ -25,14 +25,14 @@ class OrganizerDashboardController extends Controller
         // Total event milik organizer
         $totalEvent = $user->OrganizerInfo->events()->count();
 
-        // Query transaksi paid milik event organizer ini
-        $transactions = DB::table('transactions')
-            ->join('events', 'transactions.event_id', '=', 'events.event_id')
-            ->where('events.user_id', $authUser->user_id)
-            ->where('transactions.status_pembayaran', 'paid');
+        // ✅ Total pendapatan diambil dari ledger
+        $ledgerSummary = DB::table('ledgers')
+            ->where('user_id', $authUser->user_id)
+            ->selectRaw("SUM(CASE WHEN type = 'credit' THEN amount ELSE 0 END) -
+                         SUM(CASE WHEN type = 'debit' THEN amount ELSE 0 END) as saldo")
+            ->first();
 
-        // Total pendapatan bersih (setelah potongan 10%)
-        $totalRevenue = $transactions->sum(DB::raw('total_price - (total_price * 0.10)'));
+        $totalRevenue = $ledgerSummary->saldo ?? 0;
 
         // Total tiket terjual dari transaksi paid
         $totalTickets = DB::table('transaction_details')
