@@ -19,6 +19,8 @@ class Transaction extends Model
         'total_price',
         'status_pembayaran',
         'payment_method',
+        'pending_quantity',
+        'pending_nama',
         'created_at',
         'updated_at',
     ];
@@ -40,7 +42,7 @@ class Transaction extends Model
 
     public function participant()
     {
-       return $this->hasOne(Participant::class, 'transaction_id', 'transaction_id');
+        return $this->hasOne(Participant::class, 'transaction_id', 'transaction_id');
     }
 
     public function transactionDetails()
