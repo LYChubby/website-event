@@ -342,8 +342,19 @@
 
                 <!-- Kepuasan Pengguna -->
                 <div class="hover-lift text-center">
-                    <div class="stats-counter">{{ $kepuasanPengguna }}%</div>
-                    <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
+                    <div class="flex justify-center items-center gap-1 text-yellow-400 text-2xl">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <=floor($kepuasanPengguna))
+                            <i class="fas fa-star"></i>
+                            @elseif ($i - $kepuasanPengguna < 1)
+                                <i class="fas fa-star-half-alt"></i>
+                                @else
+                                <i class="far fa-star text-gray-300"></i>
+                                @endif
+                                @endfor
+                    </div>
+                    <p class="text-gray-700 font-medium text-lg mt-2">Kepuasan Pengguna</p>
+                    <p class="text-sm text-gray-500">({{ $kepuasanPengguna }}/5)</p>
                 </div>
             </div>
         </div>

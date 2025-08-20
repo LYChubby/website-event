@@ -27,9 +27,8 @@ class LandingPageController extends Controller
             ->count();
 
         // Kepuasan pengguna (ambil rata-rata rating feedback)
-        $kepuasanPengguna = Feedback::avg('rating');
-        $kepuasanPengguna = $kepuasanPengguna ? round($kepuasanPengguna * 20) : 0;
-        // misal rating 1–5 dikonversi ke %
+        $avgRating = Feedback::avg('rating'); // nilai 1–5
+        $kepuasanPengguna = $avgRating ? round($avgRating, 1) : 0;
 
         // Ambil 4 kategori populer berdasarkan jumlah event
         $kategoriPopuler = Category::withCount('events')
