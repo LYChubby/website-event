@@ -396,7 +396,7 @@
         </div>
     </section>
 
-    <!-- Event Showcase -->
+    <!-- Kategori Showcase -->
     <section class="py-20">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
