@@ -318,38 +318,38 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Stats Section -->
         <div class="container py-6 mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Event Terselenggara -->
                 <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <div class="stats-counter">{{ $eventTerselenggara }}</div>
                     <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
                 </div>
 
                 <!-- Peserta Aktif -->
                 <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <div class="stats-counter">{{ $pesertaAktif }}</div>
                     <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
                 </div>
 
                 <!-- Organizer Terpercaya -->
                 <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="10000" data-unit="number">0</div>
+                    <div class="stats-counter">{{ $organizerTerpercaya }}</div>
                     <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
                 </div>
 
                 <!-- Kepuasan Pengguna -->
                 <div class="hover-lift text-center">
-                    <div class="stats-counter" data-target="99" data-unit="percent">0%</div>
+                    <div class="stats-counter">{{ $kepuasanPengguna }}%</div>
                     <p class="text-gray-700 font-medium text-lg">Kepuasan Pengguna</p>
                 </div>
             </div>
         </div>
     </section>
 
-     <!-- Features Section -->
+    <!-- Features Section -->
     <section class="py-20 ">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
@@ -389,118 +389,17 @@
     <section class="py-20">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="font-bold text-4xl gradient-text mb-4">Event Populer</h2>
+                <h2 class="font-bold text-4xl gradient-text mb-4">Kategori Populer</h2>
                 <p class="text-xl text-gray-600">Temukan pengalaman tak terlupakan bersama kami</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-500 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-music text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">Lord of The Rings Concert</h3>
-                                <p class="text-sm opacity-90">Epic Musical Journey</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>15 Aug 2025</span>
-                            <span class="text-purple-600 font-semibold">Rp 350.000</span>
-                        </div>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach($kategoriPopuler as $kategori)
+                <div class="event-card rounded-2xl overflow-hidden hover-lift border p-6 text-center">
+                    <h3 class="text-xl font-bold">{{ $kategori->name }}</h3>
+                    <p class="text-gray-600 mt-2">{{ $kategori->events_count }} Event</p>
                 </div>
-
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-green-500 to-teal-500 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-leaf text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">Ryokucha Festival</h3>
-                                <p class="text-sm opacity-90">Traditional Tea Culture</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>20 Aug 2025</span>
-                            <span class="text-green-600 font-semibold">Rp 150.000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-orange-500 to-red-500 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-basketball-ball text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">FIBA Basketball</h3>
-                                <p class="text-sm opacity-90">World Championship</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>25 Aug 2025</span>
-                            <span class="text-orange-600 font-semibold">Rp 250.000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-yellow-500 to-orange-500 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-motorcycle text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">MotoGP Racing</h3>
-                                <p class="text-sm opacity-90">Speed & Adrenaline</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>30 Aug 2025</span>
-                            <span class="text-yellow-600 font-semibold">Rp 500.000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-guitar text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">Peterpan Reunion</h3>
-                                <p class="text-sm opacity-90">Nostalgia Concert</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>05 Sep 2025</span>
-                            <span class="text-blue-600 font-semibold">Rp 400.000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card rounded-2xl overflow-hidden hover-lift">
-                    <div class="h-48 bg-gradient-to-br from-gray-600 to-gray-800 relative">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-volume-up text-4xl mb-3"></i>
-                                <h3 class="text-xl font-bold">Rock Festival</h3>
-                                <p class="text-sm opacity-90">Heavy Metal Night</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-500"><i class="fas fa-calendar mr-2"></i>10 Sep 2025</span>
-                            <span class="text-gray-600 font-semibold">Rp 300.000</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -635,8 +534,11 @@
             const speed = 200;
 
             const animateCounter = (counter) => {
-                const target = +counter.getAttribute('data-target');
-                const unit = counter.getAttribute('data-unit') || 'number';
+                // Ambil target dari innerText (sudah diisi Blade)
+                const isPercent = counter.innerText.includes('%');
+                const target = parseInt(counter.innerText.replace(/[^0-9]/g, ''), 10) || 0;
+
+                counter.innerText = isPercent ? '0%' : '0'; // reset ke 0 dulu
 
                 const updateCount = () => {
                     const currentText = counter.innerText.replace(/[^0-9]/g, '');
@@ -645,12 +547,12 @@
 
                     if (count < target) {
                         const newVal = count + increment;
-                        counter.innerText = unit === 'percent' ?
+                        counter.innerText = isPercent ?
                             `${Math.min(newVal, target)}%` :
-                            new Intl.NumberFormat().format(newVal);
+                            new Intl.NumberFormat().format(Math.min(newVal, target));
                         setTimeout(updateCount, 15);
                     } else {
-                        counter.innerText = unit === 'percent' ?
+                        counter.innerText = isPercent ?
                             `${target}%` :
                             new Intl.NumberFormat().format(target);
                     }
@@ -673,6 +575,7 @@
             counters.forEach(counter => observer.observe(counter));
         });
     </script>
+
 
 </body>
 

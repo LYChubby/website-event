@@ -25,7 +25,8 @@ use App\Http\Controllers\{
     AdminController,
     DisbursementDashboardController,
     UserController,
-    EventBrowseController
+    EventBrowseController,
+    LandingPageController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -57,7 +58,7 @@ Route::post('/choose-role', function (Request $request) {
 });
 
 // ========== GENERAL ==========
-Route::get('/', fn() => view('welcome'));
+Route::get('/', [LandingPageController::class, 'index'])->name('welcome');
 Route::get('/tiket/{no_invoice}', [HistoryController::class, 'tampilkanTiket']);
 
 // ========== USER DASHBOARD ROUTES ==========
@@ -124,7 +125,7 @@ Route::middleware('auth')->group(function () {
     // === TRANSACTIONS & DISBURSEMENTS ===
     Route::resource('transaction', TransactionController::class);
     Route::resource('disbursements', DisbursementController::class);
-  
+
 
 
     // === HISTORY ===
