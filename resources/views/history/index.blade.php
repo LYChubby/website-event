@@ -259,7 +259,11 @@
                                     </div>
                                     <div class="bg-gray-50 rounded-lg p-3 mt-3">
                                         <p class="text-sm font-medium text-gray-700">Kode Tiket:</p>
-                                        <p class="font-mono text-blue-600 text-lg">${item.ticket_code}</p>
+                                        ${
+                                        data.status_pembayaran === 'paid'
+                                        ? `<p class="font-mono text-blue-600 text-lg">${item.ticket_code}</p>`
+                                        : `<p class="text-gray-500 italic">Kode tiket akan muncul setelah pembayaran berhasil</p>`
+                                        }
                                     </div>
                                 </div>`;
                         });

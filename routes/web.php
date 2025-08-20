@@ -26,7 +26,8 @@ use App\Http\Controllers\{
     DisbursementDashboardController,
     UserController,
     EventBrowseController,
-    LandingPageController
+    LandingPageController,
+    CheckinController
 };
 
 // ========== AUTH & GOOGLE LOGIN ==========
@@ -183,6 +184,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/info', [OrganizerInfoController::class, 'store'])->name('info.store');
         Route::get('/banks', [OrganizerInfoController::class, 'getBanks'])->name('info.banks');
         Route::post('/verify', [OrganizerInfoController::class, 'verifyAccount'])->name('info.verify');
+
+        // Check In
+        Route::post('/checkin/{no_invoice}', [CheckinController::class, 'processCheckin'])->name('checkin.process');
+        Route::get('/checkin-scanner', [CheckinController::class, 'showScanner'])->name('checkin.scanner');
     });
 
     // === ADMIN ===

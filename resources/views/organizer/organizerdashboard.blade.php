@@ -22,6 +22,9 @@
 
             <!-- Right: User Dropdown -->
             <div class="hidden sm:flex items-center space-x-4">
+                <a href="{{ route('organizer.checkin.scanner') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    Scanner Check-in
+                </a>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button

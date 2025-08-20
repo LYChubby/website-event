@@ -40,9 +40,9 @@ class Transaction extends Model
         return $this->belongsTo(Ticket::class, 'ticket_id', 'ticket_id');
     }
 
-    public function participant()
+    public function participants()
     {
-        return $this->hasOne(Participant::class, 'transaction_id', 'transaction_id');
+        return $this->hasMany(Participant::class, 'transaction_id', 'transaction_id');
     }
 
     public function transactionDetails()
