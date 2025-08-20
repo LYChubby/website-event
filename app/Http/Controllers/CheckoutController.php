@@ -47,12 +47,8 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // 1. Update stok tiket
-            $ticket->quantity_available -= $request->quantity;
-            $ticket->quantity_sold += $request->quantity;
-            $ticket->save();
 
-            // 2. Simpan transaksi utama
+            // 1. Simpan transaksi utama
             $transaction = Transaction::create([
                 'user_id' => Auth::id(),
                 'event_id' => $request->event_id,
@@ -61,9 +57,12 @@ class CheckoutController extends Controller
                 'total_price' => $amount,
                 'status_pembayaran' => 'pending',
                 'payment_method' => $request->payment_method ?? "XENDIT",
+                // Menyimpan informasi pending untuk Xendit Webhook
+                'pending_quantity' => $request->quantity,
+                'pending_nama' => $request->nama,
             ]);
 
-            // 3. Simpan detail transaksi
+            // 2. Simpan detail transaksi
             TransactionDetail::create([
                 'transaction_id' => $transaction->transaction_id,
                 'ticket_id' => $ticket->ticket_id,
@@ -73,19 +72,7 @@ class CheckoutController extends Controller
                 'subtotal' => $amount,
             ]);
 
-            // 4. Simpan data peserta
-            Participant::create([
-                'transaction_id' => $transaction->transaction_id,
-                'user_id' => Auth::id(),
-                'event_id' => $request->event_id,
-                'nama' => $request->nama,
-                'name_event' => $ticket->event->name_event,
-                'ticket_id' => $ticket->ticket_id,
-                'jenis_ticket' => $ticket->jenis_ticket,
-                'jumlah' => $request->quantity,
-            ]);
-
-            // 6. Siapkan invoice ke Xendit
+            // 3. Siapkan invoice ke Xendit
             $invoiceData = [
                 'external_id' => $transaction->no_invoice,
                 'amount' => $amount,

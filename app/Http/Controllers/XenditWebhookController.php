@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
 use App\Models\Ledger;
+use App\Models\Participant;
 
 class XenditWebhookController extends Controller
 {
@@ -82,7 +83,41 @@ class XenditWebhookController extends Controller
                         $transaction->update(['status_pembayaran' => 'paid']);
                         Log::info("Transaction status updated to paid for: {$externalId}");
 
-                        // 2. Proses ledger (pastikan relasi event ada)
+                        // 2. Update stok tiket
+                        foreach ($transaction->transactionDetails as $detail) {
+                            $ticket = $detail->ticket;
+                            if ($ticket) {
+                                $ticket->decrement('quantity_available', $detail->quantity);
+                                $ticket->increment('quantity_sold', $detail->quantity);
+
+                                Log::info("Updated ticket stock", [
+                                    'ticket_id' => $ticket->ticket_id,
+                                    'new_quantity_available' => $ticket->quantity_available,
+                                    'new_quantity_sold' => $ticket->quantity_sold,
+                                ]);
+
+                                // 3. Insert participant berdasarkan detail transaksi
+                                Participant::create([
+                                    'transaction_id' => $transaction->transaction_id,
+                                    'nama' => $transaction->pending_nama, // dari checkout
+                                    'user_id' => $transaction->user_id,
+                                    'ticket_id' => $ticket->ticket_id,
+                                    'event_id' => $transaction->event_id,
+                                    'name_event' => $transaction->event->name_event ?? '',
+                                    'jenis_ticket' => $ticket->jenis_ticket,
+                                    'jumlah' => $detail->quantity,
+                                ]);
+
+                                Log::info("Participant created for transaction", [
+                                    'transaction_id' => $transaction->transaction_id,
+                                    'nama' => $transaction->pending_nama,
+                                    'ticket_id' => $ticket->ticket_id,
+                                    'event_id' => $transaction->event_id,
+                                ]);
+                            }
+                        }
+
+                        // 4. Proses ledger (pastikan relasi event ada)
                         if (!$transaction->event) {
                             throw new \Exception('Event relation not found');
                         }
@@ -100,7 +135,7 @@ class XenditWebhookController extends Controller
                         $fee = $amount * 0.10;
                         $netto = $amount - $fee;
 
-                        // Entry ledger untuk admin fee
+                        // 5. Entry ledger untuk admin fee
                         $adminLedger = Ledger::create([
                             'user_id' => null,
                             'transaction_id' => $transaction->transaction_id,
@@ -114,7 +149,7 @@ class XenditWebhookController extends Controller
                             'amount' => $fee
                         ]);
 
-                        // Entry ledger untuk organizer revenue
+                        // 5. Entry ledger untuk organizer revenue
                         $organizerLedger = Ledger::create([
                             'user_id' => $organizerId,
                             'transaction_id' => $transaction->transaction_id,
@@ -184,7 +219,41 @@ class XenditWebhookController extends Controller
                     $transaction->update(['status_pembayaran' => 'paid']);
                     Log::info("Transaction status updated to paid for: {$externalId}");
 
-                    // 2. Proses ledger (pastikan relasi event ada)
+                    // 2. Update stok tiket
+                    foreach ($transaction->transactionDetails as $detail) {
+                        $ticket = $detail->ticket;
+                        if ($ticket) {
+                            $ticket->decrement('quantity_available', $detail->quantity);
+                            $ticket->increment('quantity_sold', $detail->quantity);
+
+                            Log::info("Updated ticket stock", [
+                                'ticket_id' => $ticket->ticket_id,
+                                'new_quantity_available' => $ticket->quantity_available,
+                                'new_quantity_sold' => $ticket->quantity_sold,
+                            ]);
+
+                            // 3. Insert participant berdasarkan detail transaksi
+                            Participant::create([
+                                'transaction_id' => $transaction->transaction_id,
+                                'nama' => $transaction->pending_nama, // dari checkout
+                                'user_id' => $transaction->user_id,
+                                'ticket_id' => $ticket->ticket_id,
+                                'event_id' => $transaction->event_id,
+                                'name_event' => $transaction->event->name_event ?? '',
+                                'jenis_ticket' => $ticket->jenis_ticket,
+                                'jumlah' => $detail->quantity,
+                            ]);
+
+                            Log::info("Participant created for transaction", [
+                                'transaction_id' => $transaction->transaction_id,
+                                'nama' => $transaction->pending_nama,
+                                'ticket_id' => $ticket->ticket_id,
+                                'event_id' => $transaction->event_id,
+                            ]);
+                        }
+                    }
+
+                    // 4. Proses ledger (pastikan relasi event ada)
                     if (!$transaction->event) {
                         throw new \Exception('Event relation not found');
                     }
@@ -202,7 +271,7 @@ class XenditWebhookController extends Controller
                     $fee = $amount * 0.10;
                     $netto = $amount - $fee;
 
-                    // Entry ledger untuk admin fee
+                    // 5. Entry ledger untuk admin fee
                     $adminLedger = Ledger::create([
                         'user_id' => null,
                         'transaction_id' => $transaction->transaction_id,
@@ -216,7 +285,7 @@ class XenditWebhookController extends Controller
                         'amount' => $fee
                     ]);
 
-                    // Entry ledger untuk organizer revenue
+                    // 5. Entry ledger untuk organizer revenue
                     $organizerLedger = Ledger::create([
                         'user_id' => $organizerId,
                         'transaction_id' => $transaction->transaction_id,
