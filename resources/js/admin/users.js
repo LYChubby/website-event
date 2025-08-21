@@ -13,6 +13,7 @@ let totalUsers = 0;
 async function loadUsers(page = 1, search = "", role = "") {
     try {
         // Show loading state
+        currentPage = page;
         showLoadingState();
 
         let url = `/admin/api/users?page=${page}&per_page=${perPage}`;
@@ -36,7 +37,7 @@ async function loadUsers(page = 1, search = "", role = "") {
 
         totalUsers = data.total || data.data.total || 0;
         renderUsers(data.data.items || data.data);
-        renderPagination();
+        renderPagination(totalUsers);
         updatePaginationInfo();
     } catch (error) {
         console.error("Error loading users:", error);

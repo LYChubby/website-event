@@ -129,7 +129,6 @@
                         <label for="roleFilter" class="text-sm font-medium text-gray-600">Filter Role:</label>
                         <select id="roleFilter" class="border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-[#5C6AD0] focus:border-[#5C6AD0] bg-white">
                             <option value="">Semua</option>
-                            <option value="admin">Admin</option>
                             <option value="user">User</option>
                             <option value="organizer">Organizer</option>
                         </select>
