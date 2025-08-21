@@ -24,18 +24,21 @@
             <p class="text-gray-600">Scan participant QR codes for event check-in</p>
         </header>
 
-        <button onclick="history.back()" class="group flex items-center">
-            <div class="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                <i class="fas fa-arrow-left text-white text-sm"></i>
-            </div>
-        </button>
-
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
             <!-- Scanner Section -->
             <div class="md:flex">
                 <div class="md:w-1/2 p-6">
                     <div class="mb-6">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">QR Code Scanner</h2>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <!-- Back Button -->
+                            <button onclick="history.back()" 
+                                class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow hover:scale-105 transition-transform duration-200">
+                                <i class="fas fa-arrow-left text-gray-700 text-sm"></i>
+                            </button>
+
+                            <!-- Title -->
+                            <h2 class="text-xl font-semibold text-gray-800">QR Code Scanner</h2>
+                        </div>
                         <div id="reader" class="w-full h-64 border-2 border-dashed border-blue-300 rounded-lg flex items-center justify-center bg-gray-50">
                             <div class="text-center text-gray-500">
                                 <i class="fas fa-camera text-4xl mb-2"></i>
