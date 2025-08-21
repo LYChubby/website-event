@@ -2,13 +2,36 @@
     <title>Masuk</title>
 </head>
 <x-login-layout>
+  <style>
+    body {
+      @apply bg-gradient-to-br from-purple-300 via-pink-200 to-blue-200 min-h-screen flex items-center justify-center;
+    }
+    .slide-fade-in {
+      animation: slideFade 0.6s ease-out forwards;
+    }
+    @keyframes slideFade {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glass-effect {
+        background: transparent !important;
+    }
+
+  </style>
 
     <!-- Background with Gradient and Floating Orbs -->
 
     <main class="w-full max-w-2xl p-6 mx-auto">
-        <div class="glass-effect rounded-3xl p-1 shadow-2xl slide-fade-in">
-            <!-- Login Card Content -->
-            <div class="p-5">
+        <div class="rounded-3xl glass-effect p-1 shadow-2xl slide-fade-in backdrop-blur-xl">
+        <!-- Login Card Content -->
+        <div class="p-5 rounded-2xl glass-effect">
                 <!-- Logo Section -->
                 <div class="flex justify-center mb-4">
                     <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center shadow-md transform hover:scale-105 transition-all duration-300">
