@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
+<style>
+    .gradient-primary {
+        background: linear-gradient(135deg, #5C6AD0 0%, #684597 100%);
+    }
+</style>
+
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
@@ -18,9 +24,10 @@
             <p class="text-gray-600">Scan participant QR codes for event check-in</p>
         </header>
 
-        <button onclick="window.location.href='/dashboard/organizer'"
-            class="w-12 h-12 bg-black bg-opacity-20 rounded-xl flex items-center justify-center hover:bg-opacity-30 transition">
-            <i class="fas fa-arrow-left text-white"></i>
+        <button onclick="history.back()" class="group flex items-center">
+            <div class="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <i class="fas fa-arrow-left text-white text-sm"></i>
+            </div>
         </button>
 
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
