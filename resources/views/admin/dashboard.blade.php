@@ -105,7 +105,8 @@
 
             <!-- Activities List -->
             <div class="p-6">
-                <div id="activitiesList" class="space-y-3">
+                <div id="activitiesList" 
+                class="space-y-3 max-h-96 overflow-y-auto p-2 bg-white rounded-xl shadow-inner">
                     <!-- Activities will be loaded here -->
                 </div>
             </div>
