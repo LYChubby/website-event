@@ -397,7 +397,7 @@
     </section>
 
     <!-- Kategori Showcase -->
-    <section class="py-20">
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="font-bold text-4xl gradient-text mb-4">Kategori Populer</h2>
@@ -406,8 +406,13 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($kategoriPopuler as $kategori)
-                <div class="event-card rounded-2xl overflow-hidden hover-lift border p-6 text-center">
-                    <h3 class="text-xl font-bold">{{ $kategori->name }}</h3>
+                <div class="event-card group rounded-2xl overflow-hidden border bg-white p-6 text-center shadow-md hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full feature-icon text-white text-2xl font-bold shadow-md group-hover:scale-110 transform transition-transform duration-300">
+                        {{ strtoupper(substr($kategori->name, 0, 1)) }}
+                    </div>
+                    <h3 class="text-xl font-bold group-hover:text-indigo-600 transition-colors duration-300">
+                        {{ $kategori->name }}
+                    </h3>
                     <p class="text-gray-600 mt-2">{{ $kategori->events_count }} Event</p>
                 </div>
                 @endforeach
