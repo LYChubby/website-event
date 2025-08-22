@@ -21,7 +21,7 @@ class HomeController extends Controller
             ->where('status_approval', 'approved')
             ->whereBetween('start_date', [$today, $oneMonthLater])
             ->orderBy('start_date', 'asc') // Urutkan dari tanggal terdekat
-            ->take(8)
+            ->take(9)
             ->get();
 
         // Ambil kategori jika ada

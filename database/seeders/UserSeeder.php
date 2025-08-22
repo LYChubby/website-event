@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
                 'google_id' => null,
             ],
             [
-                'name' => 'ijam',
-                'email' => 'ijam@example.com',
+                'name' => 'Disney Organizer',
+                'email' => 'disney@example.com',
                 'role' => 'organizer',
                 'status' => 'Aktif',
                 'email_verified_at' => now(),
@@ -68,7 +68,7 @@ class UserSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             DB::table('users')->insert([
-                'name' => fake()->name(),
+                'name' => fake()->firstName() . ' Organizer',
                 'email' => fake()->unique()->safeEmail(),
                 'role' => 'organizer',
                 'status' => 'Aktif',

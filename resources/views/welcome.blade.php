@@ -225,29 +225,6 @@
             }
         }
 
-        .sparkle {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #667eea;
-            border-radius: 50%;
-            animation: sparkle 2s infinite;
-        }
-
-        @keyframes sparkle {
-
-            0%,
-            100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
         .feature-icon {
             background: linear-gradient(135deg, #667eea, #764ba2);
             width: 60px;
@@ -259,6 +236,54 @@
             color: white;
             font-size: 1.5rem;
             margin: 0 auto 1rem;
+        }
+
+        /* Animasi Scroll */
+        .scroll-animate {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .scroll-animate.scroll-down {
+            transform: translateY(50px);
+        }
+
+        .scroll-animate.scroll-up {
+            transform: translateY(-50px);
+        }
+
+        .scroll-animate.animate-in {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-animate.animate-out {
+            opacity: 0;
+        }
+
+        .scroll-animate.scroll-down.animate-out {
+            transform: translateY(50px);
+        }
+
+        .scroll-animate.scroll-up.animate-out {
+            transform: translateY(-50px);
+        }
+
+        /* Animasi khusus untuk tipe elemen tertentu */
+        .stats-item {
+            transition-delay: 0.1s;
+        }
+
+        .feature-item {
+            transition-delay: 0.2s;
+        }
+
+        .category-item {
+            transition-delay: 0.1s;
+        }
+
+        .team-item {
+            transition-delay: 0.1s;
         }
     </style>
 </head>
@@ -292,13 +317,8 @@
 
     <!-- Hero Section -->
     <section class="hero-section py-20 relative">
-        <div class="sparkle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
-        <div class="sparkle" style="top: 60%; left: 80%; animation-delay: 1s;"></div>
-        <div class="sparkle" style="top: 30%; left: 90%; animation-delay: 0.5s;"></div>
-        <div class="sparkle" style="top: 80%; left: 20%; animation-delay: 1.5s;"></div>
-
         <div class="container mx-auto px-6 relative z-10">
-            <div class="glass-card rounded-3xl p-12 hover-lift floating-animation pulse-border">
+            <div class="glass-card rounded-3xl p-12 hover-lift floating-animation pulse-border scroll-animate scroll-down">
                 <div class="text-center max-w-4xl mx-auto">
                     <h1 class="font-bold text-5xl mb-6 text-gray-800 leading-tight">
                         Selamat Datang di <span class="gradient-text">NEO.Vibe</span>
@@ -323,25 +343,25 @@
         <div class="container py-6 mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Event Terselenggara -->
-                <div class="hover-lift text-center">
+                <div class="hover-lift text-center scroll-animate scroll-down stats-item">
                     <div class="stats-counter">{{ $eventTerselenggara }}</div>
                     <p class="text-gray-700 font-medium text-lg">Event Terselenggara</p>
                 </div>
 
                 <!-- Peserta Aktif -->
-                <div class="hover-lift text-center">
+                <div class="hover-lift text-center scroll-animate scroll-down stats-item">
                     <div class="stats-counter">{{ $pesertaAktif }}</div>
                     <p class="text-gray-700 font-medium text-lg">Peserta Aktif</p>
                 </div>
 
                 <!-- Organizer Terpercaya -->
-                <div class="hover-lift text-center">
+                <div class="hover-lift text-center scroll-animate scroll-down stats-item">
                     <div class="stats-counter">{{ $organizerTerpercaya }}</div>
                     <p class="text-gray-700 font-medium text-lg">Organizer Terpercaya</p>
                 </div>
 
                 <!-- Kepuasan Pengguna -->
-                <div class="hover-lift text-center">
+                <div class="hover-lift text-center scroll-animate scroll-down stats-item">
                     <div class="flex justify-center items-center gap-1 text-yellow-400 text-2xl">
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <=floor($kepuasanPengguna))
@@ -363,13 +383,13 @@
     <!-- Features Section -->
     <section class="py-20 ">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate scroll-down">
                 <h2 class="font-bold text-4xl gradient-text mb-4">Mengapa Memilih NEO.Vibe?</h2>
                 <p class="text-xl text-gray-600">Fitur terdepan untuk pengalaman event yang sempurna</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center hover-lift">
+                <div class="text-center hover-lift scroll-animate scroll-down feature-item">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
@@ -377,7 +397,7 @@
                     <p class="text-gray-600">Sistem pembayaran dan data yang aman dengan enkripsi tingkat tinggi</p>
                 </div>
 
-                <div class="text-center hover-lift">
+                <div class="text-center hover-lift scroll-animate scroll-down feature-item">
                     <div class="feature-icon">
                         <i class="fas fa-clock"></i>
                     </div>
@@ -385,7 +405,7 @@
                     <p class="text-gray-600">Dapatkan notifikasi instant untuk setiap update event favorit Anda</p>
                 </div>
 
-                <div class="text-center hover-lift">
+                <div class="text-center hover-lift scroll-animate scroll-down feature-item">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
@@ -397,16 +417,16 @@
     </section>
 
     <!-- Kategori Showcase -->
-    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section class="py-20 bg-indigo-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate scroll-down">
                 <h2 class="font-bold text-4xl gradient-text mb-4">Kategori Populer</h2>
                 <p class="text-xl text-gray-600">Temukan pengalaman tak terlupakan bersama kami</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($kategoriPopuler as $kategori)
-                <div class="event-card group rounded-2xl overflow-hidden border bg-white p-6 text-center shadow-md hover:shadow-xl transition-all duration-300">
+                <div class="event-card group rounded-2xl overflow-hidden border bg-white p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 scroll-animate scroll-down category-item">
                     <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full feature-icon text-white text-2xl font-bold shadow-md group-hover:scale-110 transform transition-transform duration-300">
                         {{ strtoupper(substr($kategori->name, 0, 1)) }}
                     </div>
@@ -423,14 +443,14 @@
     <!-- Team Section -->
     <section class="py-20">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 scroll-animate scroll-down">
                 <h2 class="font-bold text-4xl gradient-text mb-4">Tim Kreatif Kami</h2>
                 <p class="text-xl text-gray-600">Bertemu dengan para ahli di balik kesuksesan NEO.Vibe</p>
             </div>
 
             <div class="flex flex-wrap justify-center gap-6">
                 <!-- Anang -->
-                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center scroll-animate scroll-down team-item">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         A
                     </div>
@@ -439,7 +459,7 @@
                 </div>
 
                 <!-- Lintang -->
-                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center scroll-animate scroll-down team-item">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         L
                     </div>
@@ -448,7 +468,7 @@
                 </div>
 
                 <!-- M Farras -->
-                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center scroll-animate scroll-down team-item">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         MF
                     </div>
@@ -457,7 +477,7 @@
                 </div>
 
                 <!-- Ilzam -->
-                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center scroll-animate scroll-down team-item">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         I
                     </div>
@@ -466,7 +486,7 @@
                 </div>
 
                 <!-- Fauzi -->
-                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center">
+                <div class="team-card rounded-2xl p-6 text-center w-40 flex flex-col items-center scroll-animate scroll-down team-item">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                         F
                     </div>
@@ -589,6 +609,44 @@
             });
 
             counters.forEach(counter => observer.observe(counter));
+        });
+
+        // Animasi scroll untuk elemen
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+
+            // Fungsi untuk mengecek apakah elemen berada di viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight * 0.85) &&
+                    rect.bottom >= (window.innerHeight * 0.15)
+                );
+            }
+
+            // Fungsi untuk menangani animasi scroll
+            function handleScrollAnimation() {
+                animatedElements.forEach(element => {
+                    if (isInViewport(element)) {
+                        // Tambahkan kelas animate-in ketika elemen masuk viewport
+                        element.classList.add('animate-in');
+                        element.classList.remove('animate-out');
+                    } else {
+                        // Tambahkan kelas animate-out ketika elemen keluar viewport
+                        if (element.classList.contains('animate-in')) {
+                            element.classList.remove('animate-in');
+                            element.classList.add('animate-out');
+                        }
+                    }
+                });
+            }
+
+            // Jalankan saat halaman dimuat dan saat di-scroll
+            window.addEventListener('load', handleScrollAnimation);
+            window.addEventListener('scroll', handleScrollAnimation);
+
+            // Jalankan sekali saat halaman dimuat untuk elemen yang sudah terlihat
+            handleScrollAnimation();
         });
     </script>
 
