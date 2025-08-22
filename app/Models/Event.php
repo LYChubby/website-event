@@ -68,4 +68,14 @@ class Event extends Model
     {
         return $this->hasMany(Feedback::class, 'event_id', 'event_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'event_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
