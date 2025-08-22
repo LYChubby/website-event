@@ -49,28 +49,6 @@ class FeedbackController extends Controller
         ], 201);
     }
 
-    // public function store(StoreFeedbackRequest $request)
-    // {
-    //     $role = auth()->user()->role;
-
-    //     // Hanya user biasa yang boleh store
-    //     if ($role !== 'user') {
-    //         abort(403, 'Only users can submit feedback.');
-    //     }
-
-    //     $feedback = Feedback::create([
-    //         'user_id' => auth()->id(),
-    //         'event_id' => $request->event_id,
-    //         'rating' => $request->rating,
-    //         'comment' => $request->comment,
-    //     ]);
-
-    //     return response()->json([
-    //         'message' => 'Feedback submitted successfully!',
-    //         'data' => $feedback
-    //     ], 201);
-    // }
-
     public function show(Feedback $feedback)
     {
         $role = Auth::user()->role;
@@ -87,9 +65,9 @@ class FeedbackController extends Controller
     {
         $role = Auth::user()->role;
 
-        // Hanya admin boleh hapus
-        if ($role !== 'admin') {
-            abort(403, 'Only admin can delete feedback.');
+        // Hanya organizer boleh hapus
+        if ($role !== 'organizer') {
+            abort(403, 'Only organizer can delete feedback.');
         }
 
         $feedback->delete();
