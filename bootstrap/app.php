@@ -22,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('event:send-reminder')->everyMinute();
+        $schedule->command('event:send-reminder')->dailyAt('08:00');
+        $schedule->command('event:process-disbursements')->dailyAt('08:00');
     })
 
     ->create();
