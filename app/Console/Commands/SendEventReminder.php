@@ -33,7 +33,7 @@ class SendEventReminder extends Command
 
         if ($events->isEmpty()) {
             $this->info("Tidak ada event yang dimulai pada {$targetDate}");
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($events as $event) {
