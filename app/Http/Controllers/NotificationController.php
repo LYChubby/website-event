@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
 use App\Models\Notification;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests; 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    use AuthorizesRequests; 
+    use AuthorizesRequests;
     public function index()
     {
-        $notifications = Notification::with('user')->latest()->get();
+        $user = Auth::user();
+
+        $notifications = Notification::where('user_id', $user->user_id)
+            ->latest()
+            ->get();
+
         return response()->json($notifications);
     }
 
