@@ -24,7 +24,14 @@ class SendEventReminder extends Command
         foreach ($reminderDays as $day) {
             $targetDate = now()->addDays($day)->toDateString();
 
+<<<<<<< HEAD
+        if ($events->isEmpty()) {
+            $this->info("Tidak ada event yang dimulai pada {$targetDate}");
+            return self::SUCCESS;
+        }
+=======
             $events = Event::whereDate('start_date', $targetDate)->get();
+>>>>>>> 15860eff507dc0e6799bd1914d582be4ceda0f09
 
             foreach ($events as $event) {
                 $transactions = $event->transactions()
