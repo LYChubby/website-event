@@ -184,7 +184,7 @@
                         </h2>
                         <p class="text-gray-600 font-medium">Informasi lengkap event yang sedang dikelola</p>
                     </div>
-                    <a href="{{ route('organizer.checkin.scanner') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    <a href="{{ route('organizer.checkin.scanner') }}" class="gradient-primary text-white px-4 py-2 rounded-2xl">
                         Scanner Check-in
                     </a>
                 </div>
