@@ -136,7 +136,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // === FEEDBACK ===
-    Route::resource('feedbacks', FeedbackController::class)->only(['store']);
+    // Route::resource('feedbacks', FeedbackController::class)->only(['store']);
 
     // === ORGANIZER ===
     Route::prefix('organizer')->name('organizer.')->middleware('role:organizer')->group(function () {

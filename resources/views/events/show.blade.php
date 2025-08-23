@@ -3,7 +3,7 @@
         .gradient-bg {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #684597 0%, #5C6AD0 100%);
             -webkit-background-clip: text;
@@ -50,17 +50,32 @@
             border: 1px solid rgba(104, 69, 151, 0.1);
         }
 
-        .ticket-vvip { border-left: 4px solid #8b5cf6; }
-        .ticket-vip { border-left: 4px solid #3b82f6; }
-        .ticket-regular { border-left: 4px solid #10b981; }
+        .ticket-vvip {
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .ticket-vip {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .ticket-regular {
+            border-left: 4px solid #10b981;
+        }
 
         .floating-action {
             animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .pulse-glow {
@@ -68,8 +83,15 @@
         }
 
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(104, 69, 151, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(92, 106, 208, 0.5); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(104, 69, 151, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(92, 106, 208, 0.5);
+            }
         }
     </style>
 
@@ -98,8 +120,8 @@
 
     <!-- Hero Image Section -->
     <div class="w-full h-96 bg-gray-200 overflow-hidden relative">
-        <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}" 
-             class="w-full h-full object-cover">
+        <img src="{{ asset('storage/' . $event->event_image) }}" alt="{{ $event->name_event }}"
+            class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
         <div class="absolute bottom-6 left-6 text-white">
             <div class="flex items-center space-x-2 mb-2">
@@ -121,7 +143,7 @@
                         <h1 class="text-4xl lg:text-5xl font-bold gradient-text mb-4 leading-tight">
                             {{ $event->name_event }}
                         </h1>
-                        
+
                         <div class="flex flex-wrap items-center gap-4 mb-6">
                             <div class="flex items-center text-gray-700">
                                 <i class="fas fa-map-marker-alt text-primary-purple mr-2 text-lg"></i>
@@ -131,7 +153,7 @@
                                 <span class="gradient-text font-semibold">{{ $event->category->name ?? 'Kategori' }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center text-gray-600">
                                 <i class="fas fa-location-dot text-primary-blue mr-3 text-lg"></i>
@@ -190,7 +212,7 @@
                                         <div>
                                             <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ $ticket->jenis_ticket }}</h3>
                                             <p class="text-gray-600 flex items-center">
-                                                <i class="fas fa-tag mr-2"></i> 
+                                                <i class="fas fa-tag mr-2"></i>
                                                 <span class="bg-gray-100 px-3 py-1 rounded-full text-sm font-mono">{{ $ticket->ticket_code_prefix }}</span>
                                             </p>
                                         </div>
@@ -227,14 +249,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="bg-gradient-to-r from-gray-50 to-white px-8 py-6 flex justify-between items-center border-t border-gray-100">
                                     <div class="flex items-center text-gray-600">
                                         <i class="fas fa-info-circle mr-2"></i>
                                         <span class="text-sm">{{ $ticket->description ?? 'Tidak ada deskripsi tambahan' }}</span>
                                     </div>
                                     <button onclick="openBuyTicketModal('{{ $ticket->ticket_id }}', '{{ $event->name_event }}', '{{ $ticket->price }}')"
-                                            class="btn-gradient text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 pulse-glow">
+                                        class="btn-gradient text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 pulse-glow">
                                         <i class="fas fa-shopping-cart mr-2"></i>
                                         Beli Tiket
                                     </button>
@@ -260,6 +282,7 @@
                         </h2>
 
                         <!-- Form Tambah Feedback -->
+                        @if(Auth::check() && Auth::user()->role === 'user')
                         <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-2xl border border-purple-100 mb-8">
                             <form id="feedbackForm" onsubmit="submitFeedback(event)">
                                 @csrf
@@ -272,11 +295,11 @@
                                     <div class="flex space-x-2">
                                         @for($i = 1; $i <= 5; $i++)
                                             <button type="button"
-                                                    onclick="setRating({{ $i }})"
-                                                    class="text-3xl focus:outline-none hover:scale-110 transition-transform">
-                                                <i class="far fa-star rating-star" data-rating="{{ $i }}"></i>
+                                            onclick="setRating({{ $i }})"
+                                            class="text-3xl focus:outline-none hover:scale-110 transition-transform">
+                                            <i class="far fa-star rating-star" data-rating="{{ $i }}"></i>
                                             </button>
-                                        @endfor
+                                            @endfor
                                     </div>
                                 </div>
 
@@ -284,13 +307,13 @@
                                 <div class="mb-6">
                                     <label class="block text-gray-800 font-semibold mb-3 text-lg">Komentar</label>
                                     <textarea name="comment" rows="4"
-                                            class="w-full border-2 border-purple-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-gray-700 placeholder-gray-400"
-                                            placeholder="Bagikan pengalaman Anda tentang event ini..." required></textarea>
+                                        class="w-full border-2 border-purple-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-gray-700 placeholder-gray-400"
+                                        placeholder="Bagikan pengalaman Anda tentang event ini..." required></textarea>
                                 </div>
 
                                 <!-- Tombol submit -->
                                 <button type="submit"
-                                        class="btn-gradient text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                                    class="btn-gradient text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
                                     <i class="fas fa-paper-plane mr-2"></i>
                                     Kirim Ulasan
                                 </button>
@@ -298,36 +321,50 @@
 
                             <div id="feedbackMessage" class="hidden mt-6 p-4 rounded-xl"></div>
                         </div>
+                        @endif
 
                         <!-- Daftar Feedback -->
                         <div id="feedbackContainer" class="space-y-6">
                             @forelse($event->feedbacks as $feedback)
-                                <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-8 card-hover">
-                                    <div class="flex items-start justify-between mb-6">
-                                        <div class="flex items-center space-x-4">
-                                            <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
-                                                <i class="fas fa-user text-white text-lg"></i>
-                                            </div>
-                                            <div>
-                                                <h4 class="font-bold text-gray-800 text-lg">{{ $feedback->user->name ?? 'Anonim' }}</h4>
-                                                <div class="flex items-center mt-1">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        <i class="fas fa-star text-lg {{ $i <= $feedback->rating ? 'text-yellow-400' : 'text-gray-300' }}"></i>
+                            <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-8 card-hover">
+                                <div class="flex items-start justify-between mb-6">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                                            <i class="fas fa-user text-white text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-800 text-lg">{{ $feedback->user->name ?? 'Anonim' }}</h4>
+                                            <div class="flex items-center mt-1">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <i class="fas fa-star text-lg {{ $i <= $feedback->rating ? 'text-yellow-400' : 'text-gray-300' }}"></i>
                                                     @endfor
-                                                </div>
                                             </div>
                                         </div>
-                                        <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{{ $feedback->created_at->diffForHumans() }}</span>
                                     </div>
-                                    <p class="text-gray-700 text-lg leading-relaxed">{{ $feedback->comment }}</p>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                                            {{ $feedback->created_at->diffForHumans() }}
+                                        </span>
+
+                                        <!-- Tombol Hapus (Hanya Organizer) -->
+                                        @if(Auth::check() && Auth::user()->role === 'organizer')
+                                        <button type="button"
+                                            onclick="deleteFeedback(`{{ $feedback->feedback_id }}`, this)"
+                                            class="text-red-500 hover:text-red-700 ml-2">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        @endif
+                                    </div>
                                 </div>
+                                <p class="text-gray-700 text-lg leading-relaxed">{{ $feedback->comment }}</p>
+                            </div>
                             @empty
-                                <div class="empty-state bg-gradient-to-br from-gray-50 to-white p-12 rounded-2xl text-center border border-gray-200">
-                                    <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        <i class="fas fa-comment-alt text-3xl gradient-text"></i>
-                                    </div>
-                                    <p class="text-gray-500 text-lg">Belum ada ulasan untuk event ini</p>
+                            <div class="empty-state bg-gradient-to-br from-gray-50 to-white p-12 rounded-2xl text-center border border-gray-200">
+                                <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <i class="fas fa-comment-alt text-3xl gradient-text"></i>
                                 </div>
+                                <p class="text-gray-500 text-lg">Belum ada ulasan untuk event ini</p>
+                            </div>
                             @endforelse
                         </div>
                     </div>
@@ -471,23 +508,23 @@
                     <label class="block mb-3 font-semibold text-gray-800 text-lg">
                         <i class="fas fa-user mr-2 gradient-text"></i>Nama Peserta
                     </label>
-                    <input type="text" name="nama" id="participantName" 
-                           class="w-full border-2 border-gray-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-lg" 
-                           placeholder="Masukkan nama lengkap" required>
+                    <input type="text" name="nama" id="participantName"
+                        class="w-full border-2 border-gray-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-lg"
+                        placeholder="Masukkan nama lengkap" required>
                 </div>
 
                 <div>
                     <label class="block mb-3 font-semibold text-gray-800 text-lg">
                         <i class="fas fa-sort-numeric-up mr-2 gradient-text"></i>Jumlah Tiket
                     </label>
-                    <input type="number" name="quantity" id="ticketQuantity" min="1" 
-                           class="w-full border-2 border-gray-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-lg" 
-                           placeholder="1" required>
+                    <input type="number" name="quantity" id="ticketQuantity" min="1"
+                        class="w-full border-2 border-gray-200 rounded-xl px-6 py-4 focus:border-purple-400 focus:ring focus:ring-purple-200 focus:ring-opacity-50 text-lg"
+                        placeholder="1" required>
                 </div>
 
                 <div class="flex justify-end space-x-4 pt-6">
-                    <button type="button" onclick="closeBuyTicketModal()" 
-                            class="px-8 py-4 bg-gray-200 text-gray-800 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
+                    <button type="button" onclick="closeBuyTicketModal()"
+                        class="px-8 py-4 bg-gray-200 text-gray-800 rounded-xl font-semibold hover:bg-gray-300 transition-colors">
                         Batal
                     </button>
                     <button type="submit" class="px-8 py-4 btn-gradient text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
@@ -523,7 +560,7 @@
             const form = e.target;
             const formData = new FormData(form);
             const submitButton = form.querySelector('button[type="submit"]');
-            
+
             // Show loading state
             const originalText = submitButton.innerHTML;
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Memproses...';
@@ -676,6 +713,44 @@
             }, 50);
         }
 
+        async function deleteFeedback(feedbackId, btn) {
+            if (!confirm("Yakin ingin menghapus ulasan ini?")) return;
+
+            // Tombol hapus sementara disable
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin text-red-500"></i>';
+
+            try {
+                const response = await fetch(`/feedbacks/${feedbackId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.message) {
+                    // Hapus card feedback dari DOM
+                    const feedbackCard = btn.closest('.bg-white.border');
+                    if (feedbackCard) {
+                        feedbackCard.classList.add('opacity-0', 'translate-x-5', 'transition-all', 'duration-300');
+                        setTimeout(() => feedbackCard.remove(), 300);
+                    }
+                } else {
+                    alert(data.error || "Gagal menghapus feedback.");
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-trash"></i>';
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Terjadi kesalahan pada server.");
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-trash"></i>';
+            }
+        }
+
         // Close modal when clicking outside
         document.getElementById('buyTicketModal').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -685,7 +760,7 @@
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {

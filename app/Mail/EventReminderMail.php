@@ -13,22 +13,20 @@ class EventReminderMail extends Mailable
 
     public $event;
     public $user;
+    public $day;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(Event $event, $user)
+    public function __construct(Event $event, $user, int $day)
     {
         $this->event = $event;
         $this->user = $user;
+        $this->day = $day;
     }
 
-    /**
-     * Build the message.
-     */
     public function build()
     {
-        return $this->subject("Pengingat Event: {$this->event->title}")
-                    ->markdown('emails.events.reminder');
+        $subject = "Pengingat Event: {$this->event->title}";
+
+        return $this->subject($subject)
+            ->markdown('emails.events.reminder');
     }
 }
