@@ -156,6 +156,69 @@
 
                     <!-- Enhanced Navigation Menu -->
                     <div class="flex items-center space-x-4">
+
+                        <!-- Notification Button -->
+                        <div x-data="{ openNotif: false, notifications: [] }" @click.away="openNotif = false" class="relative">
+                            <button @click="openNotif = true; 
+        fetch('{{ route('notifications.index') }}')
+        .then(res => res.json())
+        .then(data => notifications = data)"
+                                class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
+                                <i class="fas fa-bell"></i>
+                                <!-- Badge jumlah notifikasi -->
+                                <span x-show="notifications.filter(n => n.is_read == 0).length > 0"
+                                    x-text="notifications.filter(n => n.is_read == 0).length"
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                </span>
+                            </button>
+
+                            <!-- Modal Notification -->
+                            <div x-show="openNotif" class="fixed inset-0 z-50 flex items-center justify-center">
+                                <!-- Overlay -->
+                                <div class="absolute inset-0 bg-black/50" @click="openNotif = false"></div>
+
+                                <!-- Modal Box -->
+                                <div class="relative z-50 w-full max-w-md bg-white rounded-2xl shadow-xl glass-effect p-6 max-h-[90vh] overflow-y-auto">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h2 class="text-xl font-bold gradient-text">Notifikasi</h2>
+                                        <button @click="openNotif = false" class="text-gray-500 hover:text-gray-700">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- List Notifikasi -->
+                                    <template x-if="notifications.length === 0">
+                                        <p class="text-gray-500 text-center py-6">Tidak ada notifikasi</p>
+                                    </template>
+
+                                    <div class="space-y-4">
+                                        <template x-for="notif in notifications" :key="notif.notification_id">
+                                            <div class="p-4 rounded-xl border"
+                                                :class="notif.is_read ? 'bg-gray-50 border-gray-200' : 'bg-purple-50 border-purple-200'">
+                                                <h3 class="font-semibold text-gray-800" x-text="notif.title"></h3>
+                                                <p class="text-gray-600 text-sm" x-text="notif.message"></p>
+                                                <div class="flex justify-between items-center mt-2 text-xs text-gray-400">
+                                                    <span x-text="new Date(notif.created_at).toLocaleString()"></span>
+                                                    <button x-show="notif.is_read == 0"
+                                                        @click="
+                                fetch('/notifications/'+notif.notification_id+'/read', {
+                                    method:'POST',
+                                    headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}'}
+                                })
+                                .then(res=>res.json())
+                                .then(updated => { notif.is_read = true })
+                            "
+                                                        class="text-blue-600 hover:underline">
+                                                        Tandai dibaca
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- List Organizer -->
                         <a href="{{ route('organizer-list') }}"
                             class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-lg">

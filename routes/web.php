@@ -113,8 +113,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('feedbacks', FeedbackController::class)->only(['index', 'store', 'show', 'destroy']);
 
     // === NOTIFICATIONS ===
-    Route::resource('notifications', NotificationController::class);
-    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
     // === PARTICIPANTS ===
     Route::apiResource('participants', ParticipantController::class);
