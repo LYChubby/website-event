@@ -19,7 +19,7 @@
     @vite([
     'resources/css/app.css',
     'resources/js/app.js',
-    'resources/js/organizer-dashboard-events.js',
+
     ])
 
     @if(request()->is('admin/*'))

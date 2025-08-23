@@ -22,11 +22,11 @@ class NotificationService
         // Simpan notifikasi ke database
         Notification::create([
             'user_id' => $user->user_id,
-            'title'   => "Pengingat Event: {$event->title}",
+            'title'   => "Pengingat Event: {$event->name_event}",
             'message' => $day > 0
-                ? "Event {$event->title} akan dimulai dalam {$day} hari lagi pada "
+                ? "Event {$event->name_event} akan dimulai dalam {$day} hari lagi pada "
                 . Carbon::parse($event->start_date)->translatedFormat('d F Y')
-                : "Hari ini adalah Hari-H event {$event->title}! Jangan lupa hadir 🎉",
+                : "Hari ini adalah Hari-H event {$event->name_event}! Jangan lupa hadir 🎉",
             'type'    => 'email',
             'is_read' => false,
         ]);
