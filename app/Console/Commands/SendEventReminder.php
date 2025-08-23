@@ -5,12 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Event;
 use App\Services\NotificationService;
-use App\Models\Transaction;
-use App\Mail\EventReminderMail;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Notification;
-use Illuminate\Support\Str;
 
 class SendEventReminder extends Command
 {
@@ -24,14 +18,7 @@ class SendEventReminder extends Command
         foreach ($reminderDays as $day) {
             $targetDate = now()->addDays($day)->toDateString();
 
-<<<<<<< HEAD
-        if ($events->isEmpty()) {
-            $this->info("Tidak ada event yang dimulai pada {$targetDate}");
-            return self::SUCCESS;
-        }
-=======
             $events = Event::whereDate('start_date', $targetDate)->get();
->>>>>>> 15860eff507dc0e6799bd1914d582be4ceda0f09
 
             foreach ($events as $event) {
                 $transactions = $event->transactions()

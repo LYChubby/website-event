@@ -124,9 +124,63 @@
         .section-bg {
             background: linear-gradient(135deg, rgba(92, 106, 208, 0.02) 0%, rgba(104, 69, 151, 0.02) 100%);
         }
+
+        .notification-modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .notification-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .notification-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .notification-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 28rem;
+            max-height: 80vh;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            z-index: 50;
+        }
+
+        .notification-modal.show .notification-modal-content {
+            transform: translateY(0);
+        }
+
+        @media (min-width: 640px) {
+            .notification-modal-content {
+                width: 100%;
+            }
+        }
     </style>
 
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50" x-data="notificationData()">
         <!-- Enhanced Navigation -->
         <nav class="bg-white/80 backdrop-filter backdrop-blur-lg shadow-lg sticky top-0 z-50 border-b border-white/20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -156,67 +210,17 @@
 
                     <!-- Enhanced Navigation Menu -->
                     <div class="flex items-center space-x-4">
-
                         <!-- Notification Button -->
-                        <div x-data="{ openNotif: false, notifications: [] }" @click.away="openNotif = false" class="relative">
-                            <button @click="openNotif = true; 
-        fetch('{{ route('notifications.index') }}')
-        .then(res => res.json())
-        .then(data => notifications = data)"
+                        <div class="relative">
+                            <button @click="openNotif = true; loadNotifications()"
                                 class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
                                 <i class="fas fa-bell"></i>
-                                <!-- Badge jumlah notifikasi -->
-                                <span x-show="notifications.filter(n => n.is_read == 0).length > 0"
-                                    x-text="notifications.filter(n => n.is_read == 0).length"
+                                <!-- Badge jumlah notifikasi - Diperbaiki untuk selalu menampilkan jumlah notifikasi yang belum dibaca -->
+                                <span x-show="unreadCount > 0"
+                                    x-text="unreadCount"
                                     class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                                 </span>
                             </button>
-
-                            <!-- Modal Notification -->
-                            <div x-show="openNotif" class="fixed inset-0 z-50 flex items-center justify-center">
-                                <!-- Overlay -->
-                                <div class="absolute inset-0 bg-black/50" @click="openNotif = false"></div>
-
-                                <!-- Modal Box -->
-                                <div class="relative z-50 w-full max-w-md bg-white rounded-2xl shadow-xl glass-effect p-6 max-h-[90vh] overflow-y-auto">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <h2 class="text-xl font-bold gradient-text">Notifikasi</h2>
-                                        <button @click="openNotif = false" class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-
-                                    <!-- List Notifikasi -->
-                                    <template x-if="notifications.length === 0">
-                                        <p class="text-gray-500 text-center py-6">Tidak ada notifikasi</p>
-                                    </template>
-
-                                    <div class="space-y-4">
-                                        <template x-for="notif in notifications" :key="notif.notification_id">
-                                            <div class="p-4 rounded-xl border"
-                                                :class="notif.is_read ? 'bg-gray-50 border-gray-200' : 'bg-purple-50 border-purple-200'">
-                                                <h3 class="font-semibold text-gray-800" x-text="notif.title"></h3>
-                                                <p class="text-gray-600 text-sm" x-text="notif.message"></p>
-                                                <div class="flex justify-between items-center mt-2 text-xs text-gray-400">
-                                                    <span x-text="new Date(notif.created_at).toLocaleString()"></span>
-                                                    <button x-show="notif.is_read == 0"
-                                                        @click="
-                                fetch('/notifications/'+notif.notification_id+'/read', {
-                                    method:'POST',
-                                    headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}'}
-                                })
-                                .then(res=>res.json())
-                                .then(updated => { notif.is_read = true })
-                            "
-                                                        class="text-blue-600 hover:underline">
-                                                        Tandai dibaca
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- List Organizer -->
@@ -269,6 +273,56 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Modal Notification -->
+        <div x-show="openNotif"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="notification-modal"
+            :class="{ 'show': openNotif }"
+            @click.away="openNotif = false">
+            <!-- Overlay -->
+            <div class="notification-modal-overlay" @click="openNotif = false"></div>
+
+            <!-- Modal Box -->
+            <div class="notification-modal-content">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-bold gradient-text">Notifikasi</h2>
+                    <button @click="openNotif = false" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- List Notifikasi -->
+                <div class="p-6 max-h-96 overflow-y-auto">
+                    <template x-if="notifications.length === 0">
+                        <p class="text-gray-500 text-center py-6">Tidak ada notifikasi</p>
+                    </template>
+
+                    <div class="space-y-4">
+                        <template x-for="notif in notifications" :key="notif.notification_id">
+                            <div class="p-4 rounded-xl border"
+                                :class="notif.is_read ? 'bg-gray-50 border-gray-200' : 'bg-purple-50 border-purple-200'">
+                                <h3 class="font-semibold text-gray-800" x-text="notif.title"></h3>
+                                <p class="text-gray-600 text-sm" x-text="notif.message"></p>
+                                <div class="flex justify-between items-center mt-2 text-xs text-gray-400">
+                                    <span x-text="new Date(notif.created_at).toLocaleString()"></span>
+                                    <button x-show="notif.is_read == 0"
+                                        @click="markAsRead(notif.notification_id, notif)"
+                                        class="text-blue-600 hover:underline">
+                                        Tandai dibaca
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Enhanced Banner Section -->
         @php
@@ -492,4 +546,51 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        function notificationData() {
+            return {
+                openNotif: false,
+                notifications: [],
+                unreadCount: 0, // Menambahkan variabel untuk menyimpan jumlah notifikasi yang belum dibaca
+
+                init() {
+                    // Memuat notifikasi saat halaman pertama kali dimuat
+                    this.loadNotifications();
+                },
+
+                loadNotifications() {
+                    fetch(`{{ route('notifications.index') }}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            this.notifications = data;
+                            // Menghitung jumlah notifikasi yang belum dibaca
+                            this.unreadCount = data.filter(n => n.is_read == 0).length;
+                        })
+                        .catch(error => {
+                            console.error('Error loading notifications:', error);
+                        });
+                },
+
+                markAsRead(notificationId, notification) {
+                    fetch('/notifications/' + notificationId + '/read', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(res => res.json())
+                        .then(updated => {
+                            notification.is_read = true;
+                            // Mengurangi jumlah notifikasi yang belum dibaca
+                            this.unreadCount--;
+                        })
+                        .catch(error => {
+                            console.error('Error marking notification as read:', error);
+                        });
+                }
+            };
+        }
+    </script>
 </x-app-layout>
