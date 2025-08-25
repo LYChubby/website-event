@@ -210,19 +210,6 @@
 
                     <!-- Enhanced Navigation Menu -->
                     <div class="flex items-center space-x-4">
-                        <!-- Notification Button -->
-                        <div class="relative">
-                            <button @click="openNotif = true; loadNotifications()"
-                                class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
-                                <i class="fas fa-bell"></i>
-                                <!-- Badge jumlah notifikasi - Diperbaiki untuk selalu menampilkan jumlah notifikasi yang belum dibaca -->
-                                <span x-show="unreadCount > 0"
-                                    x-text="unreadCount"
-                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                </span>
-                            </button>
-                        </div>
-
                         <!-- List Organizer -->
                         <a href="{{ route('organizer-list') }}"
                             class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-lg">
@@ -268,6 +255,18 @@
                                     </div>
                                 </x-slot>
                             </x-dropdown>
+                        </div>
+                        <!-- Notification Button -->
+                        <div class="relative">
+                            <button @click="openNotif = true; loadNotifications()"
+                                class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
+                                <i class="fas fa-bell"></i>
+                                <!-- Badge jumlah notifikasi - Diperbaiki untuk selalu menampilkan jumlah notifikasi yang belum dibaca -->
+                                <span x-show="unreadCount > 0"
+                                    x-text="unreadCount"
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
