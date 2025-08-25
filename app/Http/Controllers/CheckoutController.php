@@ -17,21 +17,8 @@ use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Http\RedirectResponse;
-
-
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Str;
-// use App\Models\Transaction;
-// use App\Models\Ticket;
-// use App\Models\Event;
-// use App\Models\Participant;
-// use App\Models\TransactionDetail;
-// use App\Models\Ledger;
-// use App\Services\PaymentService;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Redirector;
 
 class CheckoutController extends Controller
 {
@@ -54,24 +41,19 @@ class CheckoutController extends Controller
 
         $ticket = Ticket::with('event')->where('ticket_id', $request->ticket_id)->firstOrFail();
         $event = $ticket->event;
-        
+
         // ✅ Validasi event expired
         if ($event->is_expired) {
             return response()->json([
+                'success' => false,
                 'message' => 'Tidak bisa membeli tiket untuk event yang sudah berakhir.'
-            ], 403);
-        }
-
-        // ✅ Validasi event approval
-        if ($event->status_approval !== 'approved') {
-            return response()->json([
-                'message' => 'Event belum disetujui, tiket tidak dapat dibeli.'
             ], 403);
         }
 
         // Validasi stok tiket
         if ($ticket->quantity_available < $request->quantity) {
             return response()->json([
+                'success' => false,
                 'message' => 'Stok tiket tidak mencukupi'
             ], 400);
         }

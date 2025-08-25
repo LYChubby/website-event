@@ -573,6 +573,7 @@
         }
 
         // Handle form submission
+        // Handle form submission
         document.getElementById('buyTicketForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -595,17 +596,43 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if (data.invoice_url) {
+                    if (data.success === false) {
+                        // Tampilkan SweetAlert untuk error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message,
+                            confirmButtonColor: '#684597',
+                            confirmButtonText: 'Mengerti'
+                        });
+
+                        submitButton.innerHTML = originalText;
+                        submitButton.disabled = false;
+                    } else if (data.invoice_url) {
                         window.location.href = data.invoice_url;
                     } else {
-                        alert('Pembayaran gagal dibuat. Coba lagi.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Pembayaran gagal dibuat. Coba lagi.',
+                            confirmButtonColor: '#684597',
+                            confirmButtonText: 'Mengerti'
+                        });
+
                         submitButton.innerHTML = originalText;
                         submitButton.disabled = false;
                     }
                 })
                 .catch(error => {
                     console.error(error);
-                    alert('Terjadi kesalahan saat memproses pembayaran.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat memproses pembayaran.',
+                        confirmButtonColor: '#684597',
+                        confirmButtonText: 'Mengerti'
+                    });
+
                     submitButton.innerHTML = originalText;
                     submitButton.disabled = false;
                 });
