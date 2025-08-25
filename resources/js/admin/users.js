@@ -354,13 +354,14 @@ window.editUser = function (id, status) {
     document.getElementById("createFields").style.display = "none";
 
     // Uncheck all status first
-    const statusRadio = document.querySelector(`input[name="status"][value="${status}"]`);
+    const statusRadio = document.querySelector(
+        `input[name="status"][value="${status}"]`
+    );
     if (statusRadio) {
         statusRadio.checked = true;
     } else {
         console.warn(`Radio dengan value "${status}" nggak ketemu`);
     }
-
 
     // Set status value
     document.querySelector(
@@ -477,30 +478,58 @@ window.deleteUser = function (id) {
         background: "white",
         backdrop: `rgba(0,0,0,0.5)`,
         customClass: {
-            container: 'backdrop-blur-sm', // ⬅ ini yang bikin blur
-            popup: 'rounded-2xl'
+            container: "backdrop-blur-sm",
+            popup: "rounded-2xl",
         },
         showLoaderOnConfirm: true,
         preConfirm: () => {
             return fetch(`/admin/api/users/${id}`, {
                 method: "DELETE",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
                     Accept: "application/json",
                 },
             })
                 .then((response) => {
                     if (!response.ok) {
-                        throw new Error(response.statusText);
+                        return response.json().then((errorData) => {
+                            throw new Error(
+                                errorData.message || "Terjadi kesalahan"
+                            );
+                        });
                     }
                     return response.json();
                 })
-                .catch((error) => {
-                    Swal.showValidationMessage(`Request failed: ${error}`);
+                .then((data) => {
+                    if (!data.success) {
+                        throw new Error(data.message || "Terjadi kesalahan");
+                    }
+                    return data;
                 });
         },
         allowOutsideClick: () => !Swal.isLoading(),
-    });
+    })
+        .then((result) => {
+            if (result.isConfirmed) {
+                // Tampilkan notifikasi sukses menggunakan showToast
+                showToast(
+                    "success",
+                    result.value.message || "User berhasil dihapus"
+                );
+
+                // Perbarui data tanpa reload halaman
+                loadUsers(currentPage, getSearchQuery(), getRoleFilter());
+            }
+        })
+        .catch((error) => {
+            // Tampilkan notifikasi error menggunakan showToast
+            showToast(
+                "error",
+                error.message || "Terjadi kesalahan saat menghapus user"
+            );
+        });
 };
 
 // Tambahkan style untuk toast animation
