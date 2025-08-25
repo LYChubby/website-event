@@ -136,8 +136,8 @@
                 </div>
 
                 <!-- Table Section -->
-                <div class="overflow-hidden rounded-xl border border-gray-100">
-                    <table class="w-full divide-y divide-gray-100">
+                <div class="overflow-x-auto rounded-xl border border-gray-100">
+                    <table class="min-w-full divide-y divide-gray-100 rounded-xl overflow-hidden">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">#</th>
