@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Transaction;
 use App\Models\Ticket;
+use App\Models\Event;
 use App\Models\Participant;
 use App\Models\TransactionDetail;
 use App\Models\Ledger;
@@ -22,7 +24,7 @@ class CheckoutController extends Controller
         $this->paymentService = $paymentService;
     }
 
-    public function checkout(Request $request)
+    public function checkout(Request $request): JsonResponse|Redirector|RedirectResponse
     {
         $request->validate([
             'event_id' => 'required|exists:events,event_id',
@@ -33,6 +35,21 @@ class CheckoutController extends Controller
         ]);
 
         $ticket = Ticket::with('event')->where('ticket_id', $request->ticket_id)->firstOrFail();
+        $event = $ticket->event;
+        
+        // ✅ Validasi event expired
+        if ($event->is_expired) {
+            return response()->json([
+                'message' => 'Tidak bisa membeli tiket untuk event yang sudah berakhir.'
+            ], 403);
+        }
+
+        // ✅ Validasi event approval
+        if ($event->status_approval !== 'approved') {
+            return response()->json([
+                'message' => 'Event belum disetujui, tiket tidak dapat dibeli.'
+            ], 403);
+        }
 
         // Validasi stok tiket
         if ($ticket->quantity_available < $request->quantity) {

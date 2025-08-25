@@ -392,56 +392,77 @@ function submitEventForm(e) {
         });
 }
 
-// ========== Delete Event ==========
+// ========== Delete Event (pakai Swal) ==========
 window.deleteEvent = function (id) {
-    if (confirm("Yakin ingin menghapus event ini?")) {
-        fetch("/organizer/check-verification")
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.is_verified) {
-                    showNotification(
-                        "Anda harus terverifikasi untuk menghapus event",
-                        "error"
-                    );
-                    return;
-                }
-
-                // Lanjutkan dengan menghapus jika terverifikasi
-                fetch(`/organizer/events/${id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector(
-                            'meta[name="csrf-token"]'
-                        ).content,
-                    },
-                })
-                    .then((res) => res.json())
-                    .then((response) => {
-                        if (response.success) {
-                            loadEvents();
-                            showNotification(
-                                "Event berhasil dihapus!",
-                                "success"
-                            );
-                        } else {
-                            throw new Error(
-                                response.message || "Gagal menghapus event"
-                            );
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting event:", error);
-                        showNotification(
-                            "Gagal menghapus event. Silakan coba lagi.",
+    Swal.fire({
+        title: "Yakin?",
+        text: "Event ini akan dihapus secara permanen!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#e3342f",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Cek verifikasi dulu
+            fetch("/organizer/check-verification")
+                .then((res) => res.json())
+                .then((data) => {
+                    if (!data.is_verified) {
+                        Swal.fire(
+                            "Tidak bisa!",
+                            "Anda harus terverifikasi untuk menghapus event.",
                             "error"
                         );
-                    });
-            })
-            .catch((error) => {
-                console.error("Error checking verification:", error);
-                showNotification("Gagal memeriksa status verifikasi", "error");
-            });
-    }
+                        return;
+                    }
+
+                    // Lanjut hapus
+                    fetch(`/organizer/events/${id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector(
+                                'meta[name="csrf-token"]'
+                            ).content,
+                        },
+                    })
+                        .then((res) => res.json())
+                        .then((response) => {
+                            if (response.success || response.message) {
+                                loadEvents();
+                                Swal.fire(
+                                    "Berhasil!",
+                                    response.message ||
+                                        "Event berhasil dihapus.",
+                                    "success"
+                                );
+                            } else {
+                                throw new Error(
+                                    response.message ||
+                                        "Gagal menghapus event"
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting event:", error);
+                            Swal.fire(
+                                "Error",
+                                "Gagal menghapus event. Silakan coba lagi.",
+                                "error"
+                            );
+                        });
+                })
+                .catch((error) => {
+                    console.error("Error checking verification:", error);
+                    Swal.fire(
+                        "Error",
+                        "Gagal memeriksa status verifikasi",
+                        "error"
+                    );
+                });
+        }
+    });
 };
 
 // ========== Search Handler ==========
