@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Transaction;
@@ -14,6 +16,22 @@ use App\Models\Ledger;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
+
+
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Str;
+// use App\Models\Transaction;
+// use App\Models\Ticket;
+// use App\Models\Event;
+// use App\Models\Participant;
+// use App\Models\TransactionDetail;
+// use App\Models\Ledger;
+// use App\Services\PaymentService;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
