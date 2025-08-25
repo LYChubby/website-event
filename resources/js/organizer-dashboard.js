@@ -395,14 +395,20 @@ function submitEventForm(e) {
 // ========== Delete Event (pakai Swal) ==========
 window.deleteEvent = function (id) {
     Swal.fire({
-        title: "Yakin?",
-        text: "Event ini akan dihapus secara permanen!",
+        title: "Apakah Anda yakin?",
+        html: `<p class="text-gray-700 mb-4">User yang dihapus tidak dapat dikembalikan</p>`,
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#e3342f",
-        cancelButtonColor: "#6c757d",
-        confirmButtonText: "Ya, hapus!",
+        confirmButtonColor: "#5C6AD0",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus!",
         cancelButtonText: "Batal",
+        background: "white",
+        backdrop: `rgba(0,0,0,0.5)`,
+        customClass: {
+            container: 'backdrop-blur-sm', // ⬅ ini yang bikin blur
+            popup: 'rounded-2xl'
+        },
     }).then((result) => {
         if (result.isConfirmed) {
             // Cek verifikasi dulu
