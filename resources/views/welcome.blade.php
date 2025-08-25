@@ -295,12 +295,8 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
                     <div class="flex items-center space-x-3">
-                        <img src="/images/logo.png" alt="Logo" class="h-10 w-auto transition-transform hover:scale-105" />
+                        <img src="/images/logo.png" alt="Logo" class="h-8 w-auto transition-transform hover:scale-105" />
                         <span class="gradient-text font-bold text-2xl">NEO.Vibe</span>
-                    </div>
-                    <div class="hidden md:block">
-                        <input type="text" placeholder="Cari event impian Anda..."
-                            class="search-glow w-80 px-6 py-3 rounded-full border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400" />
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -504,7 +500,7 @@
                 <!-- Company Info -->
                 <div>
                     <div class="flex items-center space-x-3 mb-4">
-                        <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                        <img src="/images/logo.png" alt="Logo" class="h-8 w-auto" />
                         <span class="text-xl font-bold">NEO.Vibe</span>
                     </div>
                     <p class="text-white/80 text-sm leading-relaxed">
