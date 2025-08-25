@@ -255,6 +255,9 @@ class EventController extends Controller
         $event->delete();
         logActivity('event', 'Event telah dihapus', $event->title . ' telah dihapus oleh ' . Auth::user()->name);
 
-        return response()->json(['message' => 'Event berhasil dihapus']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Event berhasil dihapus'
+        ]);
     }
 }

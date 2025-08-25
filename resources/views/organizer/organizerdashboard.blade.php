@@ -1228,6 +1228,10 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
+
+        .swal2-popup {
+            border-radius: 20px !important; /* kayak rounded-2xl */
+        }
     </style>
 
     <div class="main-wrapper">
@@ -1393,4 +1397,5 @@
     </div>
 
     @vite(['resources/js/organizer-dashboard.js']) {{-- file JS khusus organizer --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </x-app-layout>
