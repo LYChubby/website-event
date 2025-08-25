@@ -283,6 +283,13 @@
 
                         <!-- Form Tambah Feedback -->
                         @if(Auth::check() && Auth::user()->role === 'user')
+                        @php
+                        $currentDateTime = now();
+                        $eventStartDate = \Carbon\Carbon::parse($event->start_date);
+                        $canReview = $currentDateTime->gte($eventStartDate);
+                        @endphp
+
+                        @if($canReview)
                         <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-2xl border border-purple-100 mb-8">
                             <form id="feedbackForm" onsubmit="submitFeedback(event)">
                                 @csrf
@@ -321,6 +328,18 @@
 
                             <div id="feedbackMessage" class="hidden mt-6 p-4 rounded-xl"></div>
                         </div>
+                        @else
+                        <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-2xl border border-purple-100 mb-8 text-center">
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-clock text-3xl gradient-text"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Ulasan Belum Tersedia</h3>
+                            <p class="text-gray-600">
+                                Anda dapat memberikan ulasan setelah event dimulai pada
+                                <span class="font-semibold">{{ \Carbon\Carbon::parse($event->start_date)->format('d F Y, H:i') }}</span>
+                            </p>
+                        </div>
+                        @endif
                         @endif
 
                         <!-- Daftar Feedback -->
