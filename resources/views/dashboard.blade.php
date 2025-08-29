@@ -195,17 +195,7 @@
                             <span class="gradient-text font-bold text-3xl tracking-wide">NEO.Vibe</span>
                         </div>
 
-                        <form method="GET" action="{{ route('dashboard') }}" class="relative">
-                            <div class="hidden md:block">
-                                <div class="relative">
-                                    <input type="text" placeholder="Cari event impian Anda..."
-                                        class="search-glow w-80 px-6 py-3 pl-12 rounded-2xl border border-gray-200 focus:outline-none text-gray-700 placeholder-gray-400 bg-white/70 backdrop-blur-sm transition-all duration-300" />
-                                    <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
-                                        <i class="fas fa-search text-gray-400"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
 
                     <!-- Enhanced Navigation Menu -->
