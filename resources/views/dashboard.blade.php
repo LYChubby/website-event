@@ -189,8 +189,8 @@
                     <div class="flex items-center space-x-8">
                         <div class="flex items-center space-x-3 group">
                             <div class="relative">
-                                <img src="/images/logo.png" alt="Logo" class="h-12 w-auto transition-all duration-300 group-hover:scale-110" />
-                                <div class="absolute -inset-1 gradient-primary rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-300 blur-sm"></div>
+                                <img src="/images/logo.png" alt="Logo" class="h-8 w-auto transition-all duration-300 group-hover:scale-110" />
+                                <div class="gradient-primary  opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
                             </div>
                             <span class="gradient-text font-bold text-3xl tracking-wide">NEO.Vibe</span>
                         </div>
@@ -484,7 +484,7 @@
                     <!-- Company Info -->
                     <div>
                         <div class="flex items-center space-x-3 mb-4">
-                            <img src="/images/logo.png" alt="Logo" class="h-14 w-auto" />
+                            <img src="/images/logo.png" alt="Logo" class="h-8 w-auto" />
                             <span class="text-xl font-bold">NEO.Vibe</span>
                         </div>
                         <p class="text-white/80 text-sm leading-relaxed">
