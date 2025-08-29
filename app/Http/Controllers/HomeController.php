@@ -37,7 +37,7 @@ class HomeController extends Controller
             $filterQuery->where('category_id', $kategoriId);
         }
 
-        $filteredEvents = $filterQuery->latest()->paginate(12);
+        $filteredEvents = $filterQuery->paginate(12);
 
         $categories = Category::all();
 

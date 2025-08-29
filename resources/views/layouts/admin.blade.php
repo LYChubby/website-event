@@ -176,13 +176,6 @@
                         'active_color' => 'from-[#5C6AD0] to-[#684597]'
                         ],
                         [
-                        'route' => 'admin.events-approval',
-                        'icon' => 'fas fa-calendar-check',
-                        'label' => 'Approval',
-                        'color' => 'from-orange-500 to-orange-600',
-                        'active_color' => 'from-[#5C6AD0] to-[#684597]'
-                        ],
-                        [
                         'route' => 'admin.users',
                         'icon' => 'fas fa-users',
                         'label' => 'Users',
