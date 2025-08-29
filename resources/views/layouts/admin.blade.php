@@ -1,7 +1,8 @@
 <!-- resources/views/layouts/admin.blade.php -->
 <x-app-layout>
     <!-- Header with proper z-index -->
-    <nav class="relative bg-gradient-to-br from-[#5C6AD0] via-[#6B73FF] to-[#684597] px-4 sm:px-6 py-4 shadow-2xl border-b border-white/10 backdrop-blur-lg z-50">
+<nav x-data="{ open: false }" 
+     class="relative bg-gradient-to-br from-[#5C6AD0] via-[#6B73FF] to-[#684597] px-4 sm:px-6 py-4 shadow-2xl border-b border-white/10 backdrop-blur-lg z-50">
         <!-- Floating particles background -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="floating-particle w-2 h-2 bg-white/20 rounded-full absolute top-4 left-1/4 animate-float-slow"></div>
@@ -124,10 +125,88 @@
 
             <!-- Mobile menu button -->
             <div class="sm:hidden">
-                <button class="p-2 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 text-white
-                             hover:bg-white/30 transition-all duration-300">
+                <button @click="open = true" 
+                        class="p-2 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 text-white
+                            hover:bg-white/30 transition-all duration-300">
                     <i class="fas fa-bars"></i>
                 </button>
+            </div>
+            <!-- Mobile Drawer -->
+            <div 
+                class="fixed inset-0 z-50 sm:hidden" 
+                x-show="open" 
+                x-transition.opacity
+                @keydown.escape.window="open = false">
+
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    @click="open = false"></div>
+
+                <!-- Drawer panel -->
+                <div x-show="open" 
+                    x-transition:enter="transform transition ease-out duration-300"
+                    x-transition:enter-start="translate-x-full"
+                    x-transition:enter-end="translate-x-0"
+                    x-transition:leave="transform transition ease-in duration-200"
+                    x-transition:leave-start="translate-x-0"
+                    x-transition:leave-end="translate-x-full"
+                    class="absolute right-0 top-0 h-full w-64 bg-white shadow-2xl rounded-l-2xl flex flex-col">
+
+                    <!-- Header -->
+                    <div class="p-4 flex items-center justify-between border-b border-gray-200">
+                        <div>
+                            <div class="font-semibold text-gray-800">{{ Auth::user()->name }}</div>
+                            <div class="text-xs text-gray-600">{{ Auth::user()->email }}</div>
+                        </div>
+                        <button @click="open = false" 
+                                class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="flex-1 overflow-y-auto">
+                        <a href="{{ route('profile.edit') }}" 
+                        class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-edit mr-3 text-[#5C6AD0] w-4"></i>
+                            Profile Settings
+                        </a>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 text-left">
+                                <i class="fas fa-sign-out-alt mr-3 w-4"></i>
+                                Sign Out
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Dropdown Menu -->
+            <div x-show="open"
+                x-transition
+                class="sm:hidden mt-4 bg-white/95 rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                
+                <div class="px-4 py-3 border-b border-gray-100">
+                    <div class="font-semibold text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="text-xs text-gray-600">{{ Auth::user()->email }}</div>
+                </div>
+
+                <a href="{{ route('profile.edit') }}" 
+                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="fas fa-user-edit mr-3 text-[#5C6AD0] w-4"></i>
+                    Profile Settings
+                </a>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left">
+                        <i class="fas fa-sign-out-alt mr-3 w-4"></i>
+                        Sign Out
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
