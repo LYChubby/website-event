@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![Event Management](https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=400&fit=crop&crop=center)
-
 **✨ Sistem Manajemen Event & RSVP Modern ✨**
 
 *Solusi lengkap untuk pengelolaan event dengan fitur RSVP, ticketing, dan notifikasi yang powerful*
@@ -261,11 +259,11 @@ Setelah instalasi berhasil, akses aplikasi di:
 ```
 Admin:
 Email: admin@example.com
-Password: password
+Password: 12345678
 
 Organizer:
 Email: organizer@example.com
-Password: password
+Password: 12345678
 ```
 
 ---
