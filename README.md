@@ -186,9 +186,9 @@ website-event/
 
 Pastikan sistem Anda memiliki:
 
-- ✅ PHP >= 8.2
-- ✅ Composer >= 2.0
-- ✅ Node.js >= 18.0
+- ✅ PHP Latest Version
+- ✅ Composer Latest Version
+- ✅ Node.js Latest Version
 - ✅ MySQL/PostgreSQL
 - ✅ Git
 
@@ -311,25 +311,6 @@ php artisan migrate:rollback
 php artisan backup:run
 ```
 
----
-
-## 📸 Screenshots
-
-<div align="center">
-
-### 🏠 **Homepage**
-![Homepage](https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Event+Homepage)
-
-### 📊 **Admin Dashboard**
-![Dashboard](https://via.placeholder.com/800x400/059669/FFFFFF?text=Admin+Dashboard)
-
-### 🎟️ **Event Details**
-![Event Details](https://via.placeholder.com/800x400/DC2626/FFFFFF?text=Event+Details)
-
-</div>
-
----
-
 ## 🤝 Contributing
 
 Kami sangat welcome kontribusi dari developer! Berikut cara berkontribusi:
@@ -388,8 +369,6 @@ Project ini menggunakan **MIT License**. Lihat file [LICENSE](LICENSE) untuk det
 <div align="center">
 
 **⭐ Jika project ini membantu, jangan lupa berikan star! ⭐**
-
-Made with ❤️ by [LYChubby](https://github.com/LYChubby)
 
 ---
 
