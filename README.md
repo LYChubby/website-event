@@ -1,28 +1,30 @@
-# 🎉 Website Event
+# 🎉 Website Event  
 
-![Laravel](https://img.shields.io/badge/Laravel-12.x-red?logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.x-blue?logo=php&logoColor=white)
-![Blade](https://img.shields.io/badge/Blade-TailwindCSS-38bdf8?logo=tailwindcss&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-12.x-ff2d20?logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/Blade-TailwindCSS-38bdf8?logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-MIT-green" />
+</p>
 
-Sistem manajemen **Event & RSVP** berbasis web dengan framework **Laravel**.  
-Mendukung fitur pendaftaran event, pembelian tiket, notifikasi, serta dashboard admin & organizer.
+Sistem manajemen **Event & RSVP** berbasis **Laravel**.  
+Mendukung fitur pendaftaran event, pembelian tiket, notifikasi, serta dashboard **admin** & **organizer**.
 
 ---
 
-## ✨ Fitur Utama
-- 🔐 Autentikasi dengan Laravel Breeze
+## 🚀 Fitur Utama
+- 🔐 Autentikasi dengan **Laravel Breeze**
 - 🎟️ Manajemen Event & Tiket
 - 👥 RSVP & Partisipan Event
 - 📢 Notifikasi & Reminder Email
-- 📊 Dashboard Admin & Organizer
+- 📊 Dashboard **Admin & Organizer**
 - 🎨 Tampilan modern dengan **Tailwind CSS**
 
 ---
 
 ## 📂 Struktur Project
 ```bash
-📦 website-event
+website-event
  ┣ 📂 app          # Logic utama Laravel (Models, Controllers, Middleware)
  ┣ 📂 bootstrap    # Bootstrap Laravel
  ┣ 📂 config       # Konfigurasi aplikasi
@@ -36,25 +38,26 @@ Mendukung fitur pendaftaran event, pembelian tiket, notifikasi, serta dashboard 
  ┣ 📜 composer.json
  ┣ 📜 package.json
  ┗ 📜 README.md
+```
 
-⚡ Instalasi
-1️⃣ Clone Repository
+# Clone repo
 git clone https://github.com/LYChubby/website-event
 cd website-event
 
-2️⃣ Setup Environment
+# Setup environment
 cp .env.example .env
 
-3️⃣ Install Dependencies
+# Install dependencies
 composer install
 npm install
 
-4️⃣ Optimisasi Laravel
-php artisan optimize
+# Generate key & migrate database
+php artisan key:generate
+php artisan migrate --seed
 
-5️⃣ Build Frontend
+# Optimize & build frontend
+php artisan optimize
 npm run build
 
-▶️ Menjalankan Aplikasi
+# Jalankan server
 php artisan serve
-
