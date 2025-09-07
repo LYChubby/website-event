@@ -98,26 +98,5 @@ php artisan optimize
 php artisan serve
 ```
 
-🤝 Berkontribusi
-Kami menyambut kontribusi! Silakan ikuti langkah-langkah berikut:
-
-Fork project ini
-
-Buat feature branch (git checkout -b feature/AmazingFeature)
-
-Commit perubahan (git commit -m 'Add some AmazingFeature')
-
-Push ke branch (git push origin feature/AmazingFeature)
-
-Buka Pull Request
-
-📄 Lisensi
-Project ini dilisensikan di bawah MIT License - lihat file LICENSE untuk detailnya.
-
-👨‍💻 Developer
-Dikembangkan dengan oleh LYChubby
-
-https://img.shields.io/badge/GitHub-LYChubby-181717?style=for-the-badge&logo=github
-
 <p align="center"> ⭐ Jangan lupa beri bintang jika project ini bermanfaat! </p>
 
