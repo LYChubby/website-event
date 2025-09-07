@@ -1,6 +1,7 @@
 🎉 Website Event - Sistem Manajemen Event & RSVP
 <p align="center"> <img src="https://img.shields.io/badge/Laravel-12.x-ff2d20?logo=laravel&logoColor=white" /> <img src="https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white" /> <img src="https://img.shields.io/badge/Blade-TailwindCSS-38bdf8?logo=tailwindcss&logoColor=white" /> <img src="https://img.shields.io/badge/License-MIT-green" /> <img src="https://img.shields.io/github/issues/LYChubby/website-event" /> <img src="https://img.shields.io/github/forks/LYChubby/website-event" /> <img src="https://img.shields.io/github/stars/LYChubby/website-event" /> </p><p align="center"> <strong>Sistem manajemen Event & RSVP berbasis Laravel yang elegan dan powerful</strong> </p><p align="center"> <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=4000&pause=1000&color=38BDF8&center=true&vCenter=true&width=500&lines=Mendukung+pendaftaran+event;Pembelian+tiket+online;Notifikasi+otomatis;Dashboard+Admin+%26+Organizer" alt="Features" /> </p>
 ✨ Fitur Utama
+```
 🔐 Autentikasi
 Sistem autentikasi multi-level dengan Laravel Breeze
 
@@ -40,6 +41,7 @@ UI yang responsive dengan Tailwind CSS
 Dark mode support
 
 Optimized untuk mobile devices
+```
 
 🏗️ Struktur Project
 ```
