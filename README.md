@@ -1,61 +1,375 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎉 Event Management System
+
+<div align="center">
+
+**✨ Sistem Manajemen Event & RSVP Modern ✨**
+
+*Solusi lengkap untuk pengelolaan event dengan fitur RSVP, ticketing, dan notifikasi yang powerful*
+
+---
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="https://img.shields.io/github/license/LYChubby/website-event?style=flat-square&color=green" />
+  <img src="https://img.shields.io/github/stars/LYChubby/website-event?style=flat-square&color=yellow" />
+  <img src="https://img.shields.io/github/forks/LYChubby/website-event?style=flat-square&color=blue" />
+  <img src="https://img.shields.io/github/issues/LYChubby/website-event?style=flat-square&color=red" />
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+</div>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🌟 Mengapa Memilih Event Management System Ini?
 
-## Learning Laravel
+<table>
+<tr>
+<td width="50%">
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🚀 **Performance Terbaik**
+- Dibangun dengan Laravel 12.x terbaru
+- Optimized database queries
+- Caching system yang efisien
+- Response time < 200ms
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🎨 **UI/UX Modern**
+- Design responsive dengan Tailwind CSS
+- Dark/Light mode support
+- Mobile-first approach
+- Accessibility compliant
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+</td>
+<td width="50%">
 
-## Laravel Sponsors
+### 🔧 **Developer Friendly**
+- Clean code architecture
+- Comprehensive documentation
+- Easy deployment process
+- Extensive test coverage
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🛡️ **Secure & Reliable**
+- Built-in authentication system
+- Data validation & sanitization
+- CSRF protection
+- SQL injection prevention
 
-### Premium Partners
+</td>
+</tr>
+</table>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ✨ Fitur Unggulan
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<div align="center">
 
-## Code of Conduct
+| 🔐 **Authentication** | 🎟️ **Event Management** | 👥 **RSVP System** | 📊 **Analytics** |
+|:---:|:---:|:---:|:---:|
+| Laravel Breeze Integration | Create & Manage Events | Real-time Registration | Detailed Reports |
+| Role-based Access Control | Ticket Sales System | Participant Management | Revenue Tracking |
+| Social Login Support | Event Categories | Waitlist Management | Export Data |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+</div>
 
-## Security Vulnerabilities
+### 🎯 **Fitur Lengkap:**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```mermaid
+graph LR
+    A[🔐 Auth System] --> B[🎟️ Event Creation]
+    B --> C[👥 RSVP Management]
+    C --> D[📧 Email Notifications]
+    D --> E[💰 Payment Integration]
+    E --> F[📊 Dashboard Analytics]
+    F --> G[📱 Mobile Responsive]
+```
 
-## License
+- **🔐 Authentication & Authorization**
+  - Multi-role system (Admin, Organizer, User)
+  - Email verification & password reset
+  - Two-factor authentication ready
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **🎟️ Event Management**
+  - Rich text editor for event descriptions
+  - Image upload & gallery management
+  - Event scheduling & timezone support
+  - Recurring events support
+
+- **👥 RSVP & Ticketing**
+  - Real-time seat availability
+  - Multiple ticket types (Free, Paid, VIP)
+  - QR code generation for tickets
+  - Check-in system
+
+- **📢 Communication**
+  - Automated email notifications
+  - Event reminder system
+  - Bulk messaging to attendees
+  - WhatsApp integration ready
+
+- **📊 Analytics & Reporting**
+  - Real-time dashboard
+  - Attendance statistics
+  - Revenue reports
+  - Export to Excel/PDF
+
+---
+
+## 🏗️ Arsitektur Sistem
+
+<div align="center">
+
+```
+┌─────────────────────────────────────────────────┐
+│                  🌐 Frontend                    │
+│            (Blade + TailwindCSS)               │
+├─────────────────────────────────────────────────┤
+│                  🔧 Backend                     │
+│              (Laravel 12.x)                    │
+├─────────────────────────────────────────────────┤
+│                  🗄️ Database                    │
+│                 (MySQL/PostgreSQL)             │
+└─────────────────────────────────────────────────┘
+```
+
+</div>
+
+### 📁 **Struktur Project**
+
+<details>
+<summary>🔽 Klik untuk melihat struktur lengkap</summary>
+
+```bash
+website-event/
+├── 📁 app/
+│   ├── 📁 Http/Controllers/     # Controllers untuk business logic
+│   ├── 📁 Models/              # Eloquent models
+│   ├── 📁 Mail/                # Email templates & logic
+│   └── 📁 Providers/           # Service providers
+├── 📁 database/
+│   ├── 📁 migrations/          # Database structure
+│   ├── 📁 seeders/            # Sample data
+│   └── 📁 factories/          # Model factories
+├── 📁 resources/
+│   ├── 📁 views/              # Blade templates
+│   ├── 📁 css/                # Tailwind styles
+│   └── 📁 js/                 # Frontend JavaScript
+├── 📁 public/
+│   ├── 📁 images/             # Event images & uploads
+│   ├── 📁 css/                # Compiled CSS
+│   └── 📁 js/                 # Compiled JavaScript
+├── 📁 routes/
+│   ├── 📄 web.php             # Web routes
+│   └── 📄 api.php             # API routes
+├── 📁 storage/
+│   ├── 📁 app/public/         # Public file storage
+│   └── 📁 logs/               # Application logs
+├── 📁 tests/
+│   ├── 📁 Feature/            # Feature tests
+│   └── 📁 Unit/               # Unit tests
+└── 📄 README.md
+```
+
+</details>
+
+---
+
+## 🚀 Quick Start Guide
+
+### 📋 **Prerequisites**
+
+Pastikan sistem Anda memiliki:
+
+- ✅ PHP Latest Version
+- ✅ Composer Latest Version
+- ✅ Node.js Latest Version
+- ✅ MySQL/PostgreSQL
+- ✅ Git
+
+### ⚡ **Installation**
+
+<details>
+<summary>🔽 Panduan instalasi step-by-step</summary>
+
+#### 1️⃣ **Clone Repository**
+```bash
+git clone https://github.com/LYChubby/website-event.git
+cd website-event
+```
+
+#### 2️⃣ **Environment Setup**
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Edit konfigurasi database di .env
+nano .env
+```
+
+#### 3️⃣ **Install Dependencies**
+```bash
+# Backend dependencies
+composer install
+
+# Frontend dependencies
+npm install
+```
+
+#### 4️⃣ **Database Setup**
+```bash
+# Generate application key
+php artisan key:generate
+
+# Run migrations dengan sample data
+php artisan migrate --seed
+```
+
+#### 5️⃣ **Build & Optimize**
+```bash
+# Optimize aplikasi
+php artisan optimize
+
+# Build frontend assets
+npm run build
+```
+
+#### 6️⃣ **Start Development Server**
+```bash
+# Jalankan Laravel server
+php artisan serve
+
+# Jalankan frontend watcher (terminal baru)
+npm run dev
+```
+
+</details>
+
+### 🌐 **Access Application**
+
+Setelah instalasi berhasil, akses aplikasi di:
+
+- **Frontend:** `http://localhost:8000`
+- **Admin Dashboard:** `http://localhost:8000/admin`
+
+**Default Login Credentials:**
+```
+Admin:
+Email: admin@example.com
+Password: 12345678
+
+Organizer:
+Email: organizer@example.com
+Password: 12345678
+```
+
+---
+
+## 🛠️ Development
+
+### 🧪 **Running Tests**
+
+```bash
+# Jalankan semua tests
+php artisan test
+
+# Test dengan coverage
+php artisan test --coverage
+
+# Test spesifik
+php artisan test --filter=EventTest
+```
+
+### 🎨 **Frontend Development**
+
+```bash
+# Watch mode untuk development
+npm run dev
+
+# Build untuk production
+npm run build
+
+# Analyze bundle size
+npm run analyze
+```
+
+### 📊 **Database Management**
+
+```bash
+# Fresh migration dengan seeding
+php artisan migrate:fresh --seed
+
+# Rollback migration
+php artisan migrate:rollback
+
+# Database backup
+php artisan backup:run
+```
+
+## 🤝 Contributing
+
+Kami sangat welcome kontribusi dari developer! Berikut cara berkontribusi:
+
+1. 🍴 Fork repository ini
+2. 🌿 Buat branch feature (`git checkout -b feature/amazing-feature`)
+3. 💻 Commit perubahan (`git commit -m 'Add amazing feature'`)
+4. 📤 Push ke branch (`git push origin feature/amazing-feature`)
+5. 🔀 Buat Pull Request
+
+### 📝 **Contribution Guidelines**
+
+- Pastikan code mengikuti PSR-12 standards
+- Tulis tests untuk fitur baru
+- Update documentation jika diperlukan
+- Gunakan conventional commit messages
+
+---
+
+## 📞 Support & Community
+
+<div align="center">
+
+[![Discord](https://img.shields.io/discord/123456789?style=for-the-badge&logo=discord&logoColor=white&label=Discord)](https://discord.gg/your-server)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/your-channel)
+[![GitHub Discussions](https://img.shields.io/github/discussions/LYChubby/website-event?style=for-the-badge&logo=github)](https://github.com/LYChubby/website-event/discussions)
+
+</div>
+
+### 💬 **Get Help**
+
+- 📚 [Documentation](https://github.com/LYChubby/website-event/wiki)
+- 🐛 [Report Bug](https://github.com/LYChubby/website-event/issues/new?template=bug_report.md)
+- 💡 [Request Feature](https://github.com/LYChubby/website-event/issues/new?template=feature_request.md)
+- 💬 [Join Discussion](https://github.com/LYChubby/website-event/discussions)
+
+---
+
+## 📈 Roadmap
+
+- [ ] 🔄 **v2.0** - Real-time notifications dengan WebSocket
+- [ ] 📱 **v2.1** - Mobile app (React Native)
+- [ ] 🌍 **v2.2** - Multi-language support
+- [ ] 🔗 **v2.3** - Social media integration
+- [ ] 🤖 **v2.4** - AI-powered event recommendations
+- [ ] 📊 **v2.5** - Advanced analytics dashboard
+
+---
+
+## 📄 License
+
+Project ini menggunakan **MIT License**. Lihat file [LICENSE](LICENSE) untuk detail lengkap.
+
+---
+
+<div align="center">
+
+**⭐ Jika project ini membantu, jangan lupa berikan star! ⭐**
+
+---
+
+*© 2024 Event Management System. All rights reserved.*
+
+</div>
