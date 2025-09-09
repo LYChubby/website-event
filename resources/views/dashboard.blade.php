@@ -211,12 +211,23 @@
                             class="btn-primary text-white px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-lg">
                             <i class="fas fa-history mr-2"></i>Riwayat
                         </a>
-
+                        <!-- Notification Button -->
+                        <div class="relative">
+                            <button @click="openNotif = true; loadNotifications()"
+                                class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
+                                <i class="fas fa-bell"></i>
+                                <!-- Badge jumlah notifikasi - Diperbaiki untuk selalu menampilkan jumlah notifikasi yang belum dibaca -->
+                                <span x-show="unreadCount > 0"
+                                    x-text="unreadCount"
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                </span>
+                            </button>
+                        </div>
                         <!-- Enhanced User Dropdown -->
                         <div class="hidden sm:flex sm:items-center">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="btn-secondary text-[#5C6AD0] px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center gap-3 group shadow-md">
+                                    <button class="btn-secondary text-[#5C6AD0] px-6 py-1.5 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center gap-3 group shadow-md">
                                         <div class="w-8 h-8 gradient-primary rounded-full flex items-center justify-center shadow-sm">
                                             <i class="fas fa-user text-xs text-white"></i>
                                         </div>
@@ -245,18 +256,6 @@
                                     </div>
                                 </x-slot>
                             </x-dropdown>
-                        </div>
-                        <!-- Notification Button -->
-                        <div class="relative">
-                            <button @click="openNotif = true; loadNotifications()"
-                                class="relative btn-secondary text-[#5C6AD0] px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover-glow flex items-center shadow-md">
-                                <i class="fas fa-bell"></i>
-                                <!-- Badge jumlah notifikasi - Diperbaiki untuk selalu menampilkan jumlah notifikasi yang belum dibaca -->
-                                <span x-show="unreadCount > 0"
-                                    x-text="unreadCount"
-                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                </span>
-                            </button>
                         </div>
                     </div>
                 </div>

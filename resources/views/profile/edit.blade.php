@@ -1,12 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <button onclick="history.back()"
-            class="group w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20 hover:border-white/30">
-            <i class="fas fa-arrow-left text-white group-hover:transform group-hover:-translate-x-0.5 transition-transform duration-300"></i>
-        </button>
-        <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Profile Settings') }}
-        </h2>
+        <div class="flex items-center space-x-3">
+            <button onclick="history.back()"
+                class="group w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20 hover:border-white/30">
+                <i class="fas fa-arrow-left text-white group-hover:transform group-hover:-translate-x-0.5 transition-transform duration-300"></i>
+            </button>
+            <h2 class="font-semibold text-xl text-white leading-tight">
+                {{ __('Profile Settings') }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="min-h-screen bg-gray-50 py-12">
